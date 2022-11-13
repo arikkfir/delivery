@@ -11,6 +11,9 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://github.com/fluxcd/kustomize-controller/releases/download/v0.30.0/kustomize-controller.crds.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-clusterissuers.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
