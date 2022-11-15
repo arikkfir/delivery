@@ -14,6 +14,12 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-clusterissuers.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/iam_v1beta1_iamserviceaccount.yaml" />
+      </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/iam_v1beta1_iampolicymember.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
