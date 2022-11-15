@@ -4,3 +4,5 @@ namespace: domains
 resources:
 - namespace.yaml
 - gcp-dns-yellow-mint-com.yaml
+- gcp-dns-kfirs-com.yaml
+- gcp-dns-kfirfamily-com.yaml
