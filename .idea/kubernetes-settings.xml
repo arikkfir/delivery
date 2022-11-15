@@ -20,6 +20,15 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/iam_v1beta1_iampolicymember.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/prometheus-engine/raw/main/cmd/operator/deploy/crds/monitoring.googleapis.com_podmonitorings.yaml" />
+      </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/dns_v1beta1_dnsmanagedzone.yaml" />
+      </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/dns_v1beta1_dnsrecordset.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
