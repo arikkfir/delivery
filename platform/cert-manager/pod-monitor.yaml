@@ -1,5 +1,5 @@
-apiVersion: monitoring.gke.io/v1alpha1
-kind: PodMonitor
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
 metadata:
   name: cert-manager
 spec:
@@ -7,8 +7,8 @@ spec:
     matchLabels:
       app.kubernetes.io/name: cert-manager
       app.kubernetes.io/component: controller
-  podMetricsEndpoints:
+  endpoints:
     - port: metrics
       path: /metrics
       scheme: http
-      interval: 10s
+      interval: 30s
