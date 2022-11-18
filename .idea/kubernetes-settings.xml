@@ -32,6 +32,9 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/compute_v1beta1_computeaddress.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-certificates.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
