@@ -35,7 +35,7 @@ spec:
     application:
       enable:
         cookies: true
-        environment: true
+        environment: false
         file: true
         header: true
         host: true
