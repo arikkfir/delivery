@@ -1,0 +1,109 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: traefik
+spec:
+  interval: 10m
+  url: https://traefik.github.io/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik
+spec:
+  interval: 5m
+  install:
+    crds: Create
+    createNamespace: false
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+      interval: 1m
+  values:
+    # TODO: configure traefik hub
+    # TODO: configure traefik logging
+    # TODO: configure traefik metrics
+    # TODO: configure traefik tracing
+
+    ingressClass:
+      enabled: true
+
+    ingressRoute:
+      dashboard:
+        enabled: true
+        matchRule: Host(`traefik.kfirs.com`)
+        entryPoints: ["traefik"]
+        # TODO: enable forward auth with Google OIDC, via the "middlewares: []"
+
+    providers:
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+        allowExternalNameServices: true
+        allowEmptyServices: true
+      kubernetesIngress:
+        enabled: true
+        allowExternalNameServices: true
+        allowEmptyServices: true
+        ingressClass: traefik
+        publishedService:
+          enabled: true
+
+    ports:
+      traefik:
+        port: 9000
+      web:
+        port: 8000
+        # TODO: configure HTTP trusted IPs for "X-Forwarded-*" headers
+      websecure:
+        port: 8443
+        # TODO: what is this? advertisedPort: 4443
+        tls:
+          enabled: true
+        # TODO: configure HTTPS trusted IPs for "X-Forwarded-*" headers
+
+    service:
+      enabled: true
+      single: true
+      type: LoadBalancer
+      annotations:
+        cloud.google.com/l4-rbs: enabled
+      spec:
+        externalTrafficPolicy: Local
+        loadBalancerIP: 35.242.230.213
+
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 3
+      metrics:
+       - type: Resource
+         resource:
+           name: cpu
+           target:
+             type: Utilization
+             averageUtilization: 60
+       - type: Resource
+         resource:
+           name: memory
+           target:
+             type: Utilization
+             averageUtilization: 60
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Pods
+              value: 1
+              periodSeconds: 60
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 100Mi
+      limits:
+        cpu: 500m
+        memory: 200Mi

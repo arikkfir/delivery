@@ -5,3 +5,5 @@ resources:
 - namespace.yaml
 - rbac.yaml
 - address.yaml
+- helm.yaml
+#- pod-monitor.yaml

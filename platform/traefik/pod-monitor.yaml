@@ -1,0 +1,13 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: cert-manager
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: traefik
+  endpoints:
+    - port: metrics
+      path: /metrics
+      scheme: http
+      interval: 30s
