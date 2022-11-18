@@ -34,10 +34,10 @@ spec:
         memory: 128Mi
     application:
       enable:
-        cookies: false
-        environment: false
-        file: false
-        header: false
+        cookies: true
+        environment: true
+        file: true
+        header: true
         host: true
         http: true
         request: true
