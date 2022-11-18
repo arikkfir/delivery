@@ -29,6 +29,9 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/dns_v1beta1_dnsrecordset.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/GoogleCloudPlatform/k8s-config-connector/raw/master/crds/compute_v1beta1_computeaddress.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
