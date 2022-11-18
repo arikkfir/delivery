@@ -38,6 +38,6 @@ spec:
         environment: false
         file: false
         header: false
-        host: false
-        http: false
-        request: false
+        host: true
+        http: true
+        request: true
