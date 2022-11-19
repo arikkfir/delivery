@@ -1,0 +1,38 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: traefik-google-oidc-auth
+spec:
+  interval: 5m
+  type: oci
+  url: oci://ghcr.io/arikkfir/traefik-google-oidc-auth
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik-google-oidc-auth
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik-google-oidc-auth
+      sourceRef:
+        kind: HelmRepository
+        name: traefik-google-oidc-auth
+      interval: 1m
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: google-auth
+spec:
+  forwardAuth:
+    address: http://traefik-google-oidc-auth-server:80/auth
+    trustForwardHeader: true
+#    authRequestHeaders:
+#      - "Accept"
+#      - "X-CustomHeader"
+#    authResponseHeaders:
+#      - X-Auth-User
+#      - X-Secret
+    authResponseHeadersRegex: ^X-
