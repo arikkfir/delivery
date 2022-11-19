@@ -35,7 +35,7 @@ spec:
         enabled: true
         matchRule: Host(`traefik.kfirs.com`)
 #        entryPoints: ["traefik", "web", "websecure"]
-        entryPoints: ["traefik"]
+        entryPoints: ["traefik", "web"]
         # TODO: enable forward auth with Google OIDC, via the "middlewares: []"
 
     providers:
@@ -57,7 +57,7 @@ spec:
         format: json
         level: WARN
       access:
-        enabled: true
+        enabled: false
         format: json
         filters:
           statuscodes: "200,300-399,400-499,500-599"
