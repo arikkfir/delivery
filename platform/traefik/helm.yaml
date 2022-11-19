@@ -127,8 +127,12 @@ spec:
         externalTrafficPolicy: Local
         loadBalancerIP: 35.242.230.213
 
-    autoscaling:
+    deployment:
       enabled: true
+      replicas: 1
+
+    autoscaling:
+      enabled: false
       minReplicas: 1
       maxReplicas: 3
       metrics:
