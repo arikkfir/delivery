@@ -36,6 +36,11 @@ spec:
       middlewares:
         - name: redirect-to-https
           namespace: traefik
+      services:
+        - kind: Service
+          name: echoserver-echo-server
+          namespace: echoserver
+          port: http
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
