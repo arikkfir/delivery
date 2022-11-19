@@ -15,6 +15,7 @@ spec:
   chart:
     spec:
       chart: traefik-google-oidc-auth
+      version: 0.1.0-pr1+3e45b3e
       sourceRef:
         kind: HelmRepository
         name: traefik-google-oidc-auth
