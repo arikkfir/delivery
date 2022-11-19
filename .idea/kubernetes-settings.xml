@@ -35,6 +35,12 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://raw.githubusercontent.com/cert-manager/cert-manager/master/deploy/crds/crd-certificates.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/traefik/traefik-helm-chart/raw/master/traefik/crds/ingressroute.yaml" />
+      </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://raw.githubusercontent.com/traefik/traefik-helm-chart/master/traefik/crds/middlewares.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
