@@ -34,3 +34,29 @@ spec:
     name: google-clouddns
   dnsNames:
     - traefik.kfirs.com
+---
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  name: oauth-kfirs-com-a
+spec:
+  name: oauth.kfirs.com.
+  type: CNAME
+  ttl: 300
+  managedZoneRef:
+    name: kfirs-com
+    namespace: domains
+  rrdatas:
+    - traefik.kfirs.com.
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: oauth-kfirs-com
+spec:
+  secretName: oauth-kfirs-com-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  dnsNames:
+    - oauth.kfirs.com
