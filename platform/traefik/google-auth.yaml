@@ -16,6 +16,7 @@ spec:
   chart:
     spec:
       chart: traefik-google-oidc-auth
+      version: 0.1.0-branch-initial-release+3a64865
       sourceRef:
         kind: HelmRepository
         name: traefik-google-oidc-auth
