@@ -7,4 +7,5 @@ resources:
 - helm.yaml
 - middleware.yaml
 - ingress.yaml
+- google-auth.yaml
 #- pod-monitor.yaml
