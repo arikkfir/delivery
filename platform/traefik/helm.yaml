@@ -32,11 +32,7 @@ spec:
 
     ingressRoute:
       dashboard:
-        enabled: true
-        matchRule: Host(`traefik.kfirs.com`)
-#        entryPoints: ["traefik", "web", "websecure"]
-        entryPoints: ["traefik", "web"]
-        # TODO: enable forward auth with Google OIDC, via the "middlewares: []"
+        enabled: false
 
     providers:
       kubernetesCRD:
