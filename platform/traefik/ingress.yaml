@@ -76,7 +76,6 @@ spec:
       services:
         - kind: TraefikService
           name: api@internal
-          namespace: traefik
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -90,7 +89,6 @@ spec:
       services:
         - kind: TraefikService
           name: api@internal
-          namespace: traefik
       # TODO: enable forward auth with Google OIDC, via the "middlewares: []"
   tls:
     secretName: traefik-kfirs-com-tls
