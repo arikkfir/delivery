@@ -6,4 +6,5 @@ resources:
 - rbac.yaml
 - address.yaml
 - helm.yaml
+- middleware.yaml
 #- pod-monitor.yaml
