@@ -50,6 +50,7 @@ spec:
       services:
         - kind: Service
           name: echoserver-echo-server
+          namespace: echoserver
           port: http
   tls:
     secretName: echo-kfirs-com-tls
