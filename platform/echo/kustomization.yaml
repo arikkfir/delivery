@@ -4,3 +4,4 @@ namespace: echoserver
 resources:
   - namespace.yaml
   - helm.yaml
+  - ingress.yaml
