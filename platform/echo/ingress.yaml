@@ -47,8 +47,7 @@ kind: IngressRoute
 metadata:
   name: echoserver-https
 spec:
-  entryPoints:
-    - websecure
+  entryPoints: [websecure]
   routes:
     - kind: Rule
       match: Host(`echo.kfirs.com`)
