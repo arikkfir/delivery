@@ -68,10 +68,10 @@ spec:
             StartUTC: keep                # The time at which request processing started.
             StartLocal: drop              # The local time at which request processing started.
             Duration: keep                # The total time taken (in nanoseconds) by processing the response, including the origin server's time but not the log writing time.
-            RouterName: drop              # The name of the Traefik router.
-            ServiceName: drop             # The name of the Traefik backend.
-            ServiceURL: drop              # The URL of the Traefik backend.
-            ServiceAddr: drop             # The IP:port of the Traefik backend (extracted from ServiceURL)
+            RouterName: keep              # The name of the Traefik router.
+            ServiceName: keep             # The name of the Traefik backend.
+            ServiceURL: keep              # The URL of the Traefik backend.
+            ServiceAddr: keep             # The IP:port of the Traefik backend (extracted from ServiceURL)
             ClientAddr: keep              # The remote address in its original form (usually IP:port).
             ClientHost: keep              # The remote IP address from which the client request was received.
             ClientPort: keep              # The remote TCP port from which the client request was received.
