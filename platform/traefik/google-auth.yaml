@@ -36,7 +36,7 @@ metadata:
   name: google-auth
 spec:
   forwardAuth:
-    address: http://traefik-google-oidc-auth-server:80/auth
+    address: http://traefik-google-oidc-auth-server:80/validate
     trustForwardHeader: true
 #    authRequestHeaders:
 #      - "Accept"
