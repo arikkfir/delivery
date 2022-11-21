@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: traefik-google-oidc-auth
-      version: 0.1.0-pr1-10
+      version: 0.1.0-pr1-13
       sourceRef:
         kind: HelmRepository
         name: traefik-google-oidc-auth
@@ -28,7 +28,16 @@ spec:
       clientSecret:
         secretName: kfirs-oauth-app
         key: client_secret
-      callbackHost: oauth.kfirs.com
+      host: oauth.kfirs.com
+    cookieName: X-Kfirs-Auth
+    security:
+      csrfCookieName: X-Kfirs-Protect
+      signingSecret:
+        secretName: kfirs-oauth-app
+        key: signing_secret
+      allowedUserDomains:
+        - kfirs.com
+        - kfirfamily.com
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -38,13 +47,8 @@ spec:
   forwardAuth:
     address: http://traefik-google-oidc-auth-server:80/validate
     trustForwardHeader: true
-#    authRequestHeaders:
-#      - "Accept"
-#      - "X-CustomHeader"
-#    authResponseHeaders:
-#      - X-Auth-User
-#      - X-Secret
-    authResponseHeadersRegex: ^X-
+    authResponseHeaders:
+      - Set-Cookie
 ---
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
