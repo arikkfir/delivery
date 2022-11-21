@@ -6,4 +6,4 @@ resources:
 - gcp-iam-service-account.yaml
 - helm.yaml
 - cert-manager-issuer.yaml
-#- pod-monitor.yaml
+- pod-monitor.yaml
