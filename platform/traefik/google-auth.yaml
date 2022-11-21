@@ -45,7 +45,7 @@ metadata:
   name: google-auth
 spec:
   forwardAuth:
-    address: https://oauth.kfirs.com/verify
+    address: https://traefik-google-oidc-auth-server:80/verify
     trustForwardHeader: true
     authResponseHeaders:
       - Set-Cookie
