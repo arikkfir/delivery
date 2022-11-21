@@ -90,6 +90,7 @@ spec:
       services:
         - kind: Service
           name: traefik-google-oidc-auth-server
+          port: http
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
@@ -103,5 +104,6 @@ spec:
       services:
         - kind: Service
           name: traefik-google-oidc-auth-server
+          port: http
   tls:
     secretName: oauth-kfirs-com-tls
