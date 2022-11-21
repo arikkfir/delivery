@@ -40,10 +40,28 @@ kind: IngressRoute
 metadata:
   name: dashboard-http
 spec:
-  entryPoints: [traefik]
+  entryPoints: [web]
   routes:
     - kind: Rule
       match: Host(`traefik.kfirs.com`)
+      middlewares:
+        - name: redirect-to-https
+      services:
+        - kind: TraefikService
+          name: api@internal
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard-http
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`traefik.kfirs.com`)
+      middlewares:
+        - name: google-auth
+          namespace: traefik
       services:
         - kind: TraefikService
           name: api@internal
