@@ -51,9 +51,6 @@ spec:
   routes:
     - kind: Rule
       match: Host(`echo.kfirs.com`)
-      middlewares:
-        - name: google-auth
-          namespace: traefik
       services:
         - kind: Service
           name: echoserver-echo-server
