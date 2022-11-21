@@ -53,7 +53,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: dashboard-http
+  name: dashboard-https
 spec:
   entryPoints: [websecure]
   routes:
