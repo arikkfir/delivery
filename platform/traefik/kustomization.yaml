@@ -8,4 +8,4 @@ resources:
 - middleware.yaml
 - ingress.yaml
 - google-auth.yaml
-#- pod-monitor.yaml
+- pod-monitor.yaml
