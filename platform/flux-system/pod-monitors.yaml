@@ -1,0 +1,55 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: helm-controller
+spec:
+  selector:
+    matchLabels:
+      app: helm-controller
+  endpoints:
+    - port: http-prom
+      path: /metrics
+      scheme: http
+      interval: 30s
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: kustomize-controller
+spec:
+  selector:
+    matchLabels:
+      app: kustomize-controller
+  endpoints:
+    - port: http-prom
+      path: /metrics
+      scheme: http
+      interval: 30s
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: notification-controller
+spec:
+  selector:
+    matchLabels:
+      app: notification-controller
+  endpoints:
+    - port: http-prom
+      path: /metrics
+      scheme: http
+      interval: 30s
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: source-controller
+spec:
+  selector:
+    matchLabels:
+      app: source-controller
+  endpoints:
+    - port: http-prom
+      path: /metrics
+      scheme: http
+      interval: 30s
