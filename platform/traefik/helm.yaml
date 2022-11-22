@@ -106,7 +106,7 @@ spec:
         # TODO: what is this? advertisedPort: 4443
         tls:
           enabled: true
-        # TODO: configure HTTPS trusted IPs for "X-Forwarded-*" headers
+          # TODO: configure HTTPS trusted IPs for "X-Forwarded-*" headers
     service:
       enabled: true
       single: true
