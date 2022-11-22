@@ -42,8 +42,6 @@ spec:
         allowExternalNameServices: true
         allowEmptyServices: true
         ingressClass: traefik
-        publishedService:
-          enabled: true
     logs:
       general:
         format: json
