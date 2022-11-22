@@ -1,0 +1,55 @@
+name: Sync Traefik LoadBalancer IP address
+
+on:
+  schedule:
+    - 0 * * * *
+
+defaults:
+  run:
+    shell: bash -euo pipefail {0}
+
+env:
+  GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/default
+  GCP_CLI_VERSION: 409.0.0
+  GCP_ZONE: europe-west3-a
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+
+  sync:
+    name: Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: chrisdickinson/setup-yq@v1.0.1
+      - uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_NAME }}
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: ${{ env.GCP_CLI_VERSION }}
+      - uses: google-github-actions/get-gke-credentials@v0
+        with:
+          cluster_name: primary
+          location: ${{ env.GCP_ZONE }}
+      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/traefik-ingress --timeout=5m
+      - run: |-
+          set -x
+          TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/traefik-ingress -ojsonpath='{.spec.address}')"
+          TRAEFIK_HR_SELECTOR='.apiVersion=="helm.toolkit.fluxcd.io/v2beta1" and .kind=="HelmRelease" and .metadata.name=="traefik"'
+          yq ea -i "select(${TRAEFIK_HR_SELECTOR}).spec.values.service.spec.loadBalancerIP |= \"${TRAEFIK_IP}\"" "platform/traefik/helm.yaml"
+          git diff
+#      - uses: EndBug/add-and-commit@v7
+#        with:
+#          add: platform/traefik
+#          author_name: github-actions
+#          author_email: <github-actions@users.noreply.github.com>
+#          message: Sync GKE ingress IP address
