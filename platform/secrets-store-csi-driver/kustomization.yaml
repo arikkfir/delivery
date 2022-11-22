@@ -3,3 +3,7 @@ kind: Kustomization
 namespace: kube-system
 resources:
 - helm.yaml
+- secrets-store-csi-driver-provider-gcp.yaml
+- https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp/raw/main/deploy/provider-gcp-plugin.yaml
+patchesStrategicMerge:
+  - secrets-store-csi-driver-provider-gcp-patches.yaml

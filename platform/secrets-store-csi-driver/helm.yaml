@@ -25,3 +25,4 @@ spec:
     syncSecret:
       enabled: true
     enableSecretRotation: true
+    logFormatJSON: true
