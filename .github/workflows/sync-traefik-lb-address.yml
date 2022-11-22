@@ -3,6 +3,11 @@ name: Sync Traefik LoadBalancer IP address
 on:
   schedule:
     - cron: "0 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sync-traefik-lb-address.yml
 
 defaults:
   run:
