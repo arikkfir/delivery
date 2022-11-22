@@ -23,11 +23,6 @@ spec:
         name: traefik
       interval: 1m
   values:
-    # TODO: configure traefik hub
-    # TODO: configure traefik metrics
-    # TODO: configure traefik tracing
-    ingressClass:
-      enabled: true
     ingressRoute:
       dashboard:
         enabled: false
@@ -94,21 +89,9 @@ spec:
             names:
               Authorization: drop
     ports:
-      traefik:
-        port: 9000
       web:
-        port: 8000
-        # TODO: configure HTTP trusted IPs for "X-Forwarded-*" headers
-      websecure:
-        port: 8443
-        # TODO: what is this? advertisedPort: 4443
-        tls:
-          enabled: true
-          # TODO: configure HTTPS trusted IPs for "X-Forwarded-*" headers
+        redirectTo: websecure
     service:
-      enabled: true
-      single: true
-      type: LoadBalancer
       annotations:
         cloud.google.com/l4-rbs: enabled
       spec:
