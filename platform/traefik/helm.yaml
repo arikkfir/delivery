@@ -53,7 +53,7 @@ spec:
         format: json
         level: WARN
       access:
-        enabled: false
+        enabled: true
         format: json
         filters:
           statuscodes: "200,300-399,400-499,500-599"
