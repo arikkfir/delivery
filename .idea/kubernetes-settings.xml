@@ -41,6 +41,9 @@
       <SpecSource>
         <option name="pathOrUrl" value="https://raw.githubusercontent.com/traefik/traefik-helm-chart/master/traefik/crds/middlewares.yaml" />
       </SpecSource>
+      <SpecSource>
+        <option name="pathOrUrl" value="https://github.com/kubernetes-sigs/secrets-store-csi-driver/raw/main/charts/secrets-store-csi-driver/crds/secrets-store.csi.x-k8s.io_secretproviderclasses.yaml" />
+      </SpecSource>
     </specSources>
   </component>
 </project>
