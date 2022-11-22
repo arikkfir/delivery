@@ -1,0 +1,39 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: allow-kube-system-event-exporter-evict
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      k8s-app: event-exporter
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: allow-kube-system-kube-dns-evict
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      k8s-app: kube-dns
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: allow-kube-system-kube-dns-autoscaler-evict
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      k8s-app: kube-dns-autoscaler
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: allow-kube-system-metrics-server-evict
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      k8s-app: metrics-server
