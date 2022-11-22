@@ -51,10 +51,9 @@ jobs:
           TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/traefik-ingress -ojsonpath='{.spec.address}')"
           TRAEFIK_HR_SELECTOR='.apiVersion=="helm.toolkit.fluxcd.io/v2beta1" and .kind=="HelmRelease" and .metadata.name=="traefik"'
           yq ea -i "select(${TRAEFIK_HR_SELECTOR}).spec.values.service.spec.loadBalancerIP |= \"${TRAEFIK_IP}\"" "platform/traefik/helm.yaml"
-          git diff
-#      - uses: EndBug/add-and-commit@v7
-#        with:
-#          add: platform/traefik
-#          author_name: github-actions
-#          author_email: <github-actions@users.noreply.github.com>
-#          message: Sync GKE ingress IP address
+      - uses: EndBug/add-and-commit@v7
+        with:
+          add: platform/traefik
+          author_name: github-actions
+          author_email: <github-actions@users.noreply.github.com>
+          message: Sync GKE ingress IP address
