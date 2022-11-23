@@ -4,7 +4,7 @@ metadata:
   name: flux-monitoring
   namespace: platform
 spec:
-  interval: 5m
+  interval: 1m
   path: platform/flux-monitoring
   prune: true
   sourceRef:

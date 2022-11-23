@@ -9,7 +9,7 @@ spec:
       namespace: platform
     - name: gke
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/lets-encrypt/cert-manager
   prune: true
   sourceRef:
@@ -26,7 +26,7 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/lets-encrypt/cluster-issuers
   prune: true
   sourceRef:

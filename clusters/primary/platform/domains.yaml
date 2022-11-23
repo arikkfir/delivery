@@ -9,7 +9,7 @@ spec:
       namespace: platform
     - name: secrets-store-csi-driver
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/domains
   prune: true
   sourceRef:

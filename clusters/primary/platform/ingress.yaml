@@ -9,7 +9,7 @@ spec:
       namespace: platform
     - name: gke
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/ingress/traefik
   prune: true
   sourceRef:
@@ -32,7 +32,7 @@ spec:
       namespace: platform
     - name: traefik
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/ingress/traefik-google-oidc-auth
   prune: true
   sourceRef:
@@ -53,7 +53,7 @@ spec:
       namespace: platform
     - name: traefik-google-oidc-auth
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/ingress/traefik-dashboard
   prune: true
   sourceRef:
@@ -74,7 +74,7 @@ spec:
       namespace: platform
     - name: traefik
       namespace: platform
-  interval: 5m
+  interval: 1m
   path: platform/ingress/echoserver
   prune: true
   sourceRef:
