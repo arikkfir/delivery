@@ -1,11 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: traefik
+namespace: cert-manager
 resources:
 - namespace.yaml
-- rbac.yaml
+- gcp-iam.yaml
 - helm.yaml
-- middleware.yaml
-- ingress.yaml
-- google-auth.yaml
 - pod-monitor.yaml

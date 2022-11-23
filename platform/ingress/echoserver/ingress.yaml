@@ -27,24 +27,6 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: echoserver-http
-spec:
-  entryPoints: [web]
-  routes:
-    - kind: Rule
-      match: Host(`echo.kfirs.com`)
-      middlewares:
-        - name: redirect-to-https
-          namespace: traefik
-      services:
-        - kind: Service
-          name: echoserver-echo-server
-          namespace: echoserver
-          port: http
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
   name: echoserver-https
 spec:
   entryPoints: [websecure]

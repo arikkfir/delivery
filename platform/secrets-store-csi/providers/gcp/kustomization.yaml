@@ -1,9 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
+
 resources:
-- helm.yaml
-- secrets-store-csi-driver-provider-gcp.yaml
+- gcp-iam.yaml
 - https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp/raw/main/deploy/provider-gcp-plugin.yaml
+
 patchesStrategicMerge:
   - secrets-store-csi-driver-provider-gcp-patches.yaml

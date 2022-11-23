@@ -1,0 +1,79 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: traefik
+  namespace: platform
+spec:
+  dependsOn:
+    - name: domains
+      namespace: platform
+    - name: gke
+      namespace: platform
+  interval: 5m
+  path: platform/ingress/traefik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: traefik-google-oidc-auth
+  namespace: platform
+spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: platform
+    - name: gke
+      namespace: platform
+    - name: secrets-store-csi-driver-provider-gcp
+      namespace: platform
+    - name: traefik
+      namespace: platform
+  interval: 5m
+  path: platform/ingress/traefik-google-oidc-auth
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: traefik-dashboard
+  namespace: platform
+spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: platform
+    - name: traefik
+      namespace: platform
+    - name: traefik-google-oidc-auth
+      namespace: platform
+  interval: 5m
+  path: platform/ingress/traefik-dashboard
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: echoserver
+  namespace: platform
+spec:
+  dependsOn:
+    - name: cert-manager
+      namespace: platform
+    - name: gke
+      namespace: platform
+    - name: traefik
+      namespace: platform
+  interval: 5m
+  path: platform/ingress/echoserver
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

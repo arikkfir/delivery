@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: google-auth
+spec:
+  forwardAuth:
+    address: http://traefik-google-oidc-auth-server:80/verify
+    trustForwardHeader: true
+    authResponseHeaders:
+      - Set-Cookie

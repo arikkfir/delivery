@@ -3,7 +3,7 @@ kind: HelmRepository
 metadata:
   name: echoserver
 spec:
-  interval: 10m
+  interval: 5m
   url: https://ealenn.github.io/charts
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
@@ -18,7 +18,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: echoserver
-      interval: 1m
   values:
     replicaCount: 1
     image:

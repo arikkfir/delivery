@@ -1,0 +1,39 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: traefik-google-oidc-auth
+spec:
+  interval: 5m
+  url: https://arikkfir.github.io/charts
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik-google-oidc-auth
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik-google-oidc-auth
+      version: 0.0.0-dev15+0bffc20
+      sourceRef:
+        kind: HelmRepository
+        name: traefik-google-oidc-auth
+  values:
+    oauth:
+      clientId:
+        secretName: traefik-google-oidc-auth
+        key: client_id
+      clientSecret:
+        secretName: traefik-google-oidc-auth
+        key: client_secret
+      host: oauth.kfirs.com
+    security:
+      userCookie:
+        name: X-Kfirs-Auth
+        domain: .kfirs.com
+      hashingSecret:
+        secretName: traefik-google-oidc-auth
+        key: signing_secret
+      allowedDomains:
+        - kfirs.com
