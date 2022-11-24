@@ -16,8 +16,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  timeout: 30m
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
@@ -35,5 +34,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  timeout: 30m
+  timeout: 5m

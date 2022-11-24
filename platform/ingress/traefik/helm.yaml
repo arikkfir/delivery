@@ -12,6 +12,7 @@ metadata:
   name: traefik
 spec:
   interval: 5m
+  timeout: 5m
   install:
     crds: Create
     createNamespace: false

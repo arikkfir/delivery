@@ -12,6 +12,7 @@ metadata:
   name: secrets-store-csi-driver
 spec:
   interval: 5m
+  timeout: 5m
   releaseName: csi-secrets-store
   targetNamespace: kube-system
   chart:

@@ -12,6 +12,7 @@ metadata:
   name: echoserver
 spec:
   interval: 5m
+  timeout: 5m
   chart:
     spec:
       chart: echo-server
