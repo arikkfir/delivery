@@ -40,3 +40,10 @@ spec:
         host: true
         http: true
         request: true
+    nodeSelector:
+      gke.kfirs.com/purpose: workloads
+    tolerations:
+      - effect: NoExecute
+        key: gke.kfirs.com/purpose
+        operator: Equal
+        value: workloads

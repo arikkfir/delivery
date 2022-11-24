@@ -87,3 +87,10 @@ spec:
         annotations:
           iam.gke.io/gcp-service-account: cert-manager@arikkfir.iam.gserviceaccount.com
 
+    nodeSelector:
+      gke.kfirs.com/purpose: workloads
+    tolerations:
+      - effect: NoExecute
+        key: gke.kfirs.com/purpose
+        operator: Equal
+        value: workloads

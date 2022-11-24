@@ -22,6 +22,13 @@ spec:
         kind: HelmRepository
         name: traefik
   values:
+    nodeSelector:
+      gke.kfirs.com/purpose: workloads
+    tolerations:
+      - effect: NoExecute
+        key: gke.kfirs.com/purpose
+        operator: Equal
+        value: workloads
     ingressRoute:
       dashboard:
         enabled: false

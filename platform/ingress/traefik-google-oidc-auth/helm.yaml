@@ -15,7 +15,7 @@ spec:
   chart:
     spec:
       chart: traefik-google-oidc-auth
-      version: 0.0.0-dev15+0bffc20
+      version: v0.1.0
       sourceRef:
         kind: HelmRepository
         name: traefik-google-oidc-auth
@@ -37,3 +37,11 @@ spec:
         key: signing_secret
       allowedDomains:
         - kfirs.com
+    deployment:
+      nodeSelector:
+        gke.kfirs.com/purpose: workloads
+      tolerations:
+        - effect: NoExecute
+          key: gke.kfirs.com/purpose
+          operator: Equal
+          value: workloads
