@@ -103,7 +103,7 @@ spec:
       #        cloud.google.com/l4-rbs: enabled
       spec:
         externalTrafficPolicy: Local
-        loadBalancerIP: 35.242.230.213
+        loadBalancerIP: 34.165.203.113
     autoscaling:
       enabled: true
       minReplicas: 1
