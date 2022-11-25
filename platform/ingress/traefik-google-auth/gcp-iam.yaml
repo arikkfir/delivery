@@ -1,18 +1,18 @@
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMServiceAccount
 metadata:
-  name: traefik-google-oidc-auth-server
+  name: traefik-google-auth
 spec:
-  displayName: traefik-google-oidc-auth-server
+  displayName: traefik-google-auth
 ---
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
-  name: traefik-google-oidc-auth-secret-viewer
+  name: traefik-google-auth-secret-viewer
 spec:
   memberFrom:
     serviceAccountRef:
-      name: traefik-google-oidc-auth-server
+      name: traefik-google-auth
   role: roles/secretmanager.viewer
   resourceRef:
     apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
@@ -22,11 +22,11 @@ spec:
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
-  name: traefik-google-oidc-auth-secret-accessor
+  name: traefik-google-auth-secret-accessor
 spec:
   memberFrom:
     serviceAccountRef:
-      name: traefik-google-oidc-auth-server
+      name: traefik-google-auth
   role: roles/secretmanager.secretAccessor
   resourceRef:
     apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
@@ -36,28 +36,13 @@ spec:
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
-  name: traefik-google-oidc-auth-token-creator
+  name: traefik-google-auth-token-creator
 spec:
   memberFrom:
     serviceAccountRef:
-      name: traefik-google-oidc-auth-server
+      name: traefik-google-auth
   role: roles/iam.serviceAccountTokenCreator
   resourceRef:
     apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
     kind: Project
     external: projects/8909046976
----
-apiVersion: external-secrets.io/v1beta1
-kind: SecretStore
-metadata:
-  name: traefik-google-oidc-auth-secret-store
-spec:
-  provider:
-    gcpsm:
-      projectID: arikkfir
-      auth:
-        workloadIdentity:
-          clusterLocation: me-west1
-          clusterName: primary
-          serviceAccountRef:
-            name: traefik-google-oidc-auth-server

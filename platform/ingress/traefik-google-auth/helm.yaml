@@ -48,4 +48,4 @@ spec:
           value: workloads
     serviceAccount:
       annotations:
-        iam.gke.io/gcp-service-account: traefik-google-oidc-auth-server@arikkfir.iam.gserviceaccount.com
+        iam.gke.io/gcp-service-account: traefik-google-auth@arikkfir.iam.gserviceaccount.com
