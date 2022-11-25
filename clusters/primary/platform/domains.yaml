@@ -11,14 +11,11 @@ metadata:
   name: domains
   namespace: domains
 spec:
-  dependsOn:
-    - name: gke
-      namespace: platform
-  interval: 1m
+  interval: 5m
   path: platform/domains
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 5m
+  wait: true
