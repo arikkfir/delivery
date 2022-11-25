@@ -16,7 +16,7 @@ spec:
   chart:
     spec:
       chart: traefik-google-oidc-auth
-      version: v0.1.0
+      version: v0.2.0
       sourceRef:
         kind: HelmRepository
         name: traefik-google-oidc-auth
@@ -46,3 +46,6 @@ spec:
           key: gke.kfirs.com/purpose
           operator: Equal
           value: workloads
+    serviceAccount:
+      annotations:
+        iam.gke.io/gcp-service-account: traefik-google-oidc-auth@arikkfir.iam.gserviceaccount.com
