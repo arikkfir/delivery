@@ -7,8 +7,6 @@ spec:
   dependsOn:
     - name: gke
       namespace: platform
-    - name: secrets-store-csi-driver
-      namespace: platform
   interval: 1m
   path: platform/domains
   prune: true
