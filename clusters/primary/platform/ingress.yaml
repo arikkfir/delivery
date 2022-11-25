@@ -29,7 +29,7 @@ spec:
       namespace: platform
     - name: gke
       namespace: platform
-    - name: secrets-store-csi-driver-provider-gcp
+    - name: external-secrets
       namespace: platform
     - name: traefik
       namespace: platform
