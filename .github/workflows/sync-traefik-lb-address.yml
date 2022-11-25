@@ -17,7 +17,7 @@ defaults:
 env:
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/default
   GCP_CLI_VERSION: 409.0.0
-  GCP_ZONE: europe-west3-a
+  GCP_ZONE: me-west1-a
 
 concurrency:
   group: production
