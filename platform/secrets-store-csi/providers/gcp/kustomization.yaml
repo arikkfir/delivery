@@ -19,9 +19,6 @@ patches:
       labelSelector: app=csi-secrets-store-provider-gcp
     patch: |
       - op: add
-        path: /spec/template/spec/nodeSelector/gke.kfirs.com~1purpose
-        value: workloads
-      - op: add
         path: /spec/template/spec/tolerations
         value:
           - key: gke.kfirs.com/purpose
