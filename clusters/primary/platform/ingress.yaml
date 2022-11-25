@@ -21,7 +21,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: traefik-google-oidc-auth
+  name: traefik-google-auth
   namespace: platform
 spec:
   dependsOn:
@@ -34,7 +34,7 @@ spec:
     - name: traefik
       namespace: platform
   interval: 1m
-  path: platform/ingress/traefik-google-oidc-auth
+  path: platform/ingress/traefik-google-auth
   prune: true
   sourceRef:
     kind: GitRepository
@@ -53,7 +53,7 @@ spec:
       namespace: platform
     - name: traefik
       namespace: platform
-    - name: traefik-google-oidc-auth
+    - name: traefik-google-auth
       namespace: platform
   interval: 1m
   path: platform/ingress/traefik-dashboard
