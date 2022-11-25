@@ -99,8 +99,8 @@ spec:
       web:
         redirectTo: websecure
     service:
-#      annotations:
-#        cloud.google.com/l4-rbs: enabled
+      #      annotations:
+      #        cloud.google.com/l4-rbs: enabled
       spec:
         externalTrafficPolicy: Local
         loadBalancerIP: 35.242.230.213
