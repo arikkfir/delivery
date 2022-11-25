@@ -2,8 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: traefik
 resources:
-- namespace.yaml
-- rbac.yaml
-- helm.yaml
-- service.yaml
-- pod-monitor.yaml
+  - gcp-ingress.yaml
+  - helm.yaml
+  - monitoring.yaml

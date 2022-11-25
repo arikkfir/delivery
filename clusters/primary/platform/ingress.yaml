@@ -1,87 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: traefik
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: traefik
-  namespace: platform
+  namespace: traefik
 spec:
-  dependsOn:
-    - name: domains
-      namespace: platform
-    - name: gke
-      namespace: platform
-  interval: 1m
+  interval: 10m
   path: platform/ingress/traefik
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 10m
+  wait: true
+  timeout: 8m # LoadBalancer service might take a little while to sync in GCP
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: traefik-google-auth
-  namespace: platform
+  namespace: traefik
 spec:
-  dependsOn:
-    - name: cert-manager
-      namespace: platform
-    - name: gke
-      namespace: platform
-    - name: external-secrets
-      namespace: platform
-    - name: traefik
-      namespace: platform
-  interval: 1m
+  interval: 5m
   path: platform/ingress/traefik-google-auth
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 30m
+  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: traefik-dashboard
-  namespace: platform
+  namespace: traefik
 spec:
-  dependsOn:
-    - name: cert-manager
-      namespace: platform
-    - name: traefik
-      namespace: platform
-    - name: traefik-google-auth
-      namespace: platform
-  interval: 1m
+  interval: 5m
   path: platform/ingress/traefik-dashboard
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 5m
+  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: echoserver
-  namespace: platform
+  namespace: traefik
 spec:
-  dependsOn:
-    - name: cert-manager
-      namespace: platform
-    - name: gke
-      namespace: platform
-    - name: traefik
-      namespace: platform
-  interval: 1m
+  interval: 5m
   path: platform/ingress/echoserver
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 5m
+  wait: true

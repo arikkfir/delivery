@@ -1,7 +1,7 @@
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
 kind: ComputeAddress
 metadata:
-  name: traefik-ingress
+  name: gke-ingress
 spec:
   addressType: EXTERNAL
   description: GKE Ingress
@@ -21,4 +21,4 @@ spec:
     namespace: domains
   rrdatasRefs:
     - kind: ComputeAddress
-      name: traefik-ingress
+      name: gke-ingress

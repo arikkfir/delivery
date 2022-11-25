@@ -12,7 +12,6 @@ metadata:
   name: traefik
 spec:
   interval: 5m
-  timeout: 20m
   install:
     crds: Create
     createNamespace: false
@@ -99,8 +98,6 @@ spec:
       web:
         redirectTo: websecure
     service:
-      #      annotations:
-      #        cloud.google.com/l4-rbs: enabled
       spec:
         externalTrafficPolicy: Local
         loadBalancerIP: 34.165.203.113
