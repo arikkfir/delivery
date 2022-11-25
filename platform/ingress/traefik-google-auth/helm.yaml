@@ -38,6 +38,7 @@ spec:
         key: signing_secret
       allowedDomains:
         - kfirs.com
+        - kfirfamily.com
     deployment:
       nodeSelector:
         gke.kfirs.com/purpose: workloads
