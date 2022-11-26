@@ -1,0 +1,12 @@
+varReference:
+  - path: metadata/name
+  - path: metadata/namespace
+  - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+    kind: DNSRecordSet
+    path: spec/name
+  - apiVersion: cert-manager.io/v1
+    kind: Certificate
+    path: spec/dnsNames
+  - apiVersion: traefik.containo.us/v1alpha1
+    kind: IngressRoute
+    path: spec/routes/match

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: commons
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: echoserver
+  namespace: commons
+spec:
+  interval: 5m
+  url: https://ealenn.github.io/charts

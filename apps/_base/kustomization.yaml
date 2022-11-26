@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: $(BRANCH)
+resources:
+- echoserver.yaml
+
+configMapGenerator:
+  - name: environment
+    envs: [variables.env]
+
+configurations:
+  - configuration.yaml
+
+vars:
+  - name: BRANCH
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: environment
+    fieldref:
+      fieldpath: data.BRANCH
