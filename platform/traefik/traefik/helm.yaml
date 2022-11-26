@@ -100,7 +100,7 @@ spec:
     service:
       spec:
         externalTrafficPolicy: Local
-        loadBalancerIP: 34.165.203.113
+        loadBalancerIP: 34.165.11.39
     autoscaling:
       enabled: true
       minReplicas: 1
