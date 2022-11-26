@@ -4,6 +4,9 @@ metadata:
   name: flux-monitoring
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: gke
+      namespace: cnrm-system
   interval: 5m
   path: platform/flux-monitoring
   prune: true
