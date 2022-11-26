@@ -27,7 +27,7 @@ spec:
       clientSecret:
         secretName: traefik-google-oidc-auth
         key: client_secret
-      host: oauth.kfirs.com
+      host: oauth2.kfirs.com
     security:
       userCookie:
         name: X-Kfirs-Auth

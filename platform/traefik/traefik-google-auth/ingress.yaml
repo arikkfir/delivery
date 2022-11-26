@@ -1,9 +1,9 @@
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
 metadata:
-  name: oauth-kfirs-com-a
+  name: oauth2-kfirs-com-a
 spec:
-  name: oauth.kfirs.com.
+  name: oauth2.kfirs.com.
   type: CNAME
   ttl: 300
   managedZoneRef:
@@ -15,27 +15,27 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: oauth-kfirs-com
+  name: oauth2-kfirs-com
 spec:
-  secretName: oauth-kfirs-com-tls
+  secretName: oauth2-kfirs-com-tls
   issuerRef:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - oauth.kfirs.com
+    - oauth2.kfirs.com
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: oauth-https
+  name: oauth2-https
 spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`oauth.kfirs.com`)
+      match: Host(`oauth2.kfirs.com`)
       services:
         - kind: Service
           name: traefik-google-oidc-auth-server
           port: http
   tls:
-    secretName: oauth-kfirs-com-tls
+    secretName: oauth2-kfirs-com-tls
