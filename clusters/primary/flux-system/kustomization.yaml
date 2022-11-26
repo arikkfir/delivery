@@ -3,3 +3,19 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+
+patches:
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux,app.kubernetes.io/component=helm-controller
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/2
+        value: --log-level=debug
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux,app.kubernetes.io/component=kustomize-controller
+    patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/2
+        value: --log-level=debug
