@@ -79,7 +79,7 @@ spec:
       match: Host(`echo.$(BRANCH).kfirs.com.`)
       services:
         - kind: Service
-          name: echoserver
+          name: echoserver-echo-server
           namespace: $(BRANCH)
           port: http
   tls:
