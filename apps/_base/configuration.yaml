@@ -10,3 +10,6 @@ varReference:
   - apiVersion: traefik.containo.us/v1alpha1
     kind: IngressRoute
     path: spec/routes/match
+  - apiVersion: traefik.containo.us/v1alpha1
+    kind: IngressRoute
+    path: spec/routes/services/namespace
