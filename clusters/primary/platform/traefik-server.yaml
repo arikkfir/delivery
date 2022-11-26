@@ -11,6 +11,15 @@ metadata:
   name: traefik
   namespace: traefik
 spec:
+  dependsOn:
+    - name: gke
+      namespace: cnrm-system
+    - name: cert-manager
+      namespace: cert-manager
+    - name: domains
+      namespace: domains
+    - name: external-secrets
+      namespace: external-secrets
   interval: 10m
   path: platform/ingress/traefik
   prune: true
@@ -27,6 +36,9 @@ metadata:
   name: traefik-google-auth
   namespace: traefik
 spec:
+  dependsOn:
+    - name: traefik
+      namespace: traefik
   interval: 5m
   path: platform/ingress/traefik-google-auth
   prune: true
@@ -42,6 +54,9 @@ metadata:
   name: traefik-dashboard
   namespace: traefik
 spec:
+  dependsOn:
+    - name: traefik-google-auth
+      namespace: traefik
   interval: 5m
   path: platform/ingress/traefik-dashboard
   prune: true
@@ -50,18 +65,18 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
-kind: Kustomization
-metadata:
-  name: echoserver
-  namespace: traefik
-spec:
-  interval: 5m
-  path: platform/ingress/echoserver
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
+#---
+#apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+#kind: Kustomization
+#metadata:
+#  name: echoserver
+#  namespace: traefik
+#spec:
+#  interval: 5m
+#  path: platform/ingress/echoserver
+#  prune: true
+#  sourceRef:
+#    kind: GitRepository
+#    name: flux-system
+#    namespace: flux-system
+#  wait: true
