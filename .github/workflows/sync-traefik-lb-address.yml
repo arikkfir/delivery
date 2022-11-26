@@ -46,7 +46,7 @@ jobs:
         with:
           cluster_name: primary
           location: ${{ env.GCP_ZONE }}
-      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/traefik-ingress --timeout=5m
+      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
       - run: |-
           set -x
           TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')"
