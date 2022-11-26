@@ -11,6 +11,9 @@ metadata:
   name: domains
   namespace: domains
 spec:
+  dependsOn:
+    - name: gke
+      namespace: cnrm-system
   interval: 5m
   path: platform/domains
   prune: true
