@@ -80,7 +80,7 @@ spec:
       services:
         - kind: Service
           name: echoserver
-          namespace: echoserver
+          namespace: $(BRANCH)
           port: http
   tls:
     secretName: echoserver-tls
