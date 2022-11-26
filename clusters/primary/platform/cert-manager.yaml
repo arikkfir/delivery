@@ -11,8 +11,11 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
+  dependsOn:
+    - name: gke
+      namespace: cnrm-system
   interval: 5m
-  path: platform/lets-encrypt/cert-manager
+  path: platform/cert-manager/cert-manager
   prune: true
   sourceRef:
     kind: GitRepository
@@ -26,8 +29,13 @@ metadata:
   name: cert-manager-cluster-issuers
   namespace: cert-manager
 spec:
+  dependsOn:
+    - name: gke
+      namespace: cnrm-system
+    - name: cert-manager
+      namespace: cert-manager
   interval: 5m
-  path: platform/lets-encrypt/cluster-issuers
+  path: platform/cert-manager/cluster-issuers
   prune: true
   sourceRef:
     kind: GitRepository
