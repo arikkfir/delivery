@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: $(BRANCH)
 resources:
 - echoserver.yaml
-- smee.yaml
+#- smee.yaml
 
 configMapGenerator:
   - name: environment
