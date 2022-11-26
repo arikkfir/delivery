@@ -21,7 +21,7 @@ spec:
     - name: external-secrets
       namespace: external-secrets
   interval: 10m
-  path: platform/ingress/traefik
+  path: platform/traefik/traefik
   prune: true
   sourceRef:
     kind: GitRepository
@@ -40,7 +40,7 @@ spec:
     - name: traefik
       namespace: traefik
   interval: 5m
-  path: platform/ingress/traefik-google-auth
+  path: platform/traefik/traefik-google-auth
   prune: true
   sourceRef:
     kind: GitRepository
@@ -58,7 +58,7 @@ spec:
     - name: traefik-google-auth
       namespace: traefik
   interval: 5m
-  path: platform/ingress/traefik-dashboard
+  path: platform/traefik/traefik-dashboard
   prune: true
   sourceRef:
     kind: GitRepository
