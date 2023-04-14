@@ -84,7 +84,7 @@ data:
       spec:
         externalTrafficPolicy: Local
       loadBalancerSourceRanges:
-        - 149.106.226.215/32
+        - 85.64.200.75/32
     autoscaling:
       enabled: true
       minReplicas: 1
