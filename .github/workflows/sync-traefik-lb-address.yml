@@ -1,0 +1,60 @@
+name: Sync Traefik LoadBalancer IP address
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sync-traefik-lb-address.yml
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+env:
+  GCP_CLI_VERSION: 409.0.0
+  GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
+  GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
+  GKE_CLUSTER_NAME: main # TODO: should be inferred from infrastructure
+  GKE_CLUSTER_LOCATION: me-west1-a # TODO: should be inferred from infrastructure
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - run: curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" && chmod +x /usr/local/bin/yq
+      - uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: ${{ env.GCP_CLI_VERSION }}
+      - uses: google-github-actions/get-gke-credentials@v0
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER_NAME }}
+          location: ${{ env.GKE_CLUSTER_LOCATION }}
+      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
+      - run: |-
+          TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')"
+          yq e -i ".data.gke-ingress-ip-address=\"${TRAEFIK_IP}\" | .data.gke-ingress-ip-address style=\"double\"" traefik-values.yaml
+        working-directory: platform/traefik/server
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: platform/traefik/server/traefik-values.yaml
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: Sync GKE ingress IP address
