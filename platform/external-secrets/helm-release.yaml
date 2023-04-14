@@ -16,3 +16,9 @@ spec:
     - kind: ConfigMap
       name: external-secrets-values
       optional: false
+
+  # This prevents "reconciliation failed: install retries exhausted" errors
+  install:
+    disableWait: true
+  upgrade:
+    disableWait: true
