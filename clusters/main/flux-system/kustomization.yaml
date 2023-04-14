@@ -3,3 +3,22 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+patches:
+  - patch: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: all
+      spec:
+        template:
+          spec:
+            nodeSelector:
+              gke.kfirs.com/purpose: workloads
+            tolerations:
+              - effect: NoExecute
+                key: gke.kfirs.com/purpose
+                operator: Equal
+                value: workloads
+    target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux
