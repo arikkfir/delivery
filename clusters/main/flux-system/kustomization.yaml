@@ -22,3 +22,20 @@ patches:
     target:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=flux
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/2
+        value: --log-level=debug
+      - op: replace
+        path: /spec/template/spec/containers/0/args/4
+        value: --enable-leader-election=false
+    target:
+      kind: Deployment
+      name: '(source-controller|helm-controller|kustomize-controller)'
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --feature-gates=AllowDNSLookups=true,OOMWatch=true
+    target:
+      kind: Deployment
+      name: helm-controller
