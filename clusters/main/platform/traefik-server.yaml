@@ -1,0 +1,18 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: traefik
+  namespace: default
+spec:
+  dependsOn:
+    - name: cnrm
+    - name: dns
+  interval: 5m
+  timeout: 20m # LoadBalancer service might take a little while to sync in GCP
+  path: platform/traefik/server
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true

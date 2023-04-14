@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard-https
+  namespace: traefik
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`traefik.kfirs.com`)
+      services:
+        - kind: TraefikService
+          name: api@internal
+  tls:
+    secretName: traefik-kfirs-com-tls
