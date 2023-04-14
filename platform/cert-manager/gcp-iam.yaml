@@ -28,7 +28,7 @@ metadata:
   name: cert-manager-ksa-link
   namespace: cert-manager
 spec:
-  member: serviceAccount:arikkfir-primary.svc.id.goog[cert-manager/cert-manager]
+  member: serviceAccount:arik-kfir.svc.id.goog[cert-manager/cert-manager]
   role: roles/iam.workloadIdentityUser
   resourceRef:
     apiVersion: iam.cnrm.cloud.google.com/v1beta1

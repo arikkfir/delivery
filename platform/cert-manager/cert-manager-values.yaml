@@ -18,7 +18,7 @@ data:
     installCRDs: true
     serviceAccount:
       annotations:
-        iam.gke.io/gcp-service-account: cert-manager@arikkfir-primary.iam.gserviceaccount.com
+        iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
     resources:
       requests:
         cpu: 100m
@@ -40,7 +40,7 @@ data:
           memory: 50Mi
       serviceAccount:
         annotations:
-          iam.gke.io/gcp-service-account: cert-manager@arikkfir-primary.iam.gserviceaccount.com
+          iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
@@ -58,7 +58,7 @@ data:
           memory: 150Mi
       serviceAccount:
         annotations:
-          iam.gke.io/gcp-service-account: cert-manager@arikkfir-primary.iam.gserviceaccount.com
+          iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
@@ -76,7 +76,7 @@ data:
           memory: 50Mi
       serviceAccount:
         annotations:
-          iam.gke.io/gcp-service-account: cert-manager@arikkfir-primary.iam.gserviceaccount.com
+          iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
