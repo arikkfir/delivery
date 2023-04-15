@@ -6,7 +6,6 @@ metadata:
 spec:
   dependsOn:
     - name: cnrm
-    - name: dns
   interval: 5m
   timeout: 20m # LoadBalancer service might take a little while to sync in GCP
   path: platform/traefik/server
@@ -16,12 +15,3 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  patches:
-    - patch: |-
-        - op: replace
-          path: /data/gke-ingress-ip-address
-          value: "34.165.0.74"
-      target:
-        kind: ConfigMap
-        name: traefik-values
-        namespace: traefik
