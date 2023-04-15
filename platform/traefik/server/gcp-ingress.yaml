@@ -4,6 +4,7 @@ metadata:
   name: gke-ingress
   namespace: traefik
 spec:
+  resourceID: gke-ingress
   addressType: EXTERNAL
   description: GKE Ingress
   ipVersion: IPV4
