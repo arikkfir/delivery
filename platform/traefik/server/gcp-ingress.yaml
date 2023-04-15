@@ -22,8 +22,7 @@ spec:
   type: A
   ttl: 300
   managedZoneRef:
-    name: kfirs-com
-    namespace: dns
+    external: kfirs-com
   rrdatasRefs:
     - kind: ComputeAddress
       name: gke-ingress
