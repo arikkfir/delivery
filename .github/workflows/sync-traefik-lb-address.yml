@@ -62,7 +62,7 @@ jobs:
           else
             kubectl create configmap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
           fi
-          flux reconcile helmrelease -n traefik traefik-server
+          flux reconcile helmrelease -n traefik traefik
       - uses: EndBug/add-and-commit@v9
         with:
           add: platform/traefik/server/traefik-values.yaml
