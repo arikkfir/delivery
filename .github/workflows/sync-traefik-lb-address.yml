@@ -36,6 +36,7 @@ jobs:
       matrix:
         cluster_name: [arc, main]
         cluster_location: [me-west1-a]
+    if: always()
     steps:
       - uses: actions/checkout@v3
       - run: curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" && chmod +x /usr/local/bin/yq
