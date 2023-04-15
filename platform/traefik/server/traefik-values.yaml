@@ -116,4 +116,3 @@ data:
       limits:
         cpu: 500m
         memory: 200Mi
-  gke-ingress-ip-address: "34.165.0.74"

@@ -18,7 +18,7 @@ spec:
       name: traefik-values
       optional: false
     - kind: ConfigMap
-      name: traefik-values
+      name: traefik-dynamic-values
       valuesKey: gke-ingress-ip-address
       targetPath: service.spec.loadBalancerIP
       optional: true
