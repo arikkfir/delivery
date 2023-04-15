@@ -26,3 +26,13 @@ spec:
         kind: ComputeAddress
         name: gke-ingress
         namespace: traefik
+    - patch: |-
+        - op: replace
+          path: /spec/name
+          value: traefik.main.kfirs.com.
+      target:
+        group: dns.cnrm.cloud.google.com
+        version: v1beta1
+        kind: DNSRecordSet
+        name: traefik-kfirs-com-a
+        namespace: traefik
