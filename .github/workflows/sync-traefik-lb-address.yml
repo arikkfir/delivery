@@ -15,7 +15,7 @@ defaults:
     shell: bash -exuo pipefail {0}
 
 env:
-  GCP_CLI_VERSION: 409.0.0
+  GCP_CLI_VERSION: 426.0.0
   GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
   GKE_CLUSTER_NAME: main # TODO: should be inferred from infrastructure
