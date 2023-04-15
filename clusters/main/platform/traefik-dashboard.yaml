@@ -6,6 +6,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager
+    - name: dns
     - name: traefik
   interval: 5m
   timeout: 10m
