@@ -58,9 +58,9 @@ jobs:
       - run: |-
           TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')"
           if kubectl get ConfigMap -n traefik traefik-dynamic-values; then
-            kubectl patch ConfigMap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"gke-ingress-ip-address\":\"${TRAEFIK_IP}\"}}"
+            kubectl patch configmap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"gke-ingress-ip-address\":\"${TRAEFIK_IP}\"}}"
           else
-            kubectl create ConfigMap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
+            kubectl create configmap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
           fi
           flux reconcile helmrelease -n traefik traefik-server
       - uses: EndBug/add-and-commit@v9
