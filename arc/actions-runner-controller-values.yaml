@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: actions-runner-controller-values
+  namespace: arc
+data:
+  values.yaml: |
+    logFormat: json
+    defaultScaleDownDelay: 3m
+    authSecret:
+      enabled: true
+      github_app_id: "319457"
+      github_app_installation_id: "36508693"
+    runner:
+      statusUpdateHook:
+        enabled: true
+    serviceAccount:
+      name: arc
+      annotations:
+        annotations:
+          iam.gke.io/gcp-service-account: actions-runner-controller@arik-kfir.iam.gserviceaccount.com
+    resources:
+      requests:
+        cpu: 100m
+        memory: 50Mi
+      limits:
+        cpu: 100m
+        memory: 50Mi
+    nodeSelector:
+      gke.kfirs.com/purpose: workloads
+    tolerations:
+      - effect: NoExecute
+        key: gke.kfirs.com/purpose
+        operator: Equal
+        value: workloads
+    githubWebhookServer:
+      enabled: true
+      replicaCount: 1
+      logFormat: json
+      secret:
+        enabled: true
+        create: false
+        name: "actions-runner-controller-secret-values"  # TODO: what key?
+      serviceAccount:
+        annotations:
+          iam.gke.io/gcp-service-account: actions-runner-controller@arik-kfir.iam.gserviceaccount.com
+      resources:
+        requests:
+          cpu: 100m
+          memory: 50Mi
+        limits:
+          cpu: 100m
+          memory: 50Mi
+      nodeSelector:
+        gke.kfirs.com/purpose: workloads
+      tolerations:
+        - effect: NoExecute
+          key: gke.kfirs.com/purpose
+          operator: Equal
+          value: workloads

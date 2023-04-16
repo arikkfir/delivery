@@ -1,0 +1,65 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: actions-runner-controller
+  namespace: arc
+spec:
+  displayName: actions-runner-controller
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: actions-runner-controller-ksa-link
+  namespace: arc
+spec:
+  member: serviceAccount:arikkfir.svc.id.goog[arc/actions-runner-controller]
+  role: roles/iam.workloadIdentityUser
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: actions-runner-controller
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: actions-runner-controller-secret-viewer
+  namespace: arc
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: actions-runner-controller
+  role: roles/secretmanager.viewer
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/887552287733
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: actions-runner-controller-secret-accessor
+  namespace: arc
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: actions-runner-controller
+  role: roles/secretmanager.secretAccessor
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/887552287733
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: actions-runner-controller-token-creator
+  namespace: arc
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: actions-runner-controller
+  role: roles/iam.serviceAccountTokenCreator
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/887552287733
