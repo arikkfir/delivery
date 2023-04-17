@@ -65,13 +65,13 @@ jobs:
             kubectl create configmap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
           fi
           
-          FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq ". + env(IP_WHITELIST)")
-          kubectl patch configmap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"ip-whitelist\":${FULL_IP_WHITELIST}}}"
+          export FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq ". + env(IP_WHITELIST)")
+          yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(FULL_IP_WHITELIST)' platform/traefik/server/helm-release.yaml
           
           flux reconcile helmrelease -n traefik traefik
       - uses: EndBug/add-and-commit@v9
         with:
-          add: platform/traefik/server/traefik-values.yaml
+          add: platform/traefik/server
           author_name: GitHub Actions
           author_email: <gha@kfirs.com>
           message: Sync GKE ingress IP address

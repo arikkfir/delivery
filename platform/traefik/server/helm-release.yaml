@@ -22,11 +22,9 @@ spec:
       valuesKey: gke-ingress-ip-address
       targetPath: service.spec.loadBalancerIP
       optional: true
-    - kind: ConfigMap
-      name: traefik-dynamic-values
-      valuesKey: ip-whitelist
-      targetPath: service.loadBalancerSourceRanges
-      optional: true
+  values:
+    service:
+      loadBalancerSourceRanges: []
 
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
