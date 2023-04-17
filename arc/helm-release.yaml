@@ -17,11 +17,6 @@ spec:
     - kind: ConfigMap
       name: actions-runner-controller-values
       optional: false
-    - kind: Secret
-      name: actions-runner-controller-secret-values
-      targetPath: authSecret.github_app_private_key
-      valuesKey: github-app_arik-kfir-arc_privatekey
-      optional: false
 
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
