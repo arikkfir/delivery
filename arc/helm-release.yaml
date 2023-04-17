@@ -28,6 +28,3 @@ spec:
     disableWait: true
   upgrade:
     disableWait: true
-
-  # TODO: create "actions-runner-controller-secret-values" secret via external-secrets
-  #       it should contain the github-app_arik-kfir-arc_privatekey key and the github-app_arik-kfir-arc_webhook-secret
