@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: arc-kfirs-com-https
+  namespace: arc
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`arc.kfirs.com`) && PathPrefix(`/actions-runner-controller-github-webhook-server`)
+      services:
+        - kind: Service
+          name: actions-runner-controller-github-webhook-server
+          port: 80
+          scheme: http
+  tls:
+    secretName: arc-kfirs-com-tls
