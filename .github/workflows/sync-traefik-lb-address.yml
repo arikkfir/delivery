@@ -44,7 +44,7 @@ jobs:
         with:
           version: ${{ env.GCP_CLI_VERSION }}
       - run: |-
-          export FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq ". + env(STATIC_IP_WHITELIST)")
+          export FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')
           yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(FULL_IP_WHITELIST)' helm-release.yaml
         working-directory: platform/traefik/server
       - uses: EndBug/add-and-commit@v9
