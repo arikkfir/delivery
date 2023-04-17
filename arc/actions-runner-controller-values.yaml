@@ -9,8 +9,7 @@ data:
     defaultScaleDownDelay: 3m
     authSecret:
       enabled: true
-      github_app_id: "319457"
-      github_app_installation_id: "36508693"
+      create: false
     runner:
       statusUpdateHook:
         enabled: true
@@ -56,4 +55,4 @@ data:
           key: gke.kfirs.com/purpose
           operator: Equal
           value: workloads
-
+          
