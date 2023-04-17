@@ -19,6 +19,7 @@ env:
   GCP_CLI_VERSION: 426.0.0
   GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
+  IP_WHITELIST: '["85.64.218.35/32"]'
 
 concurrency:
   group: production
@@ -56,12 +57,17 @@ jobs:
           version: ${{ env.FLUXCD_VERSION }}
       - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
       - run: |-
+          
           TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')"
           if kubectl get ConfigMap -n traefik traefik-dynamic-values; then
             kubectl patch configmap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"gke-ingress-ip-address\":\"${TRAEFIK_IP}\"}}"
           else
             kubectl create configmap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
           fi
+          
+          FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq ". + env(IP_WHITELIST)")
+          kubectl patch configmap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"ip-whitelist\":${FULL_IP_WHITELIST}}}"
+          
           flux reconcile helmrelease -n traefik traefik
       - uses: EndBug/add-and-commit@v9
         with:
