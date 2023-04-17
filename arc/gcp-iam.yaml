@@ -20,7 +20,7 @@ metadata:
   name: actions-runner-controller-ksa-link
   namespace: arc
 spec:
-  member: serviceAccount:arikkfir.svc.id.goog[arc/actions-runner-controller]
+  member: serviceAccount:arik-kfir.svc.id.goog[arc/actions-runner-controller]
   role: roles/iam.workloadIdentityUser
   resourceRef:
     apiVersion: iam.cnrm.cloud.google.com/v1beta1
