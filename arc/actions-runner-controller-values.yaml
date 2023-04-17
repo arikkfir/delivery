@@ -15,10 +15,8 @@ data:
       statusUpdateHook:
         enabled: true
     serviceAccount:
-      name: arc
-      annotations:
-        annotations:
-          iam.gke.io/gcp-service-account: actions-runner-controller@arik-kfir.iam.gserviceaccount.com
+      create: false
+      name: actions-runner-controller
     resources:
       requests:
         cpu: 100m
@@ -42,8 +40,8 @@ data:
         create: false
         name: "actions-runner-controller-secret-values"  # TODO: what key?
       serviceAccount:
-        annotations:
-          iam.gke.io/gcp-service-account: actions-runner-controller@arik-kfir.iam.gserviceaccount.com
+        create: false
+        name: actions-runner-controller
       resources:
         requests:
           cpu: 100m
@@ -58,3 +56,4 @@ data:
           key: gke.kfirs.com/purpose
           operator: Equal
           value: workloads
+
