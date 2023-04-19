@@ -14,7 +14,10 @@ spec:
         app.kubernetes.io/name: arc
         app.kubernetes.io/component: large-runner
     spec:
+      labels:
+        - gcp
       organization: arik-kfir
+      dockerdWithinRunnerContainer: true
       #dockerMTU
       resources:
         limits:
