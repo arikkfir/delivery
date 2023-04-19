@@ -20,7 +20,6 @@ spec:
             - name: DOCKER_GROUP_GID
               value: "1001"
       organization: arik-kfir
-      dockerdWithinRunnerContainer: true
       #dockerMTU
       resources:
         limits:
