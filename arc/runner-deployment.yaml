@@ -35,6 +35,7 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:
   name: large-autoscaler
+  namespace: arc
 spec:
   scaleDownDelaySecondsAfterScaleOut: 60
   scaleTargetRef:
