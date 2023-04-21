@@ -28,7 +28,6 @@ concurrency:
 jobs:
   sync-shared:
     name: Sync IP whitelist
-    needs: debug
     runs-on: self-hosted
     timeout-minutes: 5
     permissions:
