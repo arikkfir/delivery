@@ -36,7 +36,7 @@ jobs:
           sudo curl -sSL -o "${YQ_PATH}" "${YQ_URL}"
           ls -la "${YQ_PATH}"
           sudo chmod +x "${YQ_PATH}"
-        with:
+        env:
           YQ_PATH: "/usr/local/bin/yq"
           YQ_URL: "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
 
