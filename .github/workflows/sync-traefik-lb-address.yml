@@ -26,85 +26,68 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  debug:
-    name: Debug
+  sync-shared:
+    name: Sync IP whitelist
+    needs: debug
     runs-on: self-hosted
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      id-token: write
     steps:
-      - run: env | sort
+      - uses: actions/checkout@v3
       - run: |
-          sudo curl -sSL -o "${YQ_PATH}" "${YQ_URL}"
-          ls -la "${YQ_PATH}"
-          sudo chmod +x "${YQ_PATH}"
-          yq --version
-        env:
-          YQ_PATH: "/usr/local/bin/yq"
-          YQ_URL: "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
+          sudo curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
+          sudo chmod +x /usr/local/bin/yq
+      - run: |-
+          export FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')
+          yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(FULL_IP_WHITELIST)' helm-release.yaml
+        working-directory: platform/traefik/server
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: platform/traefik/server/helm-release.yaml
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: Sync GKE ingress IP whitelist addresses
 
-#  sync-shared:
-#    name: Sync shared
-#    needs: debug
-#    runs-on: self-hosted
-#    timeout-minutes: 5
-#    permissions:
-#      contents: write
-#      id-token: write
-#    steps:
-#      - uses: actions/checkout@v3
-#      - run: curl -sSL -o ${{ runner.tool_cache }}/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" && chmod +x ${{ runner.tool_cache }}/yq
-#      - uses: google-github-actions/auth@v1
-#        with:
-#          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-#          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
-#      - uses: google-github-actions/setup-gcloud@v1
-#        with:
-#          version: ${{ env.GCP_CLI_VERSION }}
-#      - run: |-
-#          export FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')
-#          yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(FULL_IP_WHITELIST)' helm-release.yaml
-#        working-directory: platform/traefik/server
-#      - uses: EndBug/add-and-commit@v9
-#        with:
-#          add: platform/traefik/server/helm-release.yaml
-#          author_name: GitHub Actions
-#          author_email: <gha@kfirs.com>
-#          message: Sync GKE ingress IP whitelist addresses
-
-#  sync-clusters:
-#    name: Sync "${{ matrix.cluster_name }}" cluster
-#    needs: sync-shared
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 5
-#    permissions:
-#      contents: write
-#      id-token: write
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        cluster_name: [arc, main]
-#        cluster_location: [me-west1-a]
-#    steps:
-#      - uses: actions/checkout@v3
-#      - run: curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" && chmod +x /usr/local/bin/yq
-#      - uses: google-github-actions/auth@v1
-#        with:
-#          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-#          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
-#      - uses: google-github-actions/setup-gcloud@v1
-#        with:
-#          version: ${{ env.GCP_CLI_VERSION }}
-#      - uses: google-github-actions/get-gke-credentials@v0
-#        with:
-#          cluster_name: ${{ matrix.cluster_name }}
-#          location: ${{ matrix.cluster_location }}
-#      - uses: fluxcd/flux2/action@main
-#        with:
-#          version: ${{ env.FLUXCD_VERSION }}
-#      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
-#      - run: |-
-#          TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')"
-#          if kubectl get ConfigMap -n traefik traefik-dynamic-values; then
-#            kubectl patch configmap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"gke-ingress-ip-address\":\"${TRAEFIK_IP}\"}}"
-#          else
-#            kubectl create configmap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
-#          fi
-#          flux reconcile helmrelease -n traefik traefik --with-source
+  sync-clusters:
+    name: Sync "${{ matrix.cluster_name }}" cluster
+    needs: sync-shared
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        cluster_name: [arc, main]
+        cluster_location: [me-west1-a]
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sudo curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
+          sudo chmod +x /usr/local/bin/yq
+      - uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: ${{ env.GCP_CLI_VERSION }}
+      - uses: google-github-actions/get-gke-credentials@v0
+        with:
+          cluster_name: ${{ matrix.cluster_name }}
+          location: ${{ matrix.cluster_location }}
+      - uses: fluxcd/flux2/action@main
+        with:
+          version: ${{ env.FLUXCD_VERSION }}
+      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
+      - run: |-
+          TRAEFIK_IP="$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')"
+          if kubectl get ConfigMap -n traefik traefik-dynamic-values; then
+            kubectl patch configmap -n traefik traefik-dynamic-values --type=merge -p "{\"data\":{\"gke-ingress-ip-address\":\"${TRAEFIK_IP}\"}}"
+          else
+            kubectl create configmap -n traefik traefik-dynamic-values --from-literal=gke-ingress-ip-address="${TRAEFIK_IP}"
+          fi
+          flux reconcile helmrelease -n traefik traefik --with-source
