@@ -29,7 +29,7 @@ spec:
     - patch: |-
         - op: replace
           path: /spec/name
-          value: traefik.arc.kfirs.com.
+          value: traefik.arc.kfirs.com
       target:
         group: dns.cnrm.cloud.google.com
         version: v1beta1
