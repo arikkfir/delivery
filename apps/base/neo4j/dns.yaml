@@ -6,9 +6,9 @@ metadata:
   name: neo4j-kfirs-com-a
 spec:
   name: neo4j.default.kfirs.com.
-  type: A
+  type: CNAME
   ttl: 300
   managedZoneRef:
     external: kfirs-com
   rrdatasRefs:
-    - external: traefik.kfirs.com
+    - external: traefik.kfirs.com.
