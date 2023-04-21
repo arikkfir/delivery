@@ -26,8 +26,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  debug:
+    name: Debug
+    runs-on: self-hosted
+    steps:
+      - run: |
+          set +e
+          echo $PATH
+
   sync-shared:
     name: Sync shared
+    needs: debug
     runs-on: self-hosted
     timeout-minutes: 5
     permissions:
@@ -36,7 +45,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: curl -sSL -o ${{ runner.tool_cache }}/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64" && chmod +x ${{ runner.tool_cache }}/yq
-      - run: yq
       - uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
