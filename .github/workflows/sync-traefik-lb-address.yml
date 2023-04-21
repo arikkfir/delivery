@@ -19,7 +19,7 @@ env:
   GCP_CLI_VERSION: 426.0.0
   GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
-  STATIC_IP_WHITELIST: '["85.64.218.35/32"]'
+  STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215"]'
 
 concurrency:
   group: production
