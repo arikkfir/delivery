@@ -30,9 +30,17 @@ jobs:
     name: Debug
     runs-on: self-hosted
     steps:
+      - run: env | sort
       - run: |
           set +e
           echo $PATH
+          ls -la /usr/local/sbin
+          ls -la /usr/local/bin
+          ls -la /usr/sbin
+          ls -la /usr/bin
+          ls -la /sbin
+          ls -la /bin
+          ls -la /home/runner/.local/bin/
 
   sync-shared:
     name: Sync shared
