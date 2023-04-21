@@ -11,4 +11,4 @@ spec:
   managedZoneRef:
     external: kfirs-com
   rrdatasRefs:
-    - external: traefik.kfirs.com.
+    - external: traefik.main.kfirs.com.
