@@ -28,3 +28,13 @@ spec:
         kind: Certificate
         name: traefik-kfirs-com
         namespace: traefik
+    - patch: |-
+        - op: replace
+          path: /spec/routes/0/match
+          value: Host(`traefik.main.kfirs.com`)
+      target:
+        group: traefik.containo.us
+        version: v1alpha1
+        kind: IngressRoute
+        name: dashboard-https
+        namespace: traefik
