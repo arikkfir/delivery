@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+    spec:
+      containers:
+        - image: redis/redis-stack:6.2.6-v0
+          name: redis
+          ports:
+            - containerPort: 6379
+              name: client
+            - containerPort: 8001
+              name: http
+          startupProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - '[[ "$(redis-cli PING)" == "PONG" ]]'
+            failureThreshold: 30
+            periodSeconds: 5
+            terminationGracePeriodSeconds: 60
+            timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - '[[ "$(redis-cli PING)" == "PONG" ]]'
+            failureThreshold: 3
+            periodSeconds: 5
+            terminationGracePeriodSeconds: 60
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+              readOnly: false
+      serviceAccountName: redis
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: redis
+            readOnly: false

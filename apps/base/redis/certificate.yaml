@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: redis-kfirs-com
+spec:
+  secretName: redis-kfirs-com-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  dnsNames:
+    - redis.default.kfirs.com

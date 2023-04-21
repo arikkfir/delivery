@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: neo4j-kfirs-com-https
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`neo4j.default.kfirs.com`)
+      services:
+        - kind: Service
+          name: neo4j
+          port: http
+  tls:
+    secretName: neo4j-kfirs-com-tls
