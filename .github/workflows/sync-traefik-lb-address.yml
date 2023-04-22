@@ -19,7 +19,6 @@ env:
   GCP_CLI_VERSION: 426.0.0
   GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
-  STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215/32"]'
 
 concurrency:
   group: production
@@ -38,10 +37,14 @@ jobs:
       - run: |
           sudo curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
           sudo chmod +x /usr/local/bin/yq
+      - id: whitelist
+        run: echo "ips=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')" >> "$GITHUB_OUTPUT"
+        env:
+          STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215/32"]'
       - run: |-
-          export FULL_IP_WHITELIST=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')
-          yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(FULL_IP_WHITELIST)' helm-release.yaml
-        working-directory: platform/traefik/server
+          yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(WHITELIST)' platform/traefik/server/helm-release.yaml
+        env:
+          WHITELIST: ${{ steps.whitelist.outputs.ips }}
       - uses: EndBug/add-and-commit@v9
         with:
           add: platform/traefik/server/helm-release.yaml
