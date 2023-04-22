@@ -9,6 +9,7 @@ spec:
   type: CNAME
   ttl: 300
   managedZoneRef:
-    external: kfirs-com
+    namespace: dns
+    name: kfirs-com
   rrdatasRefs:
     - external: traefik.main.kfirs.com.
