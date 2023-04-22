@@ -7,7 +7,7 @@ spec:
     - name: client
       port: 7687
       protocol: TCP
-      targetPort: neo4j
+      targetPort: client
     - name: http
       port: 80
       protocol: TCP
