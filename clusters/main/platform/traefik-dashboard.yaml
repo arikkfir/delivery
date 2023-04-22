@@ -21,7 +21,7 @@ spec:
     - patch: |-
         - op: replace
           path: /spec/dnsNames/0
-          value: traefik.main.kfirs.com.
+          value: traefik.main.kfirs.com
       target:
         group: cert-manager.io
         version: v1
