@@ -10,4 +10,11 @@ Delivery-as-Code for my infrastructure.
 
 ## ROADMAP
 
+- [x] Deploy [ARC](https://github.com/actions/actions-runner-controller)
 - [ ] Add a FluxCD webhook to trigger a delivery
+- [ ] Considers replacing Traefik with Ambassador
+  - Because it supports TLS termination for non-HTTP traffic (e.g. NATS, Neo4j, Redis)
+  - See https://www.getambassador.io/docs/emissary/latest/topics/using/tcpmappings
+- [ ] Expose Neo4j, Redis, NATS services externally
+    - [ ] Expose additional ports in Traefik ingress service
+    - [ ] Route TCP traffic based on ports to the core Neo4j, Redis, NATS `Service`
