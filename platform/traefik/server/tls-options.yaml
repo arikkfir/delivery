@@ -1,0 +1,6 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSOption
+metadata:
+  name: strict-tls-options
+spec:
+  sniStrict: true
