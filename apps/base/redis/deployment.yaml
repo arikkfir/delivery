@@ -67,7 +67,7 @@ spec:
         - key: gke.kfirs.com/purpose
           operator: Equal
           value: workloads
-          effect: NoSchedule
+          effect: NoExecute
       serviceAccountName: redis
       volumes:
         - name: data
