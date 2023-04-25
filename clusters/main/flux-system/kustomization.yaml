@@ -23,6 +23,13 @@ patches:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=flux
   - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=10
+    target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux
+  - patch: |
       - op: replace
         path: /spec/template/spec/containers/0/args/2
         value: --log-level=debug
