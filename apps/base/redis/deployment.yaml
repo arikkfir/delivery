@@ -17,6 +17,25 @@ spec:
       containers:
         - image: redis/redis-stack:6.2.6-v7
           name: redis
+          env:
+            - name: REDIS_PORT
+              value: "6380"
+            - name: REDIS_TLS_AUTH_CLIENTS
+              value: "NO"
+            - name: REDIS_TLS_ENABLED
+              value: "YES"
+            - name: REDIS_TLS_PORT
+              value: "6379"
+            - name: REDIS_TLS_CERT_FILE
+              valueFrom:
+                secretKeyRef:
+                  name: redis-kfirs-com-tls
+                  key: tls.crt
+            - name: REDIS_TLS_KEY_FILE
+              valueFrom:
+                secretKeyRef:
+                  name: redis-kfirs-com-tls
+                  key: tls.key
           ports:
             - containerPort: 6379
               name: client
