@@ -80,6 +80,18 @@ data:
     ports:
       web:
         redirectTo: websecure
+      redis:
+        port: 63791
+        containerPort: 63792
+        expose: true
+        exposedPort: 6379
+        targetPort: 63793
+        protocol: TCP
+        http3:
+          enabled: false
+        advertisedPort: 63794
+        tls:
+          enabled: false
     service:
       spec:
         externalTrafficPolicy: Local
