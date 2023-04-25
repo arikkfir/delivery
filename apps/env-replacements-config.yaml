@@ -6,7 +6,7 @@ source:
 targets:
   - select: {}
     fieldPaths:
-      - metadata.labels.[app.kubernetes.io/env]
+      - metadata.labels.[app.kubernetes.io/instance]
     options:
       create: true
   - select:
