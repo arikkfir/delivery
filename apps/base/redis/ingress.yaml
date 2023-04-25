@@ -61,17 +61,15 @@ spec:
     secretName: redis-kfirs-com-tls
 ---
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
   name: redis-tcp
 spec:
   entryPoints: [redis]
   routes:
-    - kind: Rule
-      match: HostSNI(`redis.default.kfirs.com`)
+    - match: HostSNI(`redis.default.kfirs.com`)
       services:
-        - kind: Service
-          name: redis
+        - name: redis
           port: client
   tls:
     secretName: redis-kfirs-com-tls
