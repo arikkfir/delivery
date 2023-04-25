@@ -77,3 +77,4 @@ spec:
           port: client-tls
   tls:
     passthrough: true
+    secretName: redis-kfirs-com-tls
