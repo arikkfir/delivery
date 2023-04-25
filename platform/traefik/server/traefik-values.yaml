@@ -15,6 +15,10 @@ data:
     ingressRoute:
       dashboard:
         enabled: false
+    readinessProbe:
+      periodSeconds: 120
+    livenessProbe:
+      periodSeconds: 120
     providers:
       kubernetesCRD:
         enabled: true
