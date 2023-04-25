@@ -19,14 +19,14 @@ spec:
           name: redis
           env:
             - name: REDIS_ARGS
-              value: |-
-                --port=6380
-                --tls-port=6379
-                --tls-cert-file=/etc/redis/tls/tls.crt
-                --tls-key-file=/etc/redis/tls/tls.key
-                --tls-auth-clients=no
-                --tls-replication=no
-                --tls-cluster=no
+              value: >-
+                --port 6380
+                --tls-port 6379
+                --tls-cert-file /etc/redis/tls/tls.crt
+                --tls-key-file /etc/redis/tls/tls.key
+                --tls-auth-clients no
+                --tls-replication no
+                --tls-cluster no
           ports:
             - containerPort: 6379
               name: client-tls
