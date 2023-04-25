@@ -4,9 +4,6 @@ commonLabels:
   app.kubernetes.io/name: redis
 resources:
   - rbac.yaml
-  - service.yaml
-  - dns.yaml
-  - certificate.yaml
-  - route.yaml
+  - ingress.yaml
   - persistence.yaml
   - deployment.yaml
