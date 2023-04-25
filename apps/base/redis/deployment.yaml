@@ -25,17 +25,6 @@ spec:
             - --tls-auth-clients=no
             - --tls-replication=no
             - --tls-cluster=no
-          env:
-            - name: REDIS_TLS_CERT_FILE
-              valueFrom:
-                secretKeyRef:
-                  name: redis-kfirs-com-tls
-                  key: tls.crt
-            - name: REDIS_TLS_KEY_FILE
-              valueFrom:
-                secretKeyRef:
-                  name: redis-kfirs-com-tls
-                  key: tls.key
           ports:
             - containerPort: 6379
               name: client-tls
