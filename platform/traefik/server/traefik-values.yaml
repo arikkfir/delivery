@@ -81,11 +81,15 @@ data:
       web:
         redirectTo: websecure
       redis:
+        port: 6379
+        containerPort: 6379
         expose: true
         exposedPort: 6379
+        targetPort: 6379
         protocol: TCP
         http3:
           enabled: false
+        advertisedPort: 6379
         tls:
           enabled: true
     service:
