@@ -72,4 +72,9 @@ spec:
         - name: redis
           port: client
   tls:
+    options:
+      namespace: traefik
+      name: strict-tls-options
+    domains:
+      - main: redis.default.kfirs.com
     secretName: redis-kfirs-com-tls
