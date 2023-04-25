@@ -49,7 +49,6 @@ spec:
             initialDelaySeconds: 10
             failureThreshold: 10
             periodSeconds: 5
-            terminationGracePeriodSeconds: 60
             timeoutSeconds: 5
           resources:
             limits:
