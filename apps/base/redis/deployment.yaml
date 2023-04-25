@@ -52,7 +52,7 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: 200m
+              cpu: 500m
               memory: 128Mi
             requests:
               cpu: 200m
@@ -61,6 +61,13 @@ spec:
             - mountPath: /data
               name: data
               readOnly: false
+      nodeSelector:
+        gke.kfirs.com/purpose: workloads
+      tolerations:
+        - key: gke.kfirs.com/purpose
+          operator: Equal
+          value: workloads
+          effect: NoSchedule
       serviceAccountName: redis
       volumes:
         - name: data
