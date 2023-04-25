@@ -39,6 +39,8 @@ spec:
           ports:
             - containerPort: 6379
               name: client
+            - containerPort: 6380
+              name: client
             - containerPort: 8001
               name: http
           startupProbe:
