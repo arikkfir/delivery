@@ -39,7 +39,7 @@ spec:
               command:
                 - bash
                 - -c
-                - '[[ "$(redis-cli PING)" == "PONG" ]]'
+                - '[[ "$(redis-cli -p 6380 PING)" == "PONG" ]]'
             failureThreshold: 30
             periodSeconds: 5
             terminationGracePeriodSeconds: 60
@@ -49,7 +49,7 @@ spec:
               command:
                 - bash
                 - -c
-                - '[[ "$(redis-cli PING)" == "PONG" ]]'
+                - '[[ "$(redis-cli -p 6380 PING)" == "PONG" ]]'
             failureThreshold: 3
             periodSeconds: 5
             terminationGracePeriodSeconds: 60
