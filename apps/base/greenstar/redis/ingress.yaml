@@ -1,23 +1,23 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: redis-kfirs-com
+  name: greenstar-redis-kfirs-com
 spec:
-  secretName: redis-kfirs-com-tls
+  secretName: greenstar-redis-kfirs-com-tls
   issuerRef:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - redis.default.kfirs.com
+    - greenstar-redis.default.kfirs.com
 ---
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id: arikkfir
-  name: redis-kfirs-com-a
+  name: greenstar-redis-kfirs-com-a
 spec:
-  name: redis.default.kfirs.com.
+  name: greenstar-redis.default.kfirs.com.
   type: CNAME
   ttl: 300
   managedZoneRef:
@@ -29,52 +29,34 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
+  name: greenstar-redis
 spec:
   ports:
-    - name: client-tls
+    - name: client-nontls
       port: 6379
       protocol: TCP
-      targetPort: client-tls
-    - name: client-nontls
+      targetPort: client-nontls
+    - name: client-tls
       port: 6380
       protocol: TCP
-      targetPort: client-nontls
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: http
+      targetPort: client-tls
   selector:
-    app.kubernetes.io/name: redis
+    app.kubernetes.io/name: greenstar
+    app.kubernetes.io/component: redis
   type: ClusterIP
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: redis-kfirs-com-https
-spec:
-  entryPoints: [websecure]
-  routes:
-    - kind: Rule
-      match: Host(`redis.default.kfirs.com`)
-      services:
-        - kind: Service
-          name: redis
-          port: http
-  tls:
-    secretName: redis-kfirs-com-tls
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRouteTCP
 metadata:
-  name: redis-tcp
+  name: greenstar-redis-tls-tcp
 spec:
   entryPoints: [redis]
   routes:
-    - match: HostSNI(`redis.default.kfirs.com`)
+    - match: HostSNI(`greenstar-redis.default.kfirs.com`)
+      # TODO: add middlewares to allow whitelisted IPs (until we have authentication)
       services:
         - name: redis
           port: client-tls
   tls:
     passthrough: true
-    secretName: redis-kfirs-com-tls
+    secretName: greenstar-redis-kfirs-com-tls

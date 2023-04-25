@@ -3,6 +3,4 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - redis
-  - neo4j
-  - nats
+  - greenstar
