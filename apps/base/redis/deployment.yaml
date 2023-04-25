@@ -17,15 +17,15 @@ spec:
       containers:
         - image: redis/redis-stack:7.0.6-RC8
           name: redis
+          args:
+            - --port=6380
+            - --tls-port=6379
+            - --tls-cert-file=/etc/redis/tls/tls.crt
+            - --tls-key-file=/etc/redis/tls/tls.key
+            - --tls-auth-clients=no
+            - --tls-replication=no
+            - --tls-cluster=no
           env:
-            - name: REDIS_PORT
-              value: "6380"
-            - name: REDIS_TLS_AUTH_CLIENTS
-              value: "NO"
-            - name: REDIS_TLS_ENABLED
-              value: "YES"
-            - name: REDIS_TLS_PORT
-              value: "6379"
             - name: REDIS_TLS_CERT_FILE
               valueFrom:
                 secretKeyRef:
@@ -82,6 +82,9 @@ spec:
             - mountPath: /data
               name: data
               readOnly: false
+            - name: tls
+              mountPath: /etc/redis/tls
+              readOnly: true
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
@@ -95,3 +98,7 @@ spec:
           persistentVolumeClaim:
             claimName: redis
             readOnly: false
+        - name: tls
+          secret:
+            secretName: redis-kfirs-com-tls
+            optional: false
