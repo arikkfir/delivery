@@ -38,9 +38,9 @@ spec:
                   key: tls.key
           ports:
             - containerPort: 6379
-              name: client
+              name: client-tls
             - containerPort: 6380
-              name: client
+              name: client-nontls
             - containerPort: 8001
               name: http
           startupProbe:
