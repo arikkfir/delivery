@@ -19,7 +19,7 @@ spec:
       containers:
         - image: redis/redis-stack-server:7.0.6-RC8
           name: redis
-           env:
+          env:
             - name: REDIS_ARGS
               value: >-
                 --port 6379
