@@ -73,5 +73,5 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: redis
+            claimName: greenstar-redis
             readOnly: false
