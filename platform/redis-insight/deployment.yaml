@@ -31,6 +31,9 @@ spec:
       containers:
         - image: redislabs/redisinsight:1.13.1
           name: redis-insight
+          env:
+            - name: RITRUSTEDORIGINS
+              value: https://redis.kfirs.com
           ports:
             - containerPort: 8001
               name: http
