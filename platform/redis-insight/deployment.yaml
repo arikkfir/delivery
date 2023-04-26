@@ -51,11 +51,11 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: 200m
-              memory: 64Mi
+              cpu: 500m
+              memory: 128Mi
             requests:
-              cpu: 100m
-              memory: 64Mi
+              cpu: 200m
+              memory: 128Mi
           volumeMounts:
             - mountPath: /db
               name: db
