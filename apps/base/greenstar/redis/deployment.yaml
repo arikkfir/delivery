@@ -46,7 +46,7 @@ spec:
               command:
                 - bash
                 - -c
-                - '[[ "$(redis-cli -p 6380 PING)" == "PONG" ]]'
+                - '[[ "$(redis-cli PING)" == "PONG" ]]'
             successThreshold: 1
             failureThreshold: 3
             periodSeconds: 10
