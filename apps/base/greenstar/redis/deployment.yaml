@@ -19,30 +19,27 @@ spec:
       containers:
         - image: redis/redis-stack-server:7.0.6-RC8
           name: redis
-          env:
-            - name: REDIS_ARGS
-              value: >-
-                --port 6379
-                --tls-port 6380
-                --tls-cert-file /etc/redis/tls/tls.crt
-                --tls-key-file /etc/redis/tls/tls.key
-                --tls-auth-clients no
-                --tls-replication no
-                --tls-cluster no
           ports:
             - containerPort: 6379
-              name: client-nontls
-            - containerPort: 6380
-              name: client-tls
+              name: client
           startupProbe:
             exec:
               command:
                 - bash
                 - -c
-                - '[[ "$(redis-cli -p 6380 PING)" == "PONG" ]]'
+                - '[[ "$(redis-cli PING)" == "PONG" ]]'
             failureThreshold: 30
             periodSeconds: 5
-            terminationGracePeriodSeconds: 60
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - -c
+                - '[[ "$(redis-cli PING)" == "PONG" ]]'
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 5
             timeoutSeconds: 5
           livenessProbe:
             exec:
@@ -50,9 +47,9 @@ spec:
                 - bash
                 - -c
                 - '[[ "$(redis-cli -p 6380 PING)" == "PONG" ]]'
+            successThreshold: 1
             failureThreshold: 3
-            periodSeconds: 5
-            terminationGracePeriodSeconds: 60
+            periodSeconds: 10
             timeoutSeconds: 5
           resources:
             limits:
@@ -65,9 +62,6 @@ spec:
             - mountPath: /data
               name: data
               readOnly: false
-            - name: tls
-              mountPath: /etc/redis/tls
-              readOnly: true
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
@@ -81,7 +75,3 @@ spec:
           persistentVolumeClaim:
             claimName: redis
             readOnly: false
-        - name: tls
-          secret:
-            secretName: redis-kfirs-com-tls
-            optional: false

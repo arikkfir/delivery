@@ -1,0 +1,57 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: redis-insight-main-kfirs-com
+spec:
+  secretName: redis-insight-main-kfirs-com-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  dnsNames:
+    - redis.main.kfirs.com
+---
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: redis-insight-main-kfirs-com-a
+spec:
+  name: redis.main.kfirs.com.
+  type: CNAME
+  ttl: 300
+  managedZoneRef:
+    namespace: dns
+    name: kfirs-com
+  rrdatasRefs:
+    - external: traefik.main.kfirs.com.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-insight
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app.kubernetes.io/name: redis-insight
+  type: ClusterIP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: redis-insight-kfirs-com-https
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`redis.main.kfirs.com`)
+      services:
+        - kind: Service
+          name: redis-insight
+          port: http
+  tls:
+    secretName: redis-insight-main-kfirs-com-tls
