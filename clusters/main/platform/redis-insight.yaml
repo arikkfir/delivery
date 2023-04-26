@@ -1,0 +1,54 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: redis-insight
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager
+    - name: cert-manager-issuer
+    - name: cnrm
+    - name: traefik
+  interval: 5m
+  timeout: 10m
+  path: platform/redis-insight
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  patches:
+    - target:
+        group: cert-manager.io
+        version: v1
+        kind: Certificate
+        name: redis-insight-kfirs-com
+        namespace: redis-insight
+      patch: |-
+        - op: replace
+          path: /spec/dnsNames/0
+          value: redis.main.kfirs.com
+    - target:
+        group: dns.cnrm.cloud.google.com
+        version: v1beta1
+        kind: DNSRecordSet
+        name: redis-insight-kfirs-com-a
+        namespace: redis-insight
+      patch: |-
+        - op: replace
+          path: /spec/name
+          value: redis.main.kfirs.com.
+        - op: replace
+          path: /spec/rrdatasRefs/0/external
+          value: traefik.main.kfirs.com.
+    - target:
+        group: traefik.containo.us
+        version: v1alpha1
+        kind: IngressRoute
+        name: redis-insight-kfirs-com-https
+        namespace: redis-insight
+      patch: |-
+        - op: replace
+          path: /spec/routes/0/match
+          value: Host(`redis.main.kfirs.com`)
