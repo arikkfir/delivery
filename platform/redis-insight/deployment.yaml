@@ -1,7 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/name: redis-insight
   name: redis-insight
+  namespace: redis-insight
 spec:
   selector:
     matchLabels:

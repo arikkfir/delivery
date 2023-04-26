@@ -3,4 +3,6 @@ kind: Namespace
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id: arik-kfir
+  labels:
+    app.kubernetes.io/name: redis-insight
   name: redis-insight

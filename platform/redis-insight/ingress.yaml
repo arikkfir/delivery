@@ -1,35 +1,44 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: redis-insight-main-kfirs-com
+  labels:
+    app.kubernetes.io/name: redis-insight
+  name: redis-insight-kfirs-com
+  namespace: redis-insight
 spec:
-  secretName: redis-insight-main-kfirs-com-tls
+  secretName: redis-insight-kfirs-com-tls
   issuerRef:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - redis.main.kfirs.com
+    - redis.kfirs.com
 ---
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id: arikkfir
-  name: redis-insight-main-kfirs-com-a
+  labels:
+    app.kubernetes.io/name: redis-insight
+  name: redis-insight-kfirs-com-a
+  namespace: redis-insight
 spec:
-  name: redis.main.kfirs.com.
+  name: redis.kfirs.com.
   type: CNAME
   ttl: 300
   managedZoneRef:
     namespace: dns
     name: kfirs-com
   rrdatasRefs:
-    - external: traefik.main.kfirs.com.
+    - external: traefik.kfirs.com.
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/name: redis-insight
   name: redis-insight
+  namespace: redis-insight
 spec:
   ports:
     - name: http
@@ -43,15 +52,18 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  labels:
+    app.kubernetes.io/name: redis-insight
   name: redis-insight-kfirs-com-https
+  namespace: redis-insight
 spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`redis.main.kfirs.com`)
+      match: Host(`redis.kfirs.com`)
       services:
         - kind: Service
           name: redis-insight
           port: http
   tls:
-    secretName: redis-insight-main-kfirs-com-tls
+    secretName: redis-insight-kfirs-com-tls
