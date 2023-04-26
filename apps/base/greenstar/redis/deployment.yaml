@@ -19,9 +19,21 @@ spec:
       containers:
         - image: redis/redis-stack-server:7.0.6-RC8
           name: redis
+           env:
+            - name: REDIS_ARGS
+              value: >-
+                --port 6379
+                --tls-port 6380
+                --tls-cert-file /etc/redis/tls/tls.crt
+                --tls-key-file /etc/redis/tls/tls.key
+                --tls-auth-clients no
+                --tls-replication no
+                --tls-cluster no
           ports:
             - containerPort: 6379
-              name: client
+              name: client-nontls
+            - containerPort: 6380
+              name: client-tls
           startupProbe:
             exec:
               command:
@@ -62,6 +74,9 @@ spec:
             - mountPath: /data
               name: data
               readOnly: false
+            - name: tls
+              mountPath: /etc/redis/tls
+              readOnly: true
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
@@ -75,3 +90,7 @@ spec:
           persistentVolumeClaim:
             claimName: greenstar-redis
             readOnly: false
+        - name: tls
+          secret:
+            secretName: greenstar-redis-kfirs-com-tls
+            optional: false
