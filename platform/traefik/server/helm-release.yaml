@@ -31,7 +31,6 @@ spec:
         - 143.55.64.0/20
         - 85.64.218.35/32
         - 149.106.226.215/32
-        - 176.12.231.96/32
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
     disableWait: true
