@@ -53,7 +53,9 @@ spec:
   entryPoints: [redis]
   routes:
     - match: HostSNI(`greenstar-redis.default.kfirs.com`)
-      # TODO: add middlewares to allow whitelisted IPs (until we have authentication)
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
       services:
         - name: greenstar-redis
           port: client-tls
