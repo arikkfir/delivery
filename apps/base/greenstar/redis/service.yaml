@@ -55,7 +55,7 @@ spec:
     - match: HostSNI(`greenstar-redis.default.kfirs.com`)
       # TODO: add middlewares to allow whitelisted IPs (until we have authentication)
       services:
-        - name: redis
+        - name: greenstar-redis
           port: client-tls
   tls:
     passthrough: true
