@@ -40,7 +40,7 @@ jobs:
       - id: whitelist
         run: echo "ips=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')" >> "$GITHUB_OUTPUT"
         env:
-          STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215/32"]'
+          STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215/32", "176.12.231.96/32"]'
       - run: |-
           yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(WHITELIST)' platform/traefik/server/helm-release.yaml
           yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist.yaml
