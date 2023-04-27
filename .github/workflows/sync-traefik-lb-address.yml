@@ -43,11 +43,12 @@ jobs:
           STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215/32"]'
       - run: |-
           yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(WHITELIST)' platform/traefik/server/helm-release.yaml
+          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist.yaml
         env:
           WHITELIST: ${{ steps.whitelist.outputs.ips }}
       - uses: EndBug/add-and-commit@v9
         with:
-          add: platform/traefik/server/helm-release.yaml
+          add: platform/traefik/server
           author_name: GitHub Actions
           author_email: <gha@kfirs.com>
           message: Sync GKE ingress IP whitelist addresses
