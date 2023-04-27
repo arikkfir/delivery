@@ -47,7 +47,7 @@ spec:
     kind: RunnerSet
     name: set-large
   minReplicas: 0
-  maxReplicas: 3
+  maxReplicas: 5
   scaleUpTriggers:
     - githubEvent:
         workflowJob: {}
