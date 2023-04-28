@@ -14,6 +14,6 @@ spec:
       services:
         - kind: Service
           name: webhook-receiver
-          port: http-webhook
+          port: http
   tls:
     secretName: webhook-flux-kfirs-com-tls
