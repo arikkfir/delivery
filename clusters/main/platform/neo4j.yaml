@@ -34,7 +34,7 @@ spec:
           path: /spec/name
           value: neo4j.main.kfirs.com.
         - op: replace
-          path: /spec/rrdatasRefs/0
+          path: /spec/rrdatasRefs/0/external
           value: traefik.main.kfirs.com.
       target:
         group: dns.cnrm.cloud.google.com
