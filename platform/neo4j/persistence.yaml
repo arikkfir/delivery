@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-backups
+  namespace: neo4j
 spec:
   accessModes:
     - ReadWriteOnce
@@ -14,7 +17,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-data
+  namespace: neo4j
 spec:
   accessModes:
     - ReadWriteOnce
@@ -27,7 +33,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-import
+  namespace: neo4j
 spec:
   accessModes:
     - ReadWriteOnce
@@ -40,7 +49,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-logs
+  namespace: neo4j
 spec:
   accessModes:
     - ReadWriteOnce
@@ -53,7 +65,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-metrics
+  namespace: neo4j
 spec:
   accessModes:
     - ReadWriteOnce
@@ -66,7 +81,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-plugins
+  namespace: neo4j
 spec:
   accessModes:
     - ReadWriteOnce

@@ -21,43 +21,7 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  patches:
-    - patch: |-
-        - op: replace
-          path: /spec/dnsNames/0
-          value: neo4j.main.kfirs.com
-      target:
-        group: cert-manager.io
-        version: v1
-        kind: Certificate
-        name: neo4j-kfirs-com
-    - patch: |-
-        - op: replace
-          path: /spec/name
-          value: neo4j.main.kfirs.com.
-        - op: replace
-          path: /spec/rrdatasRefs/0/external
-          value: traefik.main.kfirs.com.
-      target:
-        group: dns.cnrm.cloud.google.com
-        version: v1beta1
-        kind: DNSRecordSet
-        name: neo4j-kfirs-com-a
-    - patch: |-
-        - op: replace
-          path: /spec/routes/0/match
-          value: Host(`neo4j.main.kfirs.com`)
-      target:
-        group: traefik.containo.us
-        version: v1alpha1
-        kind: IngressRoute
-        name: neo4j-http-tls
-    - patch: |-
-        - op: replace
-          path: /spec/routes/0/match
-          value: HostSNI(`neo4j.main.kfirs.com`)
-      target:
-        group: traefik.containo.us
-        version: v1alpha1
-        kind: IngressRouteTCP
-        name: neo4j-tcp-tls
+  postBuild:
+    substitute:
+      gke_cluster_name: main
+      gke_cluster_region: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow

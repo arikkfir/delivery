@@ -1,14 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j
+  namespace: neo4j
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: neo4j
   replicas: 1
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -26,8 +27,6 @@ spec:
               value: "true"
             - name: NEO4J_db_lock_acquisition_timeout
               value: 10s
-            - name: NEO4J_initial_dbms_default__database
-              value: global
             - name: NEO4J_server_panic_shutdown__on__panic
               value: "true"
             - name: NEO4J_server_memory_heap_initial__size

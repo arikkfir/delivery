@@ -1,35 +1,44 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-kfirs-com
+  namespace: neo4j
 spec:
   secretName: neo4j-kfirs-com-tls
   issuerRef:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - neo4j.default.kfirs.com
+    - neo4j.${gke_cluster_name}.kfirs.com
 ---
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id: arikkfir
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-kfirs-com-a
+  namespace: neo4j
 spec:
-  name: neo4j.default.kfirs.com.
+  name: neo4j.${gke_cluster_name}.kfirs.com.
   type: CNAME
   ttl: 300
   managedZoneRef:
     namespace: dns
     name: kfirs-com
   rrdatasRefs:
-    - external: traefik.default.kfirs.com.
+    - external: traefik.${gke_cluster_name}.kfirs.com.
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j
+  namespace: neo4j
 spec:
   ports:
     - name: client
@@ -47,12 +56,15 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-http-tls
+  namespace: neo4j
 spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`neo4j.default.kfirs.com`)
+      match: Host(`neo4j.${gke_cluster_name}.kfirs.com`)
       middlewares:
         - name: ip-whitelist
           namespace: traefik
@@ -66,11 +78,14 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRouteTCP
 metadata:
+  labels:
+    app.kubernetes.io/name: neo4j
   name: neo4j-tcp-tls
+  namespace: neo4j
 spec:
   entryPoints: [bolt]
   routes:
-    - match: HostSNI(`neo4j.default.kfirs.com`)
+    - match: HostSNI(`neo4j.${gke_cluster_name}.kfirs.com`)
       middlewares:
         - name: ip-whitelist-tcp
           namespace: traefik
