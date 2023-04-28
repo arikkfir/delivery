@@ -81,12 +81,12 @@ spec:
       enableServiceLinks: false
       nodeSelector:
         gke.kfirs.com/purpose: workloads
+      serviceAccountName: greenstar-redis
       tolerations:
         - key: gke.kfirs.com/purpose
           operator: Equal
           value: workloads
           effect: NoExecute
-      serviceAccountName: greenstar-redis
       volumes:
         - name: data
           persistentVolumeClaim:
