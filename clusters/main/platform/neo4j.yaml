@@ -41,7 +41,6 @@ spec:
         version: v1beta1
         kind: DNSRecordSet
         name: neo4j-kfirs-com-a
-        namespace: neo4j
     - patch: |-
         - op: replace
           path: /spec/routes/0/match
