@@ -4,6 +4,7 @@ namespace: neo4j
 commonLabels:
   app.kubernetes.io/name: neo4j
 resources:
+  - namespace.yaml
   - rbac.yaml
   - persistence.yaml
   - service.yaml
