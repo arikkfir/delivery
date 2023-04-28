@@ -78,6 +78,7 @@ spec:
             - name: tls
               mountPath: /etc/redis/tls
               readOnly: true
+      enableServiceLinks: false
       nodeSelector:
         gke.kfirs.com/purpose: workloads
       tolerations:
