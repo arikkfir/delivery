@@ -1,0 +1,15 @@
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: delivery
+  namespace: flux-system
+spec:
+  type: github
+  events:
+    - "ping"
+    - "push"
+  secretRef:
+    name: fluxcd-github-webhook-secret
+  resources:
+    - kind: GitRepository
+      name: flux-system
