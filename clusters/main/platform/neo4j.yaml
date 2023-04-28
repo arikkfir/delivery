@@ -51,7 +51,6 @@ spec:
         version: v1alpha1
         kind: IngressRoute
         name: neo4j-http-tls
-        namespace: neo4j
     - patch: |-
         - op: replace
           path: /spec/routes/0/match
@@ -61,4 +60,3 @@ spec:
         version: v1alpha1
         kind: IngressRouteTCP
         name: neo4j-tcp-tls
-        namespace: neo4j
