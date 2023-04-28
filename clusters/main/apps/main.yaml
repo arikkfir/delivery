@@ -22,7 +22,7 @@ spec:
   timeout: 5m
   retryInterval: 1m
   force: true
-  path: apps/skeleton
+  path: apps
   targetNamespace: main
   prune: true
   sourceRef:
