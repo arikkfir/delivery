@@ -13,7 +13,7 @@ spec:
           namespace: traefik
       services:
         - kind: Service
-          name: webhook-notification-controller-webhook
+          name: webhook-receiver
           port: http-webhook
   tls:
     secretName: webhook-flux-kfirs-com-tls
