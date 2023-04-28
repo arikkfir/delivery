@@ -56,7 +56,7 @@ jobs:
         env:
           STATIC_IP_WHITELIST: '["85.64.218.35/32", "149.106.226.215/32"]'
       - run: |-
-          yq e -P -i '.spec.values.service.spec.loadBalancerIP=env(TRAEFIK_IP)' platform/traefik/server/helm-release.yaml
+          yq e -P -i '.spec.postBuild.substitute.gke_ingress_ip=env(TRAEFIK_IP)' clusters/main/platform/traefik-server.yaml
           yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(WHITELIST)' platform/traefik/server/helm-release.yaml
           yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist.yaml
           yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist-tcp.yaml
