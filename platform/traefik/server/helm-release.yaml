@@ -27,8 +27,7 @@ spec:
         - 85.64.218.35/32
         - 149.106.226.215/32
       spec:
-        loadBalancerIP: "34.165.10.103"
-
+        loadBalancerIP: 34.165.10.103
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
     disableWait: true
