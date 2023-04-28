@@ -31,9 +31,6 @@ spec:
   wait: true
   postBuild:
     substitute:
-      - name: env
-        value: main
-      - name: gke_cluster_name
-        value: main
-      - name: gke_cluster_region
-        value: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow
+      env: main
+      gke_cluster_name: main
+      gke_cluster_region: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow
