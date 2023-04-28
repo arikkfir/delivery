@@ -15,6 +15,7 @@ Delivery-as-Code for my infrastructure.
 - [ ] Considers replacing Traefik with Ambassador
   - Because it supports TLS termination for non-HTTP traffic (e.g. NATS, Neo4j, Redis)
   - See https://www.getambassador.io/docs/emissary/latest/topics/using/tcpmappings
+- [ ] Use [Kustomization substitutions](https://fluxcd.io/flux/components/kustomize/kustomization/#post-build-variable-substitution) instead of patches where appropriate
 - [ ] Expose Neo4j, Redis, NATS services externally
     - [ ] Expose additional ports in Traefik ingress service
     - [ ] Route TCP traffic based on ports to the core Neo4j, Redis, NATS `Service`

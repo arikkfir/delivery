@@ -1,0 +1,55 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: greenstar-kfirs-com
+spec:
+  secretName: greenstar-kfirs-com-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  dnsNames:
+    - greenstar.default.kfirs.com
+---
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: greenstar-kfirs-com-a
+spec:
+  name: greenstar.default.kfirs.com.
+  type: CNAME
+  ttl: 300
+  managedZoneRef:
+    namespace: dns
+    name: kfirs-com
+  rrdatasRefs:
+    - external: traefik.main.kfirs.com.
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: greenstar
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`greenstar.default.kfirs.com`) && (PathPrefix(`/auth`) || PathPrefix(`/api`))
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
+      services:
+        - name: greenstar-backend
+          port: http
+          kind: Service
+    - kind: Rule
+      match: Host(`greenstar.default.kfirs.com`) && !PathPrefix(`/auth`) && !PathPrefix(`/api`)
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
+      services:
+        - name: greenstar-frontend
+          port: http
+          kind: Service
+  tls:
+    secretName: greenstar-kfirs-com-tls
