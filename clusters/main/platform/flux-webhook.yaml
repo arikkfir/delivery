@@ -27,3 +27,4 @@ spec:
     substitute:
       gke_cluster_name: main
       gke_cluster_region: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow
+      gke_cluster_location: me-west1-a # TODO: infrastructure repository should update this value automatically via GitOps workflow
