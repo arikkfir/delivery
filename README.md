@@ -11,7 +11,7 @@ Delivery-as-Code for my infrastructure.
 ## ROADMAP
 
 - [x] Deploy [ARC](https://github.com/actions/actions-runner-controller)
-- [ ] Add a FluxCD webhook to trigger a delivery
+- [x] Add a FluxCD webhook to trigger a delivery
 - [x] ~~Considers replacing Traefik with Ambassador~~
   - Because it supports TLS termination for non-HTTP traffic (e.g. NATS, Neo4j, Redis)
   - See https://www.getambassador.io/docs/emissary/latest/topics/using/tcpmappings
