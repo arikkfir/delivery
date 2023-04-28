@@ -11,6 +11,8 @@ spec:
     - name: traefik
   interval: 5m
   timeout: 10m
+  retryInterval: 1m
+  force: true
   path: platform/traefik/dashboard
   prune: true
   sourceRef:

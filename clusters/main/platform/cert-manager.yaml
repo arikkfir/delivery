@@ -7,7 +7,9 @@ spec:
   dependsOn:
     - name: cnrm
   interval: 5m
-  timeout: 10m
+  timeout: 5m
+  retryInterval: 1m
+  force: true
   path: platform/cert-manager
   prune: true
   sourceRef:

@@ -8,7 +8,9 @@ spec:
     - name: cert-manager
     - name: cnrm
   interval: 5m
-  timeout: 10m
+  timeout: 5m
+  retryInterval: 5m
+  force: true
   path: platform/dns
   prune: true
   sourceRef:

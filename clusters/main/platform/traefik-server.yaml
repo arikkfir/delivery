@@ -7,7 +7,9 @@ spec:
   dependsOn:
     - name: cnrm
   interval: 5m
-  timeout: 20m # LoadBalancer service might take a little while to sync in GCP
+  timeout: 10m # LoadBalancer service might take a little while to sync in GCP
+  retryInterval: 1m
+  force: true
   path: platform/traefik/server
   prune: true
   sourceRef:
