@@ -12,11 +12,11 @@ Delivery-as-Code for my infrastructure.
 
 - [x] Deploy [ARC](https://github.com/actions/actions-runner-controller)
 - [ ] Add a FluxCD webhook to trigger a delivery
-- [ ] Considers replacing Traefik with Ambassador
+- [x] ~~Considers replacing Traefik with Ambassador~~
   - Because it supports TLS termination for non-HTTP traffic (e.g. NATS, Neo4j, Redis)
   - See https://www.getambassador.io/docs/emissary/latest/topics/using/tcpmappings
-- [ ] Use [Kustomization substitutions](https://fluxcd.io/flux/components/kustomize/kustomization/#post-build-variable-substitution) instead of patches where appropriate
+- [x] Use [Kustomization substitutions](https://fluxcd.io/flux/components/kustomize/kustomization/#post-build-variable-substitution) instead of patches where appropriate
 - [ ] Install [Weaveworks GitOps](https://docs.gitops.weave.works/)
-- [ ] Expose Neo4j, Redis, NATS services externally
-    - [ ] Expose additional ports in Traefik ingress service
-    - [ ] Route TCP traffic based on ports to the core Neo4j, Redis, NATS `Service`
+- [x] Expose Neo4j, Redis, NATS services externally
+    - [x] Expose additional ports in Traefik ingress service
+    - [x] Route TCP traffic based on ports to the core Neo4j, Redis, NATS `Service`
