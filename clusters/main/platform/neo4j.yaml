@@ -28,6 +28,7 @@ spec:
         group: cert-manager.io
         version: v1
         kind: Certificate
+        name: neo4j-kfirs-com
     - patch: |-
         - op: replace
           path: /spec/name
