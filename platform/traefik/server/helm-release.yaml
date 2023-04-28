@@ -28,7 +28,7 @@ spec:
         - 149.106.226.215/32
       spec:
         # TODO: move traefik LB IP to kustomization substitutions
-        loadBalancerIP: 34.165.10.103
+        loadBalancerIP: 34.165.202.152
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
     disableWait: true
