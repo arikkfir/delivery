@@ -53,7 +53,7 @@ spec:
   routes:
     - match: HostSNI(`greenstar-redis.default.kfirs.com`)
       middlewares:
-        - name: ip-whitelist
+        - name: ip-whitelist-tcp
           namespace: traefik
       services:
         - name: greenstar-redis

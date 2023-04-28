@@ -44,6 +44,7 @@ jobs:
       - run: |-
           yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(WHITELIST)' platform/traefik/server/helm-release.yaml
           yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist.yaml
+          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist-tcp.yaml
         env:
           WHITELIST: ${{ steps.whitelist.outputs.ips }}
       - uses: EndBug/add-and-commit@v9
