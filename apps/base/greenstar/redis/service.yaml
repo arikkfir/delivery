@@ -41,7 +41,6 @@ spec:
       protocol: TCP
       targetPort: client-tls
   selector:
-    app.kubernetes.io/name: greenstar
     app.kubernetes.io/component: redis
   type: ClusterIP
 ---
