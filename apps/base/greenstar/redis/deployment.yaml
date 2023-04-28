@@ -51,7 +51,6 @@ spec:
             successThreshold: 1
             failureThreshold: 3
             periodSeconds: 5
-            terminationGracePeriodSeconds: 60
             timeoutSeconds: 5
           livenessProbe:
             exec:
