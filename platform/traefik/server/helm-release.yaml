@@ -27,7 +27,7 @@ spec:
         - 85.64.218.35/32
         - 149.106.226.215/32
       spec:
-        loadBalancerIP: "${gke_ingress_ip}"
+        loadBalancerIP: ${gke_ingress_ip}
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
     disableWait: true
