@@ -1,12 +1,6 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  labels:
-    app.kubernetes.io/component: notification-controller
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v2.0.0-rc.1
-    control-plane: controller
   name: webhook-flux-kfirs-com
   namespace: flux-system
 spec:

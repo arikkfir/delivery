@@ -1,12 +1,6 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  labels:
-    app.kubernetes.io/component: notification-controller
-    app.kubernetes.io/instance: flux-system
-    app.kubernetes.io/part-of: flux
-    app.kubernetes.io/version: v2.0.0-rc.1
-    control-plane: controller
   name: webhook-flux-http-tls
   namespace: flux-system
 spec:
