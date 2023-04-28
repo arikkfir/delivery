@@ -9,4 +9,4 @@ spec:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - traefik.kfirs.com
+    - traefik.${gke_cluster_name}.kfirs.com

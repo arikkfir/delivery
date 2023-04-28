@@ -20,24 +20,9 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  patches:
-    - patch: |-
-        - op: replace
-          path: /spec/dnsNames/0
-          value: traefik.main.kfirs.com
-      target:
-        group: cert-manager.io
-        version: v1
-        kind: Certificate
-        name: traefik-kfirs-com
-        namespace: traefik
-    - patch: |-
-        - op: replace
-          path: /spec/routes/0/match
-          value: Host(`traefik.main.kfirs.com`)
-      target:
-        group: traefik.containo.us
-        version: v1alpha1
-        kind: IngressRoute
-        name: dashboard-https
-        namespace: traefik
+  postBuild:
+    substitute:
+      - name: gke_cluster_name
+        value: main
+      - name: gke_cluster_region
+        value: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow

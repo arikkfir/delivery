@@ -7,7 +7,7 @@ spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`traefik.kfirs.com`)
+      match: Host(`traefik.${gke_cluster_name}.kfirs.com`)
       services:
         - kind: TraefikService
           name: api@internal

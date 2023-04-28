@@ -17,24 +17,9 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: true
-  patches:
-    - patch: |-
-        - op: replace
-          path: /spec/resourceID
-          value: gke-ingress-main
-      target:
-        group: compute.cnrm.cloud.google.com
-        version: v1beta1
-        kind: ComputeAddress
-        name: gke-ingress
-        namespace: traefik
-    - patch: |-
-        - op: replace
-          path: /spec/name
-          value: traefik.main.kfirs.com.
-      target:
-        group: dns.cnrm.cloud.google.com
-        version: v1beta1
-        kind: DNSRecordSet
-        name: traefik-kfirs-com-a
-        namespace: traefik
+  postBuild:
+    substitute:
+      - name: gke_cluster_name
+        value: main
+      - name: gke_cluster_region
+        value: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow
