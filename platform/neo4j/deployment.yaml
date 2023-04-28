@@ -57,7 +57,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 5
             terminationGracePeriodSeconds: 60
-            timeoutSeconds: 5
+            timeoutSeconds: 15
           readinessProbe:
             exec:
               command:
@@ -67,7 +67,7 @@ spec:
             successThreshold: 1
             failureThreshold: 3
             periodSeconds: 5
-            timeoutSeconds: 5
+            timeoutSeconds: 15
           livenessProbe:
             exec:
               command:
@@ -78,7 +78,7 @@ spec:
             failureThreshold: 3
             periodSeconds: 10
             terminationGracePeriodSeconds: 60
-            timeoutSeconds: 5
+            timeoutSeconds: 15
           resources:
             limits:
               cpu: 2000m
