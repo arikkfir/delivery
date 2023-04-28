@@ -10,6 +10,7 @@ spec:
     - name: cnrm
     - name: dns
     - name: traefik
+  force: true
   interval: 5m
   timeout: 10m
   path: platform/neo4j
