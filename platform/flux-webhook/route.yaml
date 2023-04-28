@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  labels:
+    app.kubernetes.io/component: notification-controller
+    app.kubernetes.io/instance: flux-system
+    app.kubernetes.io/part-of: flux
+    app.kubernetes.io/version: v2.0.0-rc.1
+    control-plane: controller
+  name: webhook-flux-http-tls
+  namespace: flux-system
+spec:
+  entryPoints: [websecure]
+  routes:
+    - kind: Rule
+      match: Host(`webhook.flux.${gke_cluster_name}.kfirs.com`)
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
+      services:
+        - kind: Service
+          name: webhook-notification-controller-webhook
+          port: http-webhook
+  tls:
+    secretName: webhook-flux-kfirs-com-tls
