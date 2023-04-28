@@ -54,19 +54,31 @@ spec:
                 - --non-interactive
                 - SHOW DATABASES
             failureThreshold: 30
-            periodSeconds: 10
+            periodSeconds: 5
             terminationGracePeriodSeconds: 60
-            timeoutSeconds: 60
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - /var/lib/neo4j/bin/cypher-shell
+                - --non-interactive
+                - SHOW DATABASES
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 5
+            terminationGracePeriodSeconds: 60
+            timeoutSeconds: 5
           livenessProbe:
             exec:
               command:
                 - /var/lib/neo4j/bin/cypher-shell
                 - --non-interactive
                 - SHOW DATABASES
+            successThreshold: 1
             failureThreshold: 3
             periodSeconds: 10
             terminationGracePeriodSeconds: 60
-            timeoutSeconds: 60
+            timeoutSeconds: 5
           resources:
             limits:
               cpu: 500m
@@ -94,7 +106,14 @@ spec:
               name: plugins
               readOnly: false
       enableServiceLinks: false
+      nodeSelector:
+        gke.kfirs.com/purpose: workloads
       serviceAccountName: neo4j
+      tolerations:
+        - key: gke.kfirs.com/purpose
+          operator: Equal
+          value: workloads
+          effect: NoExecute
       volumes:
         - name: backups
           persistentVolumeClaim:

@@ -1,0 +1,65 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: neo4j
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager
+    - name: cert-manager-issuer
+    - name: cnrm
+    - name: dns
+    - name: traefik
+  interval: 5m
+  timeout: 10m
+  path: platform/neo4j
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  patches:
+    - patch: |-
+        - op: replace
+          path: /spec/dnsNames/0
+          value: neo4j.main.kfirs.com
+      target:
+        group: cert-manager.io
+        version: v1
+        kind: Certificate
+        name: neo4j-kfirs-com
+        namespace: neo4j
+    - patch: |-
+        - op: replace
+          path: /spec/name
+          value: neo4j.main.kfirs.com.
+        - op: replace
+          path: /spec/rrdatasRefs/0
+          value: traefik.main.kfirs.com.
+      target:
+        group: dns.cnrm.cloud.google.com
+        version: v1beta1
+        kind: DNSRecordSet
+        name: neo4j-kfirs-com-a
+        namespace: neo4j
+    - patch: |-
+        - op: replace
+          path: /spec/routes/0/match
+          value: Host(`neo4j.main.kfirs.com`)
+      target:
+        group: traefik.containo.us
+        version: v1alpha1
+        kind: IngressRoute
+        name: neo4j-http-tls
+        namespace: neo4j
+    - patch: |-
+        - op: replace
+          path: /spec/routes/0/match
+          value: HostSNI(`neo4j.main.kfirs.com`)
+      target:
+        group: traefik.containo.us
+        version: v1alpha1
+        kind: IngressRouteTCP
+        name: neo4j-tcp-tls
+        namespace: neo4j

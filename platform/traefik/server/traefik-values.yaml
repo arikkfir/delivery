@@ -94,6 +94,18 @@ data:
         advertisedPort: 6380
         tls:
           enabled: true
+      bolt:
+        port: 7688
+        containerPort: 7688
+        expose: true
+        exposedPort: 7688
+        targetPort: 7688
+        protocol: TCP
+        http3:
+          enabled: false
+        advertisedPort: 7688
+        tls:
+          enabled: true
     service:
       spec:
         externalTrafficPolicy: Local
