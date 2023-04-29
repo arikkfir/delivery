@@ -38,7 +38,7 @@ spec:
         app.kubernetes.io/component: backend
     spec:
       containers:
-        - image: ghcr.io/arikkfir/greenstar/backend
+        - image: ghcr.io/arikkfir/greenstar/backend:046ae41
           name: backend
           env:
             - name: LOG_LEVEL
@@ -52,9 +52,9 @@ spec:
             - name: AUTH_GOOGLE_CALLBACK_URL
               value: "http://localhost/auth/google/callback"
             - name: NEO4J_HOST
-              value: neo4j
+              value: neo4j.neo4j.svc.cluster.local
             - name: REDIS_HOST
-              value: redis
+              value: greenstar-redis
             - name: AUTH_GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:

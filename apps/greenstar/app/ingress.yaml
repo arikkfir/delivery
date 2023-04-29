@@ -8,7 +8,7 @@ spec:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - greenstar.default.kfirs.com
+    - greenstar.${env}.kfirs.com
 ---
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
@@ -17,7 +17,7 @@ metadata:
     cnrm.cloud.google.com/project-id: arikkfir
   name: greenstar-kfirs-com-a
 spec:
-  name: greenstar.default.kfirs.com.
+  name: greenstar.${env}.kfirs.com.
   type: CNAME
   ttl: 300
   managedZoneRef:
@@ -34,7 +34,7 @@ spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`greenstar.default.kfirs.com`) && (PathPrefix(`/auth`) || PathPrefix(`/api`))
+      match: Host(`greenstar.${env}.kfirs.com`) && (PathPrefix(`/auth`) || PathPrefix(`/api`))
       middlewares:
         - name: ip-whitelist
           namespace: traefik
@@ -43,7 +43,7 @@ spec:
           port: http
           kind: Service
     - kind: Rule
-      match: Host(`greenstar.default.kfirs.com`) && !PathPrefix(`/auth`) && !PathPrefix(`/api`)
+      match: Host(`greenstar.${env}.kfirs.com`) && !PathPrefix(`/auth`) && !PathPrefix(`/api`)
       middlewares:
         - name: ip-whitelist
           namespace: traefik

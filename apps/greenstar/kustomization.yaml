@@ -6,5 +6,5 @@ commonLabels:
 
 resources:
   - nats
-  #  - neo4j
   - redis
+  - app
