@@ -24,7 +24,7 @@ spec:
     namespace: dns
     name: kfirs-com
   rrdatasRefs:
-    - external: traefik.main.kfirs.com.
+    - external: traefik.${gke_cluster_name}.kfirs.com.
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
