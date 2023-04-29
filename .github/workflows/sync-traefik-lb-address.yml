@@ -19,6 +19,8 @@ env:
   GCP_CLI_VERSION: 426.0.0
   GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
+  GKE_CLUSTER_NAME: main
+  GKE_CLUSTER_LOCATION: me-west1-a
 
 concurrency:
   group: production
@@ -43,8 +45,8 @@ jobs:
           version: ${{ env.GCP_CLI_VERSION }}
       - uses: google-github-actions/get-gke-credentials@v0
         with:
-          cluster_name: main # TODO: infer from infrastructure
-          location: me-west1-a # TODO: infer from infrastructure
+          cluster_name: ${{ env.GKE_CLUSTER_NAME }}
+          location: ${{ env.GKE_CLUSTER_LOCATION }}
       - run: |
           sudo curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
           sudo chmod +x /usr/local/bin/yq
