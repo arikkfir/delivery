@@ -15,7 +15,7 @@
                     <option name="path" value=".github/workflows/sync-traefik-lb-address.yml" />
                   </Item>
                   <Item>
-                    <option name="path" value=".github/workflows/sync-gke-cluster-info.yaml" />
+                    <option name="path" value=".github/workflows/sync-gke-cluster-info.yml" />
                   </Item>
                 </list>
               </option>
