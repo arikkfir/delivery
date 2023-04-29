@@ -22,6 +22,7 @@ spec:
     namespace: flux-system
   wait: true
   postBuild:
-    substitute:
-      gke_cluster_name: main
-      gke_cluster_region: me-west1 # TODO: infrastructure repository should update this value automatically via GitOps workflow
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-info
+        optional: false
