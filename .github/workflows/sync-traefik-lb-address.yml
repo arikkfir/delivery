@@ -16,7 +16,7 @@ env:
   GCP_CLI_VERSION: 426.0.0
   GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
-  GKE_CLUSTER_NAME: main2
+  GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
 concurrency:
   group: production
