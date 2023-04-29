@@ -36,6 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          repository: arik-kfir/delivery
           token: ${{ secrets.SYNC_GKE_CLUSTER_INFO_PAT }}
       - run: |-
           yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' .github/workflows/sync-traefik-lb-address.yml
