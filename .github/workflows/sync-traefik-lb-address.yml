@@ -1,19 +1,16 @@
 name: Sync Traefik LoadBalancer IP address
-
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"
+    - cron: 0 * * * *
   push:
     branches:
       - main
     paths:
       - .github/workflows/sync-traefik-lb-address.yml
-
 defaults:
   run:
     shell: bash -exuo pipefail {0}
-
 env:
   FLUXCD_VERSION: 2.0.0-rc.1
   GCP_CLI_VERSION: 426.0.0
@@ -21,11 +18,9 @@ env:
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
-
 concurrency:
   group: production
   cancel-in-progress: false
-
 jobs:
   sync-traefik-lb:
     name: Sync Traefik LoadBalancer
