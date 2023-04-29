@@ -1,0 +1,49 @@
+name: Sync GKE cluster info
+
+on:
+  workflow_call:
+    inputs:
+      gke_cluster_name:
+        type: string
+        description: GKE cluster name
+        required: true
+      gke_cluster_location:
+        type: string
+        description: GKE cluster location (can be region or zone, depending on cluster type)
+        required: true
+  workflow_dispatch:
+    inputs:
+      gke_cluster_name:
+        type: string
+        description: GKE cluster name
+        required: true
+      gke_cluster_location:
+        type: string
+        description: GKE cluster location (can be region or zone, depending on cluster type)
+        required: true
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+jobs:
+
+  sync-delivery-repository:
+    name: Sync GKE cluster info
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - run: |-
+          yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' .github/workflows/sync-traefik-lb-address.yml
+          yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' .github/workflows/sync-traefik-lb-address.yml
+        env:
+          GKE_CLUSTER_NAME: ${{ inputs.gke_cluster_name }}
+          GKE_CLUSTER_LOCATION: ${{ inputs.gke_cluster_location }}
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: .github/workflows/sync-traefik-lb-address.yml
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: Sync GKE cluster info in workflows
