@@ -55,7 +55,7 @@ jobs:
           fi
           keys=($(yq e 'keys | .[]' images.yaml))
           for KEY in "${keys[@]}"; do
-            TAG=$(yq e ".${KEY}" images.yaml)
+            TAG=$(yq e ".\"${KEY}\"" images.yaml)
             KEY="${KEY}" TAG="${TAG}" yq e -P -i 'select(.kind=="Kustomization") |= del( .spec.images[] | select(.name == env(KEY)) )' "${ENV_FILE}"
             KEY="${KEY}" TAG="${TAG}" yq e -P -i 'select(.kind=="Kustomization").spec.images += [{"name":env(KEY),"newTag":env(TAG)}]' "${ENV_FILE}"
           done
