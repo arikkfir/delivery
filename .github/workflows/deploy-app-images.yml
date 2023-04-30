@@ -1,0 +1,55 @@
+name: Deploy app images
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Target application environment (usually corresponds to a source branch name; e.g. "main").
+        required: true
+      images:
+        type: string
+        description: |
+          Map of images to deploy, in YAML format of "image: tag" pairs, for example:
+          ```
+          my-image: newTag
+          my-2nd-image: new2ndTag
+          ```
+        required: true
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+jobs:
+
+  update:
+    name: Update files
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: arik-kfir/delivery
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: |-
+          if [[ ! -f "${ENV_FILE}" ]]; then
+            cat etc/env-template.yaml | envsubst > "${ENV_FILE}"
+          fi
+          keys=($(yq e 'keys | .[]' images.yaml))
+          for KEY in "${keys[@]}"; do
+            TAG=$(yq e ".${KEY}" images.yaml)
+            yq e -P -i 'select(.kind=="Kustomization") | del( .spec.images[] | select(.name == env(KEY)) )' "${ENV_FILE}"
+            yq e -P -i 'select(.kind=="Kustomization").spec.images += {name:env(KEY),newTag:env(TAG)}' "${ENV_FILE}"
+          done
+        env:
+          ENV_FILE: clusters/main/apps/${{ inputs.environment }}.yaml
+          ENVIRONMENT: ${{ inputs.environment }}
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: clusters/main/apps/${{ inputs.environment }}.yaml
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: Update images for "${{ inputs.environment }}" environment
