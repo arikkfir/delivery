@@ -1,0 +1,51 @@
+name: Delete application environment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        description: Target application environment to delete (usually corresponds to a source branch name; e.g. "main").
+        required: true
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+jobs:
+
+  slug-environment:
+    name: "Slug"
+    runs-on: ubuntu-22.04
+    outputs:
+      slug: ${{ steps.slug.outputs.slug }}
+    steps:
+      - id: slug
+        run: |
+          SLUG=$(echo -n "${{ inputs.environment }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
+          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+
+  delete:
+    name: Delete Environment
+    needs: slug-environment
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    environment: ${{ needs.slug-environment.outputs.slug }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: arik-kfir/delivery
+          token: ${{ secrets.DEPLOY_APPS_PAT }}
+      - run: |-
+          if [[ -f "${ENV_FILE}" ]]; then
+            rm -fv "${ENV_FILE}"
+          fi
+        env:
+          ENV_FILE: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
+      - uses: EndBug/add-and-commit@v9
+        with:
+          add: clusters/main/apps
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: Delete application environment "${{ inputs.environment }}"
