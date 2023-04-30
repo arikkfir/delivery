@@ -9,7 +9,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: apps-arik-simplify-deployment
-  namespace: arik-simplify-deployment
+  namespace: default
 spec:
   dependsOn:
     - name: cert-manager
