@@ -23,12 +23,24 @@ defaults:
 
 jobs:
 
+  slug-environment:
+    name: "Slug"
+    runs-on: ubuntu-22.04
+    outputs:
+      slug: ${{ steps.slug.outputs.slug }}
+    steps:
+      - id: slug
+        run: |
+          SLUG=$(echo -n "${{ inputs.environment }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
+          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+
   update:
     name: Update files
+    needs: slug-environment
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-    environment: ${{ inputs.environment }}
+    environment: ${{ needs.slug-environment.outputs.slug }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -48,11 +60,11 @@ jobs:
             yq e -P -i 'select(.kind=="Kustomization").spec.images += {name:env(KEY),newTag:env(TAG)}' "${ENV_FILE}"
           done
         env:
-          ENV_FILE: clusters/main/apps/${{ inputs.environment }}.yaml
-          ENVIRONMENT: ${{ inputs.environment }}
+          ENV_FILE: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
+          ENVIRONMENT: ${{ needs.slug-environment.outputs.slug }}
       - uses: EndBug/add-and-commit@v9
         with:
-          add: clusters/main/apps/${{ inputs.environment }}.yaml
+          add: clusters/main/apps
           author_name: GitHub Actions
           author_email: <gha@kfirs.com>
           message: Update images for "${{ inputs.environment }}" environment
