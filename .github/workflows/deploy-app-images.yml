@@ -35,6 +35,9 @@ jobs:
           repository: arik-kfir/delivery
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: |-
+          cat > images.yaml <<EOF
+          ${{ inputs.images }}
+          EOF
           if [[ ! -f "${ENV_FILE}" ]]; then
             cat etc/env-template.yaml | envsubst > "${ENV_FILE}"
           fi
