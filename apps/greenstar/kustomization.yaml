@@ -5,6 +5,5 @@ commonLabels:
   app.kubernetes.io/name: greenstar
 
 resources:
-  - nats
   - redis
   - app
