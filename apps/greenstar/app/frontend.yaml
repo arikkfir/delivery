@@ -42,11 +42,7 @@ spec:
           name: frontend
           env:
             - name: AUTH_GOOGLE_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  key: GOOGLE_CLIENT_SECRET
-                  name: greenstar-google-app
-                  optional: false
+              value: bad_value
           startupProbe:
             httpGet:
               port: http
