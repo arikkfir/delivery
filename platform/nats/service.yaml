@@ -1,0 +1,44 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nats-kfirs-com
+spec:
+  secretName: nats-kfirs-com-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  dnsNames:
+    - nats.${gke_cluster_name}.kfirs.com
+---
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: nats-kfirs-com-a
+spec:
+  name: nats.${gke_cluster_name}.kfirs.com.
+  type: CNAME
+  ttl: 300
+  managedZoneRef:
+    namespace: dns
+    name: kfirs-com
+  rrdatasRefs:
+    - external: traefik.${gke_cluster_name}.kfirs.com.
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: nats-tls-tcp
+spec:
+  entryPoints: [nats]
+  routes:
+    - match: HostSNI(`nats.${gke_cluster_name}.kfirs.com`)
+      middlewares:
+        - name: ip-whitelist-tcp
+          namespace: traefik
+      services:
+        - name: nats
+          port: client
+  tls:
+    secretName: nats-kfirs-com-tls
