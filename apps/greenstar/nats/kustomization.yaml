@@ -4,5 +4,6 @@ commonLabels:
   app.kubernetes.io/component: nats
 resources:
   - helm-repository.yaml
-  - helm-release.yaml
+  - helm-release-nats.yaml
+  - helm-release-nack.yaml
   - service.yaml
