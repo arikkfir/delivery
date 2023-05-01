@@ -69,4 +69,4 @@ spec:
               cpu: 200m
               memory: 64Mi
       enableServiceLinks: false
-      serviceAccountName: frontend
+      serviceAccountName: greenstar-frontend
