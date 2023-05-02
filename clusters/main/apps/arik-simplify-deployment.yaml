@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: arik-simplify-deployment
+    branch: arik/simplify-deployment
   secretRef:
     name: flux-system
   url: ssh://git@github.com/arik-kfir/greenstar
