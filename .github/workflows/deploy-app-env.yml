@@ -3,18 +3,13 @@ name: Deploy to application environment
 on:
   workflow_call:
     inputs:
+      branch:
+        type: string
+        description: Source branch to monitor for deployment.
+        required: true
       environment:
         type: string
         description: Target application environment to deploy to (usually corresponds to a source branch name; e.g. "main").
-        required: true
-      images:
-        type: string
-        description: |
-          Map of images to deploy, in YAML format of "image: tag" pairs, for example:
-          ```
-          my-image: newTag
-          my-2nd-image: new2ndTag
-          ```
         required: true
 
 defaults:
@@ -47,19 +42,11 @@ jobs:
           repository: arik-kfir/delivery
           token: ${{ secrets.DEPLOY_APPS_PAT }}
       - run: |-
-          cat > images.yaml <<EOF
-          ${{ inputs.images }}
-          EOF
           if [[ ! -f "${ENV_FILE}" ]]; then
             cat etc/env-template.yaml | envsubst > "${ENV_FILE}"
           fi
-          keys=($(yq e 'keys | .[]' images.yaml))
-          for KEY in "${keys[@]}"; do
-            TAG=$(yq e ".\"${KEY}\"" images.yaml)
-            KEY="${KEY}" TAG="${TAG}" yq e -P -i 'select(.kind=="Kustomization") |= del( .spec.images[] | select(.name == env(KEY)) )' "${ENV_FILE}"
-            KEY="${KEY}" TAG="${TAG}" yq e -P -i 'select(.kind=="Kustomization").spec.images += [{"name":env(KEY),"newTag":env(TAG)}]' "${ENV_FILE}"
-          done
         env:
+          BRANCH: ${{ inputs.branch }}
           ENV_FILE: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
           ENVIRONMENT: ${{ needs.slug-environment.outputs.slug }}
       - uses: EndBug/add-and-commit@v9

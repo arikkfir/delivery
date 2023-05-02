@@ -1,3 +1,16 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: greenstar-arik-simplify-deployment
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: arik-simplify-deployment
+  secretRef:
+    name: flux-system
+  url: ssh://git@github.com/arik-kfir/greenstar
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -22,12 +35,12 @@ spec:
   timeout: 5m
   retryInterval: 1m
   force: true
-  path: apps
+  path: deploy/cluster
   targetNamespace: arik-simplify-deployment
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: greenstar-arik-simplify-deployment
     namespace: flux-system
   wait: true
   postBuild:
@@ -37,8 +50,3 @@ spec:
       - kind: ConfigMap
         name: cluster-info
         optional: false
-  images:
-    - name: ghcr.io/arik-kfir/greenstar/backend
-      newTag: 7c1fe7eb87699a6fba7ab39d7c4936558bc3ef19
-    - name: ghcr.io/arik-kfir/greenstar/frontend
-      newTag: 7c1fe7eb87699a6fba7ab39d7c4936558bc3ef19

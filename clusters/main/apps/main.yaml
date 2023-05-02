@@ -1,3 +1,16 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: greenstar-main
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  secretRef:
+    name: flux-system
+  url: ssh://git@github.com/arik-kfir/greenstar
+---
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -22,7 +35,7 @@ spec:
   timeout: 5m
   retryInterval: 1m
   force: true
-  path: apps
+  path: deploy/cluster
   targetNamespace: main
   prune: true
   sourceRef:
