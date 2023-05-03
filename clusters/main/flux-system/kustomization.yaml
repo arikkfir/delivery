@@ -36,6 +36,10 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/args/4
         value: --enable-leader-election=false
+    target:
+      kind: Deployment
+      name: '(source-controller|helm-controller|kustomize-controller|image-automation-controller|image-reflector-controller)'
+  - patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --requeue-dependency=5s
