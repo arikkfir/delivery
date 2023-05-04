@@ -56,18 +56,22 @@ jobs:
           if [[ -f "${ENV_FILE}" ]]; then
             yq e '.spec.images[] | {.name: .newTag}' "${ENV_FILE}" > current-images.yaml
           fi
+          cat current-images.yaml
           
           # Create map of new image patches (these are "overrides" to add to the existing patches)
           cat > new-images.yaml <<EOF
           ${{ inputs.images }}
           EOF
+          cat new-images.yaml
           
           # Merge the two image maps to the final list of image overrides for this environment
           yq ea 'select(fi==0) * select(fi==1) | to_entries | .[] | [{"name":.key, "newTag": .value}]' current-images.yaml new-images.yaml > final-images.yaml
+          cat final-images.yaml
           
           # Recreate the environment kustomization with the final list of image overrides
           cat etc/env-template.yaml | envsubst > "${ENV_FILE}"
           yq e -i '.spec.images=load("final-images.yaml")' "${ENV_FILE}"
+          cat "${ENV_FILE}"
         env:
           BRANCH: ${{ inputs.branch }}
           ENV_FILE: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
