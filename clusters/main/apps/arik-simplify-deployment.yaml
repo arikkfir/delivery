@@ -29,4 +29,8 @@ spec:
       - kind: ConfigMap
         name: cluster-info
         optional: false
-  images: []
+  images:
+    - name: ghcr.io/arik-kfir/greenstar/backend
+      newTag: 61e844a72389bf03231c3954904548c655628b43
+    - name: ghcr.io/arik-kfir/greenstar/frontend
+      newTag: 61e844a72389bf03231c3954904548c655628b43
