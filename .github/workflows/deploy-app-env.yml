@@ -3,10 +3,6 @@ name: Deploy to application environment
 on:
   workflow_call:
     inputs:
-      branch:
-        type: string
-        description: Source branch to monitor for deployment.
-        required: true
       environment:
         type: string
         description: Target application environment to deploy to (usually corresponds to a source branch name; e.g. "main").
@@ -69,7 +65,6 @@ jobs:
           cat etc/env-template.yaml | envsubst > "${ENV_FILE}"
           yq e -i '.spec.images=load("final-images.yaml")' "${ENV_FILE}"
         env:
-          BRANCH: ${{ inputs.branch }}
           ENV_FILE: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
           ENVIRONMENT: ${{ needs.slug-environment.outputs.slug }}
       - uses: EndBug/add-and-commit@v9
