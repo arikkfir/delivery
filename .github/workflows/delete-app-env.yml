@@ -45,7 +45,7 @@ jobs:
           ENV_FILE: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
       - uses: EndBug/add-and-commit@v9
         with:
-          add: clusters/main/apps
+          add: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
           author_name: GitHub Actions
           author_email: <gha@kfirs.com>
           message: Delete application environment "${{ inputs.environment }}"

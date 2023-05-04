@@ -1,0 +1,95 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../base
+  - ingress.yaml
+patches:
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: greenstar-redis
+    patch: |-
+      - op: add
+        path: /spec/ports/-
+        value:
+          name: client-tls
+          port: 6380
+          protocol: TCP
+          targetPort: client-tls
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          gke.kfirs.com/purpose: workloads
+      - op: replace
+        path: /spec/template/spec/tolerations
+        value:
+          - key: gke.kfirs.com/purpose
+            operator: Equal
+            value: workloads
+            effect: NoExecute
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: greenstar-redis
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: REDIS_ARGS
+          value: >-
+            --tls-auth-clients=no
+            --tls-replication=no
+            --tls-cluster=no
+            --tls-port 6380
+            --tls-cert-file /etc/redis/tls/tls.crt
+            --tls-key-file /etc/redis/tls/tls.key
+      - op: add
+        path: /spec/template/spec/containers/0/ports/-
+        value:
+          containerPort: 6380
+          name: client-tls
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: tls
+          mountPath: /etc/redis/tls
+          readOnly: true
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: tls
+          secret:
+            secretName: greenstar-redis-kfirs-com-tls
+            optional: false
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: greenstar-backend
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: LOG_LEVEL
+          value: info
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: DEV_MODE
+          value: "false"
+#      - op: replace
+#        path: /spec/template/spec/containers/0/env/2/value
+#        value: "https://greenstar.${env}.kfirs.com"
+#      - op: replace
+#        path: /spec/template/spec/containers/0/env/3/value
+#        value: "https://greenstar.${env}.kfirs.com"
+#      - op: replace
+#        path: /spec/template/spec/containers/0/env/4/value
+#        value: "https://greenstar.${env}.kfirs.com/auth/google/callback"
