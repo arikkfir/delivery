@@ -54,7 +54,7 @@ jobs:
           # Create map of existing image patches
           touch current-images.yaml
           if [[ -f "${ENV_FILE}" ]]; then
-            yq e '.spec.images[] | {.name: .newTag}' kustomization.yaml > current-images.yaml
+            yq e '.spec.images[] | {.name: .newTag}' "${ENV_FILE}" > current-images.yaml
           fi
           
           # Create map of new image patches (these are "overrides" to add to the existing patches)
