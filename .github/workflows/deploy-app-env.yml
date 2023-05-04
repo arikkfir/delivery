@@ -51,17 +51,6 @@ jobs:
           repository: arik-kfir/delivery
           token: ${{ secrets.DEPLOY_APPS_PAT }}
       - run: |
-          echo "event_name=${{ github.event_name }}"
-          echo "head_ref=${{ github.head_ref }}"
-          echo "job_workflow_sha=${{ github.job_workflow_sha }}"
-          echo "ref=${{ github.ref }}"
-          echo "ref_name=${{ github.ref_name }}"
-          echo "repository=${{ github.repository }}"
-          echo "repository_owner=${{ github.repository_owner }}"
-          echo "sha=${{ github.sha }}"
-          echo "workflow_sha=${{ github.workflow_sha }}"
-          echo "===================================================================="
-      - run: |
           # Create map of existing image patches
           touch current-images.yaml
           if [[ -f "${ENV_FILE}" ]]; then
