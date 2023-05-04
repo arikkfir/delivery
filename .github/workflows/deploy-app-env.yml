@@ -72,4 +72,11 @@ jobs:
           add: clusters/main/apps/${{ needs.slug-environment.outputs.slug }}.yaml
           author_name: GitHub Actions
           author_email: <gha@kfirs.com>
-          message: Deploy to application environment "${{ inputs.environment }}"
+          message: |-
+            Deployment to "${{ needs.slug-environment.outputs.slug }}" from "${{ github.repository }}" 
+            
+            Target environment: ${{ needs.slug-environment.outputs.slug }} (${{ inputs.environment }})
+            Source repository:  ${{ github.repository }}
+            Source branch/tag:  ${{ github.ref_name }}
+            Images:
+            ${{ inputs.images }}
