@@ -22,7 +22,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: apps-${ENVIRONMENT}
-  namespace: ${ENVIRONMENT}
+  namespace: default
 spec:
   dependsOn:
     - name: cert-manager
