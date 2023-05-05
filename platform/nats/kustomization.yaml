@@ -4,6 +4,7 @@ namespace: nats
 resources:
   - namespace.yaml
   - helm-repository.yaml
-  - helm-release-nats.yaml
+  - https://github.com/nats-io/nack//deploy/crds.yml?ref=v0.10.1
   - helm-release-nack.yaml
+  - helm-release-nats.yaml
   - service.yaml
