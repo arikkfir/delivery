@@ -1,0 +1,91 @@
+apiVersion: jetstream.nats.io/v1beta2
+kind: Account
+metadata:
+  name: greenstar
+spec:
+  name: greenstar
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: greenstar-admin
+spec:
+  account: greenstar
+  name: greenstar-admin
+  description: Greenstar administration messages stream.
+  subjects:
+    - "greenstar.admin.>"
+  storage: file
+  retention: workqueue
+  discard: new
+  duplicateWindow: 24h
+  replicas: 1
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: greenstar-admin-api
+spec:
+  account: greenstar
+  streamName: greenstar-admin
+  filterSubject: "greenstar.admin.api"
+  durableName: greenstar-admin-api
+  ackPolicy: explicit
+  ackWait: 5m
+  deliverGroup: greenstar-admin-api
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: greenstar-operations
+spec:
+  account: greenstar
+  name: greenstar-operations
+  description: Greenstar operations messages stream.
+  subjects:
+    - "greenstar.operations.>"
+  storage: file
+  retention: workqueue
+  discard: new
+  duplicateWindow: 24h
+  replicas: 1
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: greenstar-operations-api
+spec:
+  account: greenstar
+  streamName: greenstar-operations
+  filterSubject: "greenstar.operations.api"
+  durableName: greenstar-operations-api
+  ackPolicy: explicit
+  ackWait: 5m
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: greenstar-public
+spec:
+  account: greenstar
+  name: greenstar-public
+  description: Greenstar public messages stream.
+  subjects:
+    - "greenstar.public.>"
+  storage: file
+  retention: workqueue
+  discard: new
+  duplicateWindow: 24h
+  replicas: 1
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: greenstar-public-api
+spec:
+  account: greenstar
+  streamName: greenstar-public
+  filterSubject: "greenstar.public.api"
+  durableName: greenstar-public-api
+  ackPolicy: explicit
+  ackWait: 5m

@@ -5,3 +5,4 @@ commonLabels:
 resources:
   - backend.yaml
   - frontend.yaml
+  - streams.yaml
