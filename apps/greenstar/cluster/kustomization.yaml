@@ -45,9 +45,9 @@ patches:
         value:
           name: REDIS_ARGS
           value: >-
-            --tls-auth-clients=no
-            --tls-replication=no
-            --tls-cluster=no
+            --tls-auth-clients no
+            --tls-replication no
+            --tls-cluster no
             --tls-port 6380
             --tls-cert-file /etc/redis/tls/tls.crt
             --tls-key-file /etc/redis/tls/tls.key
