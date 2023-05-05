@@ -40,7 +40,6 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-    environment: ${{ needs.slug-environment.outputs.slug }}
     steps:
       - uses: actions/checkout@v3
         with:
