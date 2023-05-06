@@ -85,6 +85,11 @@ patches:
         value:
           name: DEV_MODE
           value: "false"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: NEO4J_HOST
+          value: neo4j.neo4j.svc.cluster.local
 #      - op: replace
 #        path: /spec/template/spec/containers/0/env/2/value
 #        value: "https://greenstar.${env}.kfirs.com"
