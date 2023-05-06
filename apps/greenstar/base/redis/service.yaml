@@ -9,5 +9,5 @@ spec:
       protocol: TCP
       targetPort: client-nontls
   selector:
-    app.kubernetes.io/component: redis
+    app.kubernetes.io/name: redis
   type: ClusterIP
