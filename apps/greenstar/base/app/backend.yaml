@@ -40,9 +40,7 @@ spec:
       containers:
         - image: ghcr.io/arik-kfir/greenstar/backend:latest
           name: backend
-          env:
-            - name: REDIS_HOST
-              value: greenstar-redis
+          env: []
           startupProbe:
             httpGet:
               port: http
