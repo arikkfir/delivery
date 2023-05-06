@@ -6,19 +6,6 @@ resources:
   - streams.yaml
 patches:
   - target:
-      group: ""
-      version: v1
-      kind: Service
-      name: greenstar-redis
-    patch: |-
-      - op: add
-        path: /spec/ports/-
-        value:
-          name: client-tls
-          port: 6380
-          protocol: TCP
-          targetPort: client-tls
-  - target:
       group: apps
       version: v1
       kind: Deployment
@@ -34,6 +21,19 @@ patches:
             operator: Equal
             value: workloads
             effect: NoExecute
+  - target:
+      group: ""
+      version: v1
+      kind: Service
+      name: greenstar-redis
+    patch: |-
+      - op: add
+        path: /spec/ports/-
+        value:
+          name: client-tls
+          port: 6380
+          protocol: TCP
+          targetPort: client-tls
   - target:
       group: apps
       version: v1
