@@ -106,18 +106,6 @@ data:
         advertisedPort: 7688
         tls:
           enabled: true
-      nats:
-        port: 4222
-        containerPort: 4222
-        expose: true
-        exposedPort: 4222
-        targetPort: 4222
-        protocol: TCP
-        http3:
-          enabled: false
-        advertisedPort: 4222
-        tls:
-          enabled: true
     service:
       spec:
         externalTrafficPolicy: Local
