@@ -41,44 +41,8 @@ data:
           defaultMode: keep
           general:
             defaultmode: keep
-    #        names:
-    #          StartUTC: keep # The time at which request processing started.
-    #          StartLocal: drop # The local time at which request processing started.
-    #          Duration: keep # The total time taken (in nanoseconds) by processing the response, including the origin server's time but not the log writing time.
-    #          RouterName: keep # The name of the Traefik router.
-    #          ServiceName: keep # The name of the Traefik backend.
-    #          ServiceURL: keep # The URL of the Traefik backend.
-    #          ServiceAddr: keep # The IP:port of the Traefik backend (extracted from ServiceURL)
-    #          ClientAddr: keep # The remote address in its original form (usually IP:port).
-    #          ClientHost: keep # The remote IP address from which the client request was received.
-    #          ClientPort: keep # The remote TCP port from which the client request was received.
-    #          ClientUsername: drop # The username provided in the URL, if present.
-    #          RequestAddr: keep # The HTTP Host header (usually IP:port). This is treated as not a header by the Go API.
-    #          RequestHost: keep # The HTTP Host server name (not including port).
-    #          RequestPort: keep # The TCP port from the HTTP Host.
-    #          RequestMethod: keep # The HTTP method.
-    #          RequestPath: keep # The HTTP request URI, not including the scheme, host or port.
-    #          RequestProtocol: keep # The version of HTTP requested.
-    #          RequestScheme: keep # The HTTP scheme requested http or https.
-    #          RequestLine: keep # RequestMethod + RequestPath + RequestProtocol
-    #          RequestContentSize: keep # The number of bytes in the request entity (a.k.a. body) sent by the client.
-    #          OriginDuration: keep # The time taken (in nanoseconds) by the origin server ('upstream') to return its response.
-    #          OriginContentSize: drop # The content length specified by the origin server, or 0 if unspecified.
-    #          OriginStatus: keep # HTTP status code returned by the origin server. If the request was handled by this Traefik instance (e.g. with a redirect), then this value will be absent.
-    #          OriginStatusLine: keep # OriginStatus + Status code explanation
-    #          DownstreamStatus: keep # The HTTP status code returned to the client.
-    #          DownstreamStatusLine: keep # DownstreamStatus + Status code explanation
-    #          DownstreamContentSize: keep # Number of bytes in the response returned to the client. This is in addition to the "Content-Length" header, which may be present in the origin response.
-    #          RequestCount: drop # The number of requests received since the Traefik instance started.
-    #          GzipRatio: drop # The response body compression ratio achieved.
-    #          Overhead: drop # The processing time overhead (in nanoseconds) caused by Traefik.
-    #          RetryAttempts: keep # The amount of attempts the request was retried.
-    #          TLSVersion: keep # The TLS version used by the connection (e.g. 1.2) (if connection is TLS).
-    #          TLSCipher: keep # The TLS cipher used by the connection (e.g. TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA) (if connection is TLS)
           headers:
             defaultmode: keep
-    #        names:
-    #          Authorization: drop
     ports:
       web:
         redirectTo: websecure
