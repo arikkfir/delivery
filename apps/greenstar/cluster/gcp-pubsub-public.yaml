@@ -1,0 +1,41 @@
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+kind: PubSubTopic
+metadata:
+  name: greenstar-${env}-public
+spec:
+  messageRetentionDuration: "7d"
+  messageStoragePolicy:
+    allowedPersistenceRegions:
+      - me-west1
+---
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+kind: PubSubTopic
+metadata:
+  name: greenstar-${env}-public-dl
+spec:
+  messageRetentionDuration: "30d"
+  messageStoragePolicy:
+    allowedPersistenceRegions:
+      - me-west1
+---
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+kind: PubSubSubscription
+metadata:
+  name: greenstar-${env}-public-backend
+spec:
+  ackDeadlineSeconds: 600
+  deadLetterPolicy:
+    deadLetterTopicRef:
+      name: greenstar-${env}-public-dl
+    maxDeliveryAttempts: 10
+  enableExactlyOnceDelivery: true
+  enableMessageOrdering: true
+  expirationPolicy:
+    ttl: ""
+  messageRetentionDuration: "1d"
+  retainAckedMessages: false
+  retryPolicy:
+    maximumBackoff: "600"
+    minimumBackoff: "5"
+  topicRef:
+    name: greenstar-${env}-public

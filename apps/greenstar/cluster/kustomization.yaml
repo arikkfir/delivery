@@ -3,7 +3,9 @@ kind: Kustomization
 resources:
   - ../base
   - ingress.yaml
-  - streams.yaml
+  - gcp-pubsub-admin.yaml
+  - gcp-pubsub-operations.yaml
+  - gcp-pubsub-public.yaml
 patches:
   - target:
       group: apps
