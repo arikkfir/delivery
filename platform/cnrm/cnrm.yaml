@@ -10,6 +10,7 @@ apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
   name: gcp-pubsub-bigquery
+  namespace: default
 spec:
   member: serviceAccount:service-${gcp_project_number}@gcp-sa-pubsub.iam.gserviceaccount.com
   role: roles/bigquery.dataEditor
