@@ -3,7 +3,7 @@ kind: PubSubTopic
 metadata:
   name: greenstar-${env}-operations
 spec:
-  messageRetentionDuration: "7d"
+  messageRetentionDuration: 604800s # 7 days
   messageStoragePolicy:
     allowedPersistenceRegions:
       - me-west1
@@ -13,7 +13,7 @@ kind: PubSubTopic
 metadata:
   name: greenstar-${env}-operations-dl
 spec:
-  messageRetentionDuration: "30d"
+  messageRetentionDuration: 2592000s # 30 days
   messageStoragePolicy:
     allowedPersistenceRegions:
       - me-west1
@@ -32,10 +32,10 @@ spec:
   enableMessageOrdering: true
   expirationPolicy:
     ttl: ""
-  messageRetentionDuration: "1d"
+  messageRetentionDuration: 86400s # 1 day
   retainAckedMessages: false
   retryPolicy:
-    maximumBackoff: "600"
-    minimumBackoff: "5"
+    maximumBackoff: 600s
+    minimumBackoff: 5s
   topicRef:
     name: greenstar-${env}-operations
