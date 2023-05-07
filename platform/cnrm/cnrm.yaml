@@ -5,3 +5,15 @@ metadata:
 spec:
   mode: cluster
   googleServiceAccount: config-connector@arik-kfir.iam.gserviceaccount.com
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: gcp-pubsub-bigquery
+spec:
+  member: serviceAccount:service-${gcp_project_number}@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/bigquery.dataEditor
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/arik-kfir
