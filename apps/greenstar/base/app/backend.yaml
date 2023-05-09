@@ -70,4 +70,3 @@ spec:
       enableServiceLinks: false
       serviceAccountName: greenstar-backend
       volumes: []
-
