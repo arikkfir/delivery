@@ -66,5 +66,8 @@ spec:
             requests:
               cpu: 100m
               memory: 16Mi
+          volumeMounts: []
       enableServiceLinks: false
       serviceAccountName: greenstar-backend
+      volumes: []
+
