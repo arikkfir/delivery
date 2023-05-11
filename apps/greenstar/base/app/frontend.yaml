@@ -58,7 +58,7 @@ spec:
             terminationGracePeriodSeconds: 10
             timeoutSeconds: 1
           ports:
-            - containerPort: 3000
+            - containerPort: 80
               name: http
           resources:
             limits:
