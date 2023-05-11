@@ -28,6 +28,7 @@ metadata:
     app.kubernetes.io/component: backend
   name: greenstar-backend
 spec:
+  progressDeadlineSeconds: 300
   selector:
     matchLabels:
       app.kubernetes.io/component: backend
