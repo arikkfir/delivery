@@ -6,6 +6,7 @@ resources:
   - gcp-pubsub-admin.yaml
   - gcp-pubsub-operations.yaml
   - gcp-pubsub-public.yaml
+  - secrets.yaml
 patches:
   - target:
       group: apps
