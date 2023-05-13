@@ -31,6 +31,6 @@ spec:
         optional: false
   images:
     - name: ghcr.io/arik-kfir/greenstar/backend
-      newTag: 02a304ea1d556de59af0a19326921a1378144415
+      newTag: 8e50628366adbf57dac769fb9735f93bcd711b3f
     - name: ghcr.io/arik-kfir/greenstar/frontend
-      newTag: 02a304ea1d556de59af0a19326921a1378144415
+      newTag: 8e50628366adbf57dac769fb9735f93bcd711b3f
