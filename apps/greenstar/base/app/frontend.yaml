@@ -41,7 +41,13 @@ spec:
       containers:
         - image: ghcr.io/arik-kfir/greenstar/frontend:latest
           name: frontend
-          env: []
+          env:
+            - name: REACT_APP_AUTH0_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: greenstar-secrets
+                  key: auth0_domain
+                  optional: false
           startupProbe:
             httpGet:
               port: http
