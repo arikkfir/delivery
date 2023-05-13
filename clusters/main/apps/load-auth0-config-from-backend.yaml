@@ -1,0 +1,36 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: apps-load-auth0-config-from-backend
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager
+    - name: cert-manager-issuer
+    - name: cnrm
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  timeout: 5m
+  retryInterval: 1m
+  force: true
+  path: apps
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  postBuild:
+    substitute:
+      env: load-auth0-config-from-backend
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-info
+        optional: false
+  images:
+    - name: ghcr.io/arik-kfir/greenstar/backend
+      newTag: fc2d966ebba7b3e6ab9964cae10ab0813d693961
+    - name: ghcr.io/arik-kfir/greenstar/frontend
+      newTag: fc2d966ebba7b3e6ab9964cae10ab0813d693961
