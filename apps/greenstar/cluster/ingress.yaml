@@ -15,7 +15,7 @@ kind: DNSRecordSet
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id: arikkfir
-  name: greenstar-redis-kfirs-com-a
+  name: greenstar-redis-kfirs-com-cname
 spec:
   name: redis.greenstar.${env}.kfirs.com.
   type: CNAME
@@ -44,6 +44,34 @@ spec:
     passthrough: true
     secretName: greenstar-redis-kfirs-com-tls
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: greenstar-app-kfirs-com
+spec:
+  secretName: greenstar-app-kfirs-com-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  dnsNames:
+    - "*.greenstar.${env}.kfirs.com"
+---
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: greenstar-app-kfirs-com-cname
+spec:
+  name: "*.greenstar.${env}.kfirs.com."
+  type: CNAME
+  ttl: 300
+  managedZoneRef:
+    namespace: dns
+    name: kfirs-com
+  rrdatasRefs:
+    - external: traefik.${gke_cluster_name}.kfirs.com.
+---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -52,7 +80,7 @@ spec:
   entryPoints: [websecure]
   routes:
     - kind: Rule
-      match: Host(`greenstar.${env}.kfirs.com`) && (PathPrefix(`/auth`) || PathPrefix(`/api`))
+      match: HostRegexp(`{tenant:[a-zA-Z][a-zA-Z0-9_-]*}.greenstar.${env}.kfirs.com`) && (PathPrefix(`/auth`) || PathPrefix(`/api`))
       middlewares:
         - name: ip-whitelist
           namespace: traefik
@@ -61,7 +89,7 @@ spec:
           port: http
           kind: Service
     - kind: Rule
-      match: Host(`greenstar.${env}.kfirs.com`) && !PathPrefix(`/auth`) && !PathPrefix(`/api`)
+      match: HostRegexp(`{tenant:[a-zA-Z][a-zA-Z0-9_-]*}.greenstar.${env}.kfirs.com`) && !PathPrefix(`/auth`) && !PathPrefix(`/api`)
       middlewares:
         - name: ip-whitelist
           namespace: traefik
@@ -70,4 +98,4 @@ spec:
           port: http
           kind: Service
   tls:
-    secretName: greenstar-kfirs-com-tls
+    secretName: greenstar-app-kfirs-com-tls
