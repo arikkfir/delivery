@@ -118,3 +118,8 @@ patches:
         value:
           name: GCP_PUBLIC_SUBSCRIPTION
           value: greenstar-${env}-public-backend
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: HTTP_CORS_ALLOWED_ORIGINS
+          value: "https://*.greenstar.${env}.kfirs.com"
