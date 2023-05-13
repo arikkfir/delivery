@@ -93,3 +93,23 @@ patches:
         value:
           name: NEO4J_HOST
           value: neo4j.neo4j.svc.cluster.local
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: GCP_PROJECT_ID
+          value: ${gcp_project_id}
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: GCP_ADMIN_SUBSCRIPTION
+          value: greenstar-${env}-admin-backend
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: GCP_OPERATIONS_SUBSCRIPTION
+          value: greenstar-${env}-operations-backend
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: GCP_PUBLIC_SUBSCRIPTION
+          value: greenstar-${env}-public-backend
