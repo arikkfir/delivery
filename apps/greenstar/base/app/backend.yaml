@@ -60,6 +60,12 @@ spec:
                   name: greenstar-secrets
                   key: auth0_api_client_secret
                   optional: false
+            - name: AUTH_AUTH0_APP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: greenstar-secrets
+                  key: auth0_app_client_id
+                  optional: false
           startupProbe:
             httpGet:
               port: http
