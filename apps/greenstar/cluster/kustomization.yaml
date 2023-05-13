@@ -96,6 +96,11 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/env/-
         value:
+          name: NEO4J_PORT
+          value: "7687"
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
           name: GCP_PROJECT_ID
           value: ${gcp_project_id}
       - op: add
