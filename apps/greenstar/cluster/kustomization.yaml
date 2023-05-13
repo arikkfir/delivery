@@ -3,11 +3,21 @@ kind: Kustomization
 resources:
   - ../base
   - ingress.yaml
+  - gcp-iam-backend.yaml
   - gcp-pubsub-admin.yaml
   - gcp-pubsub-operations.yaml
   - gcp-pubsub-public.yaml
   - secrets.yaml
 patches:
+  - target:
+      group: ""
+      version: v1
+      kind: ServiceAccount
+      name: greenstar-backend
+    patch: |-
+      - op: add
+        path: "/metadata/annotations/iam.gke.io~1gcp-service-account"
+        value: gs-bck-${env:0:23}@arik-kfir.iam.gserviceaccount.com
   - target:
       group: apps
       version: v1
