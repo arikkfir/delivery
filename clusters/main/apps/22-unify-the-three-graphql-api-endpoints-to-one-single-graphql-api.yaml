@@ -1,0 +1,36 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: apps-22-unify-the-three-graphql-api-endpoints-to-one-single-graphql-api
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager
+    - name: cert-manager-issuer
+    - name: cnrm
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  timeout: 5m
+  retryInterval: 1m
+  force: true
+  path: apps
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  postBuild:
+    substitute:
+      env: 22-unify-the-three-graphql-api-endpoints-to-one-single-graphql-api
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-info
+        optional: false
+  images:
+    - name: ghcr.io/arik-kfir/greenstar/backend
+      newTag: c475947a416ecff1e5388f98b753323b4725b76e
+    - name: ghcr.io/arik-kfir/greenstar/frontend
+      newTag: c475947a416ecff1e5388f98b753323b4725b76e
