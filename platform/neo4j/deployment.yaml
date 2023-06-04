@@ -32,9 +32,9 @@ spec:
             - name: NEO4J_server_panic_shutdown__on__panic
               value: "true"
             - name: NEO4J_server_memory_heap_initial__size
-              value: 256m
+              value: 1024m
             - name: NEO4J_server_memory_heap_max__size
-              value: 256m
+              value: 1024m
             - name: NEO4J_server_memory_off__heap_max__size
               value: 256m
             - name: NEO4J_server_memory_pagecache_size
