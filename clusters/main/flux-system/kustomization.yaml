@@ -3,3 +3,38 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+patches:
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=20
+    target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=flux
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/args/2
+        value: --log-level=debug
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --requeue-dependency=10s
+    target:
+      kind: Deployment
+      name: '(source-controller|helm-controller|kustomize-controller)'
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --feature-gates=AllowDNSLookups=true,DetectDrift=true,OOMWatch=true
+    target:
+      kind: Deployment
+      name: helm-controller
+#  - patch: |
+#      - op: add
+#        path: /metadata/annotations
+#        value:
+#          iam.gke.io/gcp-service-account: flux-notification-controller@arik-kfir.iam.gserviceaccount.com
+#    target:
+#      group: ""
+#      version: v1
+#      kind: ServiceAccount
+#      labelSelector: app.kubernetes.io/component=notification-controller
