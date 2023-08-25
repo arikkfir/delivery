@@ -16,46 +16,9 @@ patches:
               gke.kfirs.com/purpose: workloads
             tolerations:
               - effect: NoExecute
-                key: gke.kfirs.com/purpose
+                key: node.kfirs.com/role
                 operator: Equal
-                value: workloads
+                value: work
     target:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=flux
-  - patch: |
-      - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: --concurrent=20
-    target:
-      kind: Deployment
-      labelSelector: app.kubernetes.io/part-of=flux
-  - patch: |
-      - op: replace
-        path: /spec/template/spec/containers/0/args/2
-        value: --log-level=debug
-      - op: replace
-        path: /spec/template/spec/containers/0/args/4
-        value: --enable-leader-election=false
-      - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: --requeue-dependency=5s
-    target:
-      kind: Deployment
-      name: '(source-controller|helm-controller|kustomize-controller)'
-  - patch: |
-      - op: add
-        path: /spec/template/spec/containers/0/args/-
-        value: --feature-gates=AllowDNSLookups=true,OOMWatch=true
-    target:
-      kind: Deployment
-      name: helm-controller
-  - patch: |
-      - op: add
-        path: /metadata/annotations
-        value:
-          iam.gke.io/gcp-service-account: flux-notification-controller@arik-kfir.iam.gserviceaccount.com
-    target:
-      group: ""
-      version: v1
-      kind: ServiceAccount
-      labelSelector: app.kubernetes.io/component=notification-controller
