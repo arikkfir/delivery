@@ -22,6 +22,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: yellow-mint-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - "10 aspmx.l.google.com."
     - "20 alt1.aspmx.l.google.com."
@@ -42,6 +43,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: yellow-mint-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - "\"google-site-verification=O1bnEargTjdOdUMcpWvuMeDg4wuFFr-szWsCfijOPiU\""
 ---
@@ -58,6 +60,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: yellow-mint-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - 23.236.62.147
 ---
@@ -74,5 +77,6 @@ spec:
   ttl: 300
   managedZoneRef:
     name: yellow-mint-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - www80.wixdns.net.

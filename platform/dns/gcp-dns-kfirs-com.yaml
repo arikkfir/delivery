@@ -22,6 +22,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirs-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - "10 aspmx.l.google.com."
     - "20 alt1.aspmx.l.google.com."
@@ -42,6 +43,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirs-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - "\"google-site-verification=y-YsxIliC1sD5JyFKoa3hW6iEenSgpWvvaN-VAgBaJE\""
     - "\"google-site-verification=JWU6IFxHRHNe6tJpD16tv1ufQBR2_LPMxlTsZDdOzq4\""
@@ -59,6 +61,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirs-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - 185.199.108.153
     - 185.199.109.153
@@ -78,6 +81,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirs-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - arikkfir.github.io.
 ---
@@ -94,6 +98,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirs-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - www80.wixdns.net.
 ---
@@ -110,5 +115,6 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirs-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - www80.wixdns.net.

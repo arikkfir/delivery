@@ -22,6 +22,7 @@ spec:
   ttl: 300
   managedZoneRef:
     name: kfirfamily-com
+  # noinspection KubernetesDeprecatedKeys
   rrdatas:
     - "10 aspmx.l.google.com."
     - "20 alt1.aspmx.l.google.com."
