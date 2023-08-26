@@ -4,7 +4,7 @@ metadata:
   name: config-connector-operator
   namespace: default
 spec:
-  interval: 1m
+  interval: 5m
   path: platform/config-connector/operator
   prune: true
   sourceRef:
@@ -21,7 +21,7 @@ metadata:
 spec:
   dependsOn:
     - name: config-connector-operator
-  interval: 1m
+  interval: 5m
   path: platform/config-connector/manager
   prune: true
   sourceRef:
