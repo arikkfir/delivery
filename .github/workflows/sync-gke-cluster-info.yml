@@ -43,9 +43,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
-        with:
-          repository: arikkfir/delivery
-          token: ${{ secrets.SYNC_GKE_CLUSTER_INFO_PAT }}
       - run: |-
           yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' .github/workflows/sync-traefik-lb-address.yml
           yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' .github/workflows/sync-traefik-lb-address.yml
@@ -61,47 +58,3 @@ jobs:
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: Sync GKE cluster info in workflows
-
-  apply-fluxcd:
-    name: Apply FluxCD
-    needs: sync-gke-cluster-info
-    runs-on: ubuntu-22.04
-    timeout-minutes: 30
-    permissions:
-      id-token: write
-    env:
-      FLUXCD_VERSION: 2.1.0
-      GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
-      GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
-    steps:
-      - uses: actions/checkout@v3
-      - uses: google-github-actions/auth@v1
-        with:
-          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
-      - uses: google-github-actions/setup-gcloud@v1
-        with:
-          version: ${{ env.GCP_CLI_VERSION }}
-      - uses: google-github-actions/get-gke-credentials@v1
-        with:
-          cluster_name: ${{ inputs.gke_cluster_name }}
-          location: ${{ inputs.gke_cluster_location }}
-      - uses: fluxcd/flux2/action@main
-        with:
-          version: ${{ env.FLUXCD_VERSION }}
-      - run: |
-          flux bootstrap github \
-            --interval 5m \
-            --owner arikkfir \
-            --repository delivery \
-            --read-write-key \
-            --branch main \
-            --path clusters/${GKE_CLUSTER_NAME} \
-            --reconcile \
-            --author-email flux@kfirs.com \
-            --author-name "FluxCD Bot" \
-            --timeout 30m \
-            --version=v${FLUXCD_VERSION}
-        env:
-          GITHUB_TOKEN: ${{ secrets.FLUXCD_PAT }}
-          GKE_CLUSTER_NAME: ${{ inputs.gke_cluster_name }}

@@ -1,0 +1,73 @@
+name: Apply FluxCD
+
+on:
+  workflow_call:
+    inputs:
+      gke_cluster_name:
+        type: string
+        description: GKE cluster name
+        required: true
+      gke_cluster_location:
+        type: string
+        description: GKE cluster location (can be region or zone, depending on cluster type)
+        required: true
+  workflow_dispatch:
+    inputs:
+      gke_cluster_name:
+        type: string
+        description: GKE cluster name
+        required: true
+      gke_cluster_location:
+        type: string
+        description: GKE cluster location (can be region or zone, depending on cluster type)
+        required: true
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+jobs:
+
+  bootstrap:
+    name: Bootstrap
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    permissions:
+      id-token: write
+    env:
+      FLUXCD_VERSION: 2.1.0
+      GCP_CLI_VERSION: 443.0.0
+      GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
+      GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
+    steps:
+      - uses: actions/checkout@v3
+      - uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: ${{ env.GCP_CLI_VERSION }}
+      - uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ inputs.gke_cluster_name }}
+          location: ${{ inputs.gke_cluster_location }}
+      - uses: fluxcd/flux2/action@main
+        with:
+          version: ${{ env.FLUXCD_VERSION }}
+      - run: |
+          flux bootstrap github \
+            --interval 5m \
+            --owner arikkfir \
+            --repository delivery \
+            --read-write-key \
+            --branch main \
+            --path clusters/${GKE_CLUSTER_NAME} \
+            --reconcile \
+            --author-email flux@kfirs.com \
+            --author-name "FluxCD Bot" \
+            --timeout 30m \
+            --version=v${FLUXCD_VERSION}
+        env:
+          GITHUB_TOKEN: ${{ secrets.FLUXCD_PAT }}
+          GKE_CLUSTER_NAME: ${{ inputs.gke_cluster_name }}
