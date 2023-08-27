@@ -23,7 +23,7 @@ apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
   name: flux-notification-controller-secret-viewer
-  namespace: cert-manager
+  namespace: flux-system
 spec:
   memberFrom:
     serviceAccountRef:
@@ -39,7 +39,7 @@ apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
   name: flux-notification-controller-secret-accessor
-  namespace: cert-manager
+  namespace: flux-system
 spec:
   memberFrom:
     serviceAccountRef:
