@@ -41,6 +41,8 @@ jobs:
       GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: arikkfir/delivery
       - uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
