@@ -6,11 +6,11 @@ metadata:
   name: webhook-flux-kfirs-com-a
   namespace: flux-system
 spec:
-  name: webhook.flux.${gke_cluster_name}.kfirs.com.
+  name: webhook.flux.kfirs.com.
   type: CNAME
   ttl: 300
   managedZoneRef:
     namespace: dns
     name: kfirs-com
   rrdatasRefs:
-    - external: traefik.${gke_cluster_name}.kfirs.com.
+    - external: traefik.kfirs.com.

@@ -9,4 +9,4 @@ spec:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - webhook.flux.${gke_cluster_name}.kfirs.com
+    - webhook.flux.kfirs.com

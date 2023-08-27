@@ -28,3 +28,13 @@ patches:
     target:
       kind: Deployment
       name: helm-controller
+  - patch: |
+      - op: add
+        path: /metadata/annotations
+        value:
+          iam.gke.io/gcp-service-account: flux-notification-controller@arikkfir.iam.gserviceaccount.com
+    target:
+      group: ""
+      version: v1
+      kind: ServiceAccount
+      labelSelector: app.kubernetes.io/component=notification-controller

@@ -1,0 +1,52 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: flux-notification-controller
+  namespace: flux-system
+spec:
+  displayName: FluxCD Notifications Controller
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: flux-notification-controller-ksa-link
+  namespace: flux-system
+spec:
+  member: serviceAccount:arikkfir.svc.id.goog[flux-system/notification-controller]
+  role: roles/iam.workloadIdentityUser
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: flux-notification-controller
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: flux-notification-controller-secret-viewer
+  namespace: cert-manager
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: flux-notification-controller
+      namespace: flux-system
+  role: roles/secretmanager.viewer
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: SecretManagerSecret
+    external: projects/8909046976/secrets/fluxcd-github-webhook-secret
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: flux-notification-controller-secret-accessor
+  namespace: cert-manager
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: flux-notification-controller
+      namespace: flux-system
+  role: roles/secretmanager.secretAccessor
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: SecretManagerSecret
+    external: projects/8909046976/secrets/fluxcd-github-webhook-secret
