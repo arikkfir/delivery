@@ -23,7 +23,8 @@ spec:
         entryPoints:
           - websecure
         middlewares:
-          - ip-whitelist
+          - name: ip-whitelist
+            namespace: traefik
         tls:
           secretName: traefik-kfirs-com-tls
     providers:
