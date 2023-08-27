@@ -1,24 +1,30 @@
-apiVersion: v1
-kind: ConfigMap
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
 metadata:
-  name: traefik-values
+  name: traefik
   namespace: traefik
-data:
-  values.yaml: |
-    nodeSelector:
-      gke.kfirs.com/purpose: workloads
-    tolerations:
-      - effect: NoExecute
-        key: gke.kfirs.com/purpose
-        operator: Equal
-        value: workloads
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik
+      version: 24.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+  values:
+    deployment:
+    ingressClass:
+      enabled: true
+      isDefaultClass: true
     ingressRoute:
       dashboard:
-        enabled: false
-    readinessProbe:
-      periodSeconds: 120
-    livenessProbe:
-      periodSeconds: 120
+        enabled: true
+        matchRule: Host(`traefik.kfirs.com`)
+        entryPoints: [websecure]
+        middlewares: [ip-whitelist]
+        tls:
+          secretName: traefik-kfirs-com-tls
     providers:
       kubernetesCRD:
         enabled: true
@@ -29,7 +35,6 @@ data:
         enabled: true
         allowExternalNameServices: true
         allowEmptyServices: true
-        ingressClass: traefik
     logs:
       general:
         format: json
@@ -38,41 +43,40 @@ data:
         enabled: true
         format: json
         fields:
-          defaultMode: keep
           general:
             defaultmode: keep
           headers:
             defaultmode: keep
+            names:
+              Authorization: redact
+    metrics:
+      prometheus:
+        entryPoint: metrics
     ports:
       web:
         redirectTo: websecure
       redis:
-        port: 6380
-        containerPort: 6380
+        port: 6379
+        containerPort: 6379
         expose: true
-        exposedPort: 6380
-        targetPort: 6380
-        protocol: TCP
-        http3:
-          enabled: false
-        advertisedPort: 6380
+        exposedPort: 6379
+        targetPort: 6379
+        advertisedPort: 6379
         tls:
           enabled: true
       bolt:
-        port: 7688
-        containerPort: 7688
+        port: 7687
+        containerPort: 7687
         expose: true
-        exposedPort: 7688
-        targetPort: 7688
-        protocol: TCP
-        http3:
-          enabled: false
-        advertisedPort: 7688
+        exposedPort: 7687
+        targetPort: 7687
+        advertisedPort: 7687
         tls:
           enabled: true
     service:
       spec:
         externalTrafficPolicy: Local
+        loadBalancerIP: 1.2.3.4
     autoscaling:
       enabled: true
       minReplicas: 1
@@ -104,3 +108,15 @@ data:
       limits:
         cpu: 500m
         memory: 200Mi
+    nodeSelector:
+      node.kfirs.com/role: work
+    tolerations:
+      - effect: NoExecute
+        key: node.kfirs.com/role
+        operator: Equal
+        value: work
+  # This prevents "reconciliation failed: install retries exhausted" errors
+#  install:
+#    disableWait: true
+#  upgrade:
+#    disableWait: true

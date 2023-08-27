@@ -1,8 +1,8 @@
 name: Sync Traefik LoadBalancer IP address
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 0 * * * *
+#  schedule:
+#    - cron: 0 * * * *
   push:
     branches:
       - main
@@ -12,10 +12,9 @@ defaults:
   run:
     shell: bash -exuo pipefail {0}
 env:
-  FLUXCD_VERSION: 2.0.0-rc.1
-  GCP_CLI_VERSION: 426.0.0
-  GCP_SERVICE_ACCOUNT: delivery@arik-kfir.iam.gserviceaccount.com
-  GCP_WORKLOAD_IDENTITY_PROVIDER: projects/887552287733/locations/global/workloadIdentityPools/github-actions/providers/default
+  GCP_CLI_VERSION: 443.0.0
+  GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
+  GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
 concurrency:
@@ -37,32 +36,29 @@ jobs:
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v1
         with:
+          install_components: gke-gcloud-auth-plugin
           version: ${{ env.GCP_CLI_VERSION }}
       - uses: google-github-actions/get-gke-credentials@v0
         with:
           cluster_name: ${{ env.GKE_CLUSTER_NAME }}
           location: ${{ env.GKE_CLUSTER_LOCATION }}
-      - run: |
-          sudo curl -sSL -o /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.33.3/yq_linux_amd64"
-          sudo chmod +x /usr/local/bin/yq
+      - run: kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
       - id: ip
         run: |
-          kubectl wait -n traefik --for=condition=Ready ComputeAddress/gke-ingress --timeout=5m
-          echo "traefik_ip=$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')" >> "$GITHUB_OUTPUT"
-          echo "whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')" >> "$GITHUB_OUTPUT"
+          echo "gke_ingress_ip=$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')" >> "$GITHUB_OUTPUT"
+          echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')" >> "$GITHUB_OUTPUT"
         env:
           STATIC_IP_WHITELIST: '["85.64.215.183/32", "62.90.112.29/32"]'
       - run: |-
-          yq e -P -i '.spec.postBuild.substitute.gke_ingress_ip=env(TRAEFIK_IP)' clusters/main/platform/traefik-server.yaml
-          yq e -P -i '.spec.values.service.loadBalancerSourceRanges=env(WHITELIST)' platform/traefik/server/helm-release.yaml
-          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist.yaml
-          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/server/middleware-ip-whitelist-tcp.yaml
+          yq e -P -i '.spec.values.service.spec.loadBalancerIP=env(TRAEFIK_IP)' platform/traefik/helm-release.yaml
+          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/middleware-ip-whitelist.yaml
+          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/middleware-ip-whitelist-tcp.yaml
         env:
-          TRAEFIK_IP: ${{ steps.ip.outputs.traefik_ip }}
-          WHITELIST: ${{ steps.ip.outputs.whitelist }}
+          TRAEFIK_IP: ${{ steps.ip.outputs.gke_ingress_ip }}
+          WHITELIST: ${{ steps.ip.outputs.github_whitelist }}
       - uses: EndBug/add-and-commit@v9
         with:
-          add: platform/traefik/server
+          add: platform/traefik
           author_name: GitHub Actions
-          author_email: <gha@kfirs.com>
-          message: Sync GKE ingress IP whitelist addresses
+          author_email: <delivery@kfirs.com>
+          message: Sync GKE Ingress IP & Whitelists

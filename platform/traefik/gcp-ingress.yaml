@@ -4,11 +4,11 @@ metadata:
   name: gke-ingress
   namespace: traefik
 spec:
-  resourceID: gke-ingress-${gke_cluster_name}
+  resourceID: gke-ingress
   addressType: EXTERNAL
-  description: GKE Ingress for ${gke_cluster_name}
+  description: GKE Ingress
   ipVersion: IPV4
-  location: ${gke_cluster_region}
+  location: me-west1
 ---
 apiVersion: dns.cnrm.cloud.google.com/v1beta1
 kind: DNSRecordSet
@@ -18,11 +18,12 @@ metadata:
   name: traefik-kfirs-com-a
   namespace: traefik
 spec:
-  name: traefik.${gke_cluster_name}.kfirs.com.
+  name: traefik.kfirs.com.
   type: A
   ttl: 300
   managedZoneRef:
-    external: kfirs-com
+    namespace: dns
+    name: kfirs-com
   rrdatasRefs:
     - kind: ComputeAddress
       name: gke-ingress

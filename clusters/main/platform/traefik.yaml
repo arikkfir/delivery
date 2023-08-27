@@ -1,0 +1,19 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: traefik
+  namespace: default
+spec:
+  suspend: true
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: dns
+  interval: 5m
+  path: platform/traefik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true

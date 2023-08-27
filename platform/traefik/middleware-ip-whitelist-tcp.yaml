@@ -1,7 +1,7 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
+apiVersion: traefik.io/v1alpha1
+kind: MiddlewareTCP
 metadata:
-  name: ip-whitelist
+  name: ip-whitelist-tcp
   namespace: traefik
 spec:
   ipWhiteList:
