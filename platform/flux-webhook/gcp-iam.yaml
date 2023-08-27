@@ -31,7 +31,7 @@ spec:
       namespace: flux-system
   role: roles/secretmanager.viewer
   resourceRef:
-    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    apiVersion: secretmanager.cnrm.cloud.google.com/v1beta1
     kind: SecretManagerSecret
     external: projects/8909046976/secrets/fluxcd-github-webhook-secret
 ---
@@ -47,6 +47,6 @@ spec:
       namespace: flux-system
   role: roles/secretmanager.secretAccessor
   resourceRef:
-    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    apiVersion: secretmanager.cnrm.cloud.google.com/v1beta1
     kind: SecretManagerSecret
     external: projects/8909046976/secrets/fluxcd-github-webhook-secret
