@@ -13,10 +13,86 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: jetstack
-  valuesFrom:
-    - kind: ConfigMap
-      name: cert-manager-values
-      optional: false
+  values:
+    global:
+      leaderElection:
+        namespace: cert-manager # default is "kube-system" which seems to prevent status checks from working
+    nodeSelector:
+      node.kfirs.com/role: work
+    tolerations:
+      - effect: NoExecute
+        key: node.kfirs.com/role
+        operator: Equal
+        value: work
+    installCRDs: true
+    serviceAccount:
+      annotations:
+        iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
+    resources:
+      requests:
+        cpu: 100m
+        memory: 50Mi
+      limits:
+        cpu: 100m
+        memory: 50Mi
+    prometheus:
+      enabled: true
+      servicemonitor:
+        enabled: false
+    webhook:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 50Mi
+        limits:
+          cpu: 50m
+          memory: 50Mi
+      serviceAccount:
+        annotations:
+          iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
+      nodeSelector:
+        node.kfirs.com/role: work
+      tolerations:
+        - effect: NoExecute
+          key: node.kfirs.com/role
+          operator: Equal
+          value: work
+    cainjector:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 150Mi
+      serviceAccount:
+        annotations:
+          iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
+      nodeSelector:
+        node.kfirs.com/role: work
+      tolerations:
+        - effect: NoExecute
+          key: node.kfirs.com/role
+          operator: Equal
+          value: work
+    startupapicheck:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 50Mi
+        limits:
+          cpu: 100m
+          memory: 50Mi
+      serviceAccount:
+        annotations:
+          iam.gke.io/gcp-service-account: cert-manager@arik-kfir.iam.gserviceaccount.com
+      nodeSelector:
+        node.kfirs.com/role: work
+      tolerations:
+        - effect: NoExecute
+          key: node.kfirs.com/role
+          operator: Equal
+          value: work
 
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
