@@ -4,7 +4,6 @@ metadata:
   name: traefik
   namespace: default
 spec:
-  suspend: true
   dependsOn:
     - name: cert-manager-issuer
     - name: config-connector-manager
