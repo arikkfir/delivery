@@ -6,6 +6,13 @@ resources:
 patches:
   - patch: |
       - op: add
+        path: /metadata/annotations/cnrm.cloud.google.com~1project-id
+        value: arikkfir
+    target:
+      kind: Namespace
+      name: flux-system
+  - patch: |
+      - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --concurrent=20
     target:
