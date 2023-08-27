@@ -13,7 +13,6 @@ spec:
         kind: HelmRepository
         name: traefik
   values:
-    deployment:
     ingressClass:
       enabled: true
       isDefaultClass: true
