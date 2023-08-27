@@ -20,8 +20,10 @@ spec:
       dashboard:
         enabled: true
         matchRule: Host(`traefik.kfirs.com`)
-        entryPoints: [websecure]
-        middlewares: [ip-whitelist]
+        entryPoints:
+          - websecure
+        middlewares:
+          - ip-whitelist
         tls:
           secretName: traefik-kfirs-com-tls
     providers:
@@ -75,7 +77,7 @@ spec:
     service:
       spec:
         externalTrafficPolicy: Local
-        loadBalancerIP: 1.2.3.4
+        loadBalancerIP: 34.165.196.134
     autoscaling:
       enabled: true
       minReplicas: 1
@@ -143,8 +145,6 @@ spec:
               - 143.55.64.0/20
               - 85.64.215.183/32
               - 62.90.112.29/32
-
-  # This prevents "reconciliation failed: install retries exhausted" errors
 #  install:
 #    disableWait: true
 #  upgrade:
