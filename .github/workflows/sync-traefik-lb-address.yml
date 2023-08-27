@@ -51,8 +51,8 @@ jobs:
           STATIC_IP_WHITELIST: '["85.64.215.183/32", "62.90.112.29/32"]'
       - run: |-
           yq e -P -i '.spec.values.service.spec.loadBalancerIP=env(TRAEFIK_IP)' platform/traefik/helm-release.yaml
-          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/middleware-ip-whitelist.yaml
-          yq e -P -i '.spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/middleware-ip-whitelist-tcp.yaml
+          yq e -P -i '.spec.values.extraObjects[0].spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/helm-release.yaml
+          yq e -P -i '.spec.values.extraObjects[1].spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/helm-release.yaml
         env:
           TRAEFIK_IP: ${{ steps.ip.outputs.gke_ingress_ip }}
           WHITELIST: ${{ steps.ip.outputs.github_whitelist }}
