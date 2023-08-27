@@ -5,17 +5,62 @@ metadata:
   namespace: external-secrets
 spec:
   interval: 5m
-  timeout: 1h
   chart:
     spec:
       chart: external-secrets
       sourceRef:
         kind: HelmRepository
         name: external-secrets
-  valuesFrom:
-    - kind: ConfigMap
-      name: external-secrets-values
-      optional: false
+  values:
+    installCRDs: true
+    crds:
+      createClusterExternalSecret: true
+      createClusterSecretStore: true
+    concurrent: 1
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+    nodeSelector:
+      node.kfirs.com/role: work
+    tolerations:
+      - effect: NoExecute
+        key: node.kfirs.com/role
+        operator: Equal
+        value: work
+    webhook:
+      nodeSelector:
+        node.kfirs.com/role: work
+      tolerations:
+        - effect: NoExecute
+          key: node.kfirs.com/role
+          operator: Equal
+          value: work
+      resources:
+        requests:
+          cpu: 50m
+          memory: 32Mi
+        limits:
+          cpu: 200m
+          memory: 64Mi
+    certController:
+      nodeSelector:
+        node.kfirs.com/role: work
+      tolerations:
+        - effect: NoExecute
+          key: node.kfirs.com/role
+          operator: Equal
+          value: work
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
 
   # This prevents "reconciliation failed: install retries exhausted" errors
   install:
