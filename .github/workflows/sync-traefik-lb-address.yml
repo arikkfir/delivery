@@ -15,7 +15,7 @@ env:
   GCP_CLI_VERSION: 443.0.0
   GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
-  GKE_CLUSTER_NAME: main2
+  GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
 concurrency:
   group: production
