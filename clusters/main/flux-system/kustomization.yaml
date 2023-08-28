@@ -24,7 +24,7 @@ patches:
         value: --log-level=debug
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --requeue-dependency=10s
+        value: --requeue-dependency=2s
     target:
       kind: Deployment
       name: '(source-controller|helm-controller|kustomize-controller)'
