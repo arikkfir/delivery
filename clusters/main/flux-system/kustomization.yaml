@@ -14,7 +14,7 @@ patches:
   - patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --concurrent=20
+        value: --concurrent=5
     target:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=flux
@@ -24,7 +24,7 @@ patches:
         value: --log-level=debug
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --requeue-dependency=2s
+        value: --requeue-dependency=5s
     target:
       kind: Deployment
       name: '(source-controller|helm-controller|kustomize-controller)'
