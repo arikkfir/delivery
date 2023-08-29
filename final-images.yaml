@@ -1,0 +1,8 @@
+- name: ghcr.io/arikkfir/greenstar/backend
+  newTag: f21de6c2c6f3445778af77fad716297d85b8821e
+- name: ghcr.io/arikkfir/greenstar/frontend
+  newTag: f21de6c2c6f3445778af77fad716297d85b8821e
+- name: ghcr.io/arikkfir/greenstar/migrations
+  newTag: f21de6c2c6f3445778af77fad716297d85b8821e
+- name: ghcr.io/arikkfir/greenstar/neo4j
+  newTag: f21de6c2c6f3445778af77fad716297d85b8821e

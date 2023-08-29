@@ -1,0 +1,33 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env-streamline-deployment
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: default
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  path: environments/streamline-deployment
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  postBuild:
+    substitute:
+      flux_environment: streamline-deployment
+  images:
+    - name: ghcr.io/arikkfir/greenstar/backend
+      newTag: f21de6c2c6f3445778af77fad716297d85b8821e
+    - name: ghcr.io/arikkfir/greenstar/frontend
+      newTag: f21de6c2c6f3445778af77fad716297d85b8821e
+    - name: ghcr.io/arikkfir/greenstar/migrations
+      newTag: f21de6c2c6f3445778af77fad716297d85b8821e
+    - name: ghcr.io/arikkfir/greenstar/neo4j
+      newTag: f21de6c2c6f3445778af77fad716297d85b8821e
