@@ -1,0 +1,114 @@
+name: Deploy to Environment
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        type: string
+        description: Source branch being deployed to this environment. This workflow will "slug" the branch name.
+        required: true
+      images:
+        type: string
+        description: |
+          Map of images to deploy, in YAML format of "image:tag" pairs, for example:
+          ```
+          my-image:newTag
+          my-2nd-image:new2ndTag
+          ```
+        required: true
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+jobs:
+
+  slug:
+    name: "Slug"
+    runs-on: ubuntu-22.04
+    outputs:
+      slug: ${{ steps.slug.outputs.slug }}
+    steps:
+      - run: |
+          SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
+          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+
+  update-files:
+    name: Update files
+    needs: slug
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: arikkfir/delivery
+          token: ${{ secrets.DEPLOY_APPS_PAT }}
+      - id: create-environment-flux-kustomization
+        run: |
+          if [[ -f "clusters/main/environments/${ENVIRONMENT}.yaml" ]]; then
+            cat > clusters/main/environments/${ENVIRONMENT}.yaml <<EOF
+          apiVersion: kustomize.toolkit.fluxcd.io/v1
+          kind: Kustomization
+          metadata:
+            name: env-${ENVIRONMENT}
+            namespace: default
+          spec:
+            dependsOn:
+              - name: cert-manager-issuer
+              - name: config-connector-manager
+              - name: default
+              - name: dns
+              - name: external-secrets
+              - name: traefik
+            interval: 5m
+            path: environments/${ENVIRONMENT}
+            prune: true
+            sourceRef:
+              kind: GitRepository
+              name: flux-system
+              namespace: flux-system
+            wait: false
+            postBuild:
+              substitute:
+                flux_environment: ${ENVIRONMENT}
+          EOF
+          fi
+        env:
+          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+      - id: create-environment-kustomization-file
+        run: |
+          if [[ -f "environments/${ENVIRONMENT}/kustomization.yaml" ]]; then
+            cat > environments/${ENVIRONMENT}/kustomization.yaml <<EOF
+          apiVersion: kustomize.config.k8s.io/v1beta1
+          kind: Kustomization
+          namespace: ${ENVIRONMENT}
+          resources:
+            - ../_commons/namespace.yaml
+            - ../_commons/echo-server.yaml
+            - https://github.com/arikkfir/greenstar//deploy/cluster?ref=${BRANCH}
+          EOF
+          fi
+        env:
+          BRANCH: ${{ inputs.branch }}
+          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+      - id: update-image-tags
+        run: |
+          cat > new-images.yaml <<EOF
+          ${{ inputs.images }}
+          EOF
+          yq e '.spec.images[] | {.name: .newTag}' "clusters/main/environments/${ENVIRONMENT}.yaml" > current-images.yaml
+          yq e '. *= load("new-images.yaml") | to_entries | .[] | [{"name":.key,"newTag":.value}]' current-images.yaml > final-images.yaml
+          yq e -i '.spec.images=load("final-images.yaml")' "clusters/main/environments/${ENVIRONMENT}.yaml"
+        env:
+          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+      - uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: |-
+            Deployment to "${{ needs.slug.outputs.slug }}" from "${{ github.repository }}" 
+            
+            Environment:       ${{ needs.slug.outputs.slug }}
+            Source repository: ${{ github.repository }}
+            Branch:            ${{ inputs.branch }}
