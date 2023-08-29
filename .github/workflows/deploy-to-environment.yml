@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: arikkfir/delivery
-          token: ${{ secrets.DEPLOY_APPS_PAT }}
+          token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
       - id: create-environment-flux-kustomization
         run: |
           if [[ -f "clusters/main/environments/${ENVIRONMENT}.yaml" ]]; then
