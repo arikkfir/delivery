@@ -47,7 +47,7 @@ jobs:
           token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
       - id: create-environment-flux-kustomization
         run: |
-          if [[ -f "clusters/main/environments/${ENVIRONMENT}.yaml" ]]; then
+          if [[ ! -f "clusters/main/environments/${ENVIRONMENT}.yaml" ]]; then
             cat > clusters/main/environments/${ENVIRONMENT}.yaml <<EOF
           apiVersion: kustomize.toolkit.fluxcd.io/v1
           kind: Kustomization
