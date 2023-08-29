@@ -48,7 +48,7 @@ jobs:
           echo "gke_ingress_ip=$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')" >> "$GITHUB_OUTPUT"
           echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')" >> "$GITHUB_OUTPUT"
         env:
-          STATIC_IP_WHITELIST: '["109.253.161.115/32", "85.64.195.127/32"]'
+          STATIC_IP_WHITELIST: '["109.253.161.226/32", "85.64.195.127/32"]'
       - run: |-
           yq e -P -i '.spec.values.service.spec.loadBalancerIP=env(TRAEFIK_IP)' platform/traefik/helm-release.yaml
           yq e -P -i '.spec.values.extraObjects[0].spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/helm-release.yaml
