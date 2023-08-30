@@ -5,16 +5,21 @@ on:
     inputs:
       branch:
         type: string
-        description: Source branch being deployed to this environment. This workflow will "slug" the branch name.
+        description: |
+          Source branch being deployed to this environment. This will be used, after being "slugged", to infer the
+          target environment to deploy the list of images provided in the `images` input.
         required: true
       images:
         type: string
         description: |
-          Map of images to deploy, in YAML format of "image:tag" pairs, for example:
+          Map of images to deploy, in YAML format of "image: tag" pairs, for example:
+          
           ```
-          my-image:newTag
-          my-2nd-image:new2ndTag
+          my-image: newTag
+          my-2nd-image: new2ndTag
           ```
+          
+          This MUST be a valid YAML object - thus the space after the `:` character is crucial.
         required: true
 
 defaults:
