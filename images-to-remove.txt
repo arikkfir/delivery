@@ -1,0 +1,4 @@
+ghcr.io/arikkfir/greenstar/backend
+ghcr.io/arikkfir/greenstar/frontend
+ghcr.io/arikkfir/greenstar/migrations
+ghcr.io/arikkfir/greenstar/neo4j
