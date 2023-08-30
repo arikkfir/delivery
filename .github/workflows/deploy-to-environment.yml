@@ -39,8 +39,8 @@ jobs:
           SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
           echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
 
-  update-files:
-    name: Update files
+  deploy:
+    name: Deploy images to environment
     needs: slug
     runs-on: ubuntu-22.04
     permissions:
