@@ -80,6 +80,7 @@ jobs:
       - id: create-environment-kustomization-file
         run: |
           if [[ ! -f "environments/${ENVIRONMENT}/kustomization.yaml" ]]; then
+            mkdir -p environments/${ENVIRONMENT}
             cat > environments/${ENVIRONMENT}/kustomization.yaml <<EOF
           apiVersion: kustomize.config.k8s.io/v1beta1
           kind: Kustomization
