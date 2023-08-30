@@ -107,6 +107,7 @@ jobs:
           yq e '.spec.images[] | {.name: .newTag}' "clusters/main/environments/${ENVIRONMENT}.yaml" > current-images.yaml
           yq e '. *= load("new-images.yaml") | to_entries | .[] | [{"name":.key,"newTag":.value}]' current-images.yaml > final-images.yaml
           yq e -i '.spec.images=load("final-images.yaml")' "clusters/main/environments/${ENVIRONMENT}.yaml"
+          rm -vf current-images.yaml final-images.yaml new-images.yaml
         env:
           ENVIRONMENT: ${{ needs.slug.outputs.slug }}
       - uses: EndBug/add-and-commit@v9
