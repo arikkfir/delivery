@@ -22,3 +22,12 @@ spec:
   postBuild:
     substitute:
       flux_environment: main
+  images:
+    - name: ghcr.io/arikkfir/greenstar/backend
+      newTag: 41a2132d45e5a51de3a193e746d8e9f8a2584d41
+    - name: ghcr.io/arikkfir/greenstar/frontend
+      newTag: 41a2132d45e5a51de3a193e746d8e9f8a2584d41
+    - name: ghcr.io/arikkfir/greenstar/migrations
+      newTag: 41a2132d45e5a51de3a193e746d8e9f8a2584d41
+    - name: ghcr.io/arikkfir/greenstar/neo4j
+      newTag: 41a2132d45e5a51de3a193e746d8e9f8a2584d41
