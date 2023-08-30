@@ -1,4 +1,4 @@
-ghcr.io/arikkfir/greenstar/backend: f21de6c2c6f3445778af77fad716297d85b8821e
-ghcr.io/arikkfir/greenstar/frontend: f21de6c2c6f3445778af77fad716297d85b8821e
-ghcr.io/arikkfir/greenstar/migrations: f21de6c2c6f3445778af77fad716297d85b8821e
-ghcr.io/arikkfir/greenstar/neo4j: f21de6c2c6f3445778af77fad716297d85b8821e
+ghcr.io/arikkfir/greenstar/backend: 02422ef2f76de3f072ef86c7475a72d06aee491f
+ghcr.io/arikkfir/greenstar/frontend: 02422ef2f76de3f072ef86c7475a72d06aee491f
+ghcr.io/arikkfir/greenstar/migrations: 02422ef2f76de3f072ef86c7475a72d06aee491f
+ghcr.io/arikkfir/greenstar/neo4j: 02422ef2f76de3f072ef86c7475a72d06aee491f
