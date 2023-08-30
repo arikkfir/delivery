@@ -1,0 +1,75 @@
+name: Delete application environment
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        type: string
+        description: |
+          Source branch for which a PR was closed in another repository. This will be used, after being "slugged", to
+          infer the target environment from which the given set of images provided in the `images` input will be
+          un-deployed from. If the resulting environment will no longer have any images deployed to it, it will be
+          closed entirely.
+        required: true
+      images:
+        type: string
+        description: |
+          Map of images to deploy, in YAML format of "image:tag" pairs, for example:
+          ```
+          my-image:newTag
+          my-2nd-image:new2ndTag
+          ```
+        required: true
+
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+
+jobs:
+
+  slug:
+    name: "Slug"
+    runs-on: ubuntu-22.04
+    outputs:
+      slug: ${{ steps.slug.outputs.slug }}
+    steps:
+      - id: slug
+        run: |
+          SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
+          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+
+  undeploy:
+    name: Undeploy images from environment
+    needs: slug
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    environment: ${{ needs.slug-environment.outputs.slug }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: arikkfir/delivery
+          token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
+      - id: update-image-tags
+        run: |
+          cat > images-to-remove.txt <<EOF
+          ${{ inputs.images }}
+          EOF
+          while read image; do
+            yq e -i "del(.spec.images[] | select(.name==\"${image}\"))" clusters/main/environments/${ENVIRONMENT}.yaml
+          done < images-to-remove.txt
+          if [[ "$(yq e '.spec.images|length' clusters/main/environments/${ENVIRONMENT}.yaml)" == "0" ]]; then
+            rm -rfv clusters/main/environments/${ENVIRONMENT}.yaml
+            rm -rfv environments/${ENVIRONMENT}
+          fi
+        env:
+          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+      - uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: <gha@kfirs.com>
+          message: |
+            Deleting "${{ needs.slug.outputs.slug }}" (no longer needed)
+            
+            Triggering repository:      ${{ github.repository }}
+            Triggering branch (closed): ${{ inputs.branch }}
