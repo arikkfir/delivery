@@ -24,10 +24,10 @@ spec:
       flux_environment: add-greenstar-word-to-dns-record
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: 9e863d713b168c264a7eb326b3e6db33505b852b
+      newTag: 7c3b7a0debeecb5870d3dfdbbfc91d130c236181
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: 9e863d713b168c264a7eb326b3e6db33505b852b
+      newTag: 7c3b7a0debeecb5870d3dfdbbfc91d130c236181
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: 9e863d713b168c264a7eb326b3e6db33505b852b
+      newTag: 7c3b7a0debeecb5870d3dfdbbfc91d130c236181
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: 9e863d713b168c264a7eb326b3e6db33505b852b
+      newTag: 7c3b7a0debeecb5870d3dfdbbfc91d130c236181
