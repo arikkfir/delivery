@@ -3,7 +3,7 @@ kind: DNSRecordSet
 metadata:
   name: echo-server-a-record
 spec:
-  name: echo.${flux_environment}.kfirs.com.
+  name: "${flux_environment}.echo.kfirs.com."
   type: CNAME
   ttl: 300
   managedZoneRef:
@@ -23,7 +23,7 @@ spec:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - echo.${flux_environment}.kfirs.com
+    - "${flux_environment}.echo.kfirs.com"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -55,12 +55,12 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.priority: "200"
       hosts:
-        - host: echo.${flux_environment}.kfirs.com
+        - host: "${flux_environment}.echo.kfirs.com"
           paths:
             - /
       tls:
         - hosts:
-            - echo.${flux_environment}.kfirs.com
+            - "${flux_environment}.echo.kfirs.com"
           secretName: echoserver-tls
     nodeSelector:
       node.kfirs.com/role: work
