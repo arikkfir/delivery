@@ -51,7 +51,7 @@ jobs:
         with:
           repository: arikkfir/delivery
           token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
-      - id: create-environment-flux-kustomization
+      - name: Create environment
         run: |
           if [[ ! -f "clusters/main/environments/${ENVIRONMENT}.yaml" ]]; then
             cat > clusters/main/environments/${ENVIRONMENT}.yaml <<EOF
@@ -81,10 +81,6 @@ jobs:
                 flux_environment: ${ENVIRONMENT}
           EOF
           fi
-        env:
-          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
-      - id: create-environment-kustomization-file
-        run: |
           if [[ ! -f "environments/${ENVIRONMENT}/kustomization.yaml" ]]; then
             mkdir -p environments/${ENVIRONMENT}
             cat > environments/${ENVIRONMENT}/kustomization.yaml <<EOF
@@ -97,11 +93,6 @@ jobs:
             - https://github.com/arikkfir/greenstar//deploy/cluster?ref=${BRANCH}
           EOF
           fi
-        env:
-          BRANCH: ${{ inputs.branch }}
-          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
-      - id: update-image-tags
-        run: |
           cat > new-images.yaml <<EOF
           ${{ inputs.images }}
           EOF
@@ -110,6 +101,7 @@ jobs:
           yq e -i '.spec.images=load("final-images.yaml")' "clusters/main/environments/${ENVIRONMENT}.yaml"
           rm -vf current-images.yaml final-images.yaml new-images.yaml
         env:
+          BRANCH: ${{ inputs.branch }}
           ENVIRONMENT: ${{ needs.slug.outputs.slug }}
       - uses: EndBug/add-and-commit@v9
         with:
