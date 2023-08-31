@@ -24,10 +24,10 @@ spec:
       flux_environment: fix-backend-gcp-deployment
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: baac9f4958103e4b1cffeefbb3fa95de21dfc10b
+      newTag: ea82f97ae8ee39c7142c1c75aeae524e1d7113e8
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: baac9f4958103e4b1cffeefbb3fa95de21dfc10b
+      newTag: ea82f97ae8ee39c7142c1c75aeae524e1d7113e8
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: baac9f4958103e4b1cffeefbb3fa95de21dfc10b
+      newTag: ea82f97ae8ee39c7142c1c75aeae524e1d7113e8
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: baac9f4958103e4b1cffeefbb3fa95de21dfc10b
+      newTag: ea82f97ae8ee39c7142c1c75aeae524e1d7113e8
