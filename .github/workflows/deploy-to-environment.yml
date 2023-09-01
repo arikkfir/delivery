@@ -1,5 +1,4 @@
 name: Deploy to Environment
-
 on:
   workflow_call:
     inputs:
@@ -13,19 +12,17 @@ on:
         type: string
         description: |
           Map of images to deploy, in YAML format of "image: tag" pairs, for example:
-          
+
           ```
           my-image: newTag
           my-2nd-image: new2ndTag
           ```
-          
+
           This MUST be a valid YAML object - thus the space after the `:` character is crucial.
         required: true
-
 defaults:
   run:
     shell: bash -exuo pipefail {0}
-
 env:
   FLUXCD_VERSION: 2.1.0
   GCP_CLI_VERSION: 443.0.0
@@ -33,11 +30,9 @@ env:
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
-
 jobs:
-
   slug:
-    name: "Slug"
+    name: Slug
     runs-on: ubuntu-22.04
     outputs:
       slug: ${{ steps.slug.outputs.slug }}
@@ -46,7 +41,6 @@ jobs:
         run: |
           SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
           echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
-
   deploy:
     name: Deploy images to environment
     needs: slug
@@ -115,16 +109,12 @@ jobs:
         with:
           author_name: GitHub Actions
           author_email: <gha@kfirs.com>
-          message: |-
-            Deployment to "${{ needs.slug.outputs.slug }}" from "${{ github.repository }}" 
-            
-            Environment:       ${{ needs.slug.outputs.slug }}
-            Source repository: ${{ github.repository }}
-            Branch:            ${{ inputs.branch }}
-
+          message: "Deployment to \"${{ needs.slug.outputs.slug }}\" from \"${{ github.repository }}\" \n\nEnvironment:       ${{ needs.slug.outputs.slug }}\nSource repository: ${{ github.repository }}\nBranch:            ${{ inputs.branch }}"
   verify-env-is-up:
     name: Wait for environment to be up
-    needs: [slug, deploy]
+    needs:
+      - slug
+      - deploy
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
