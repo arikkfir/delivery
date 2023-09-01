@@ -47,8 +47,10 @@ jobs:
           repository: arikkfir/delivery
           token: ${{ secrets.ARIKKFIR_DELIVERY_SYNC }}
       - run: |-
-          yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' .github/workflows/sync-traefik-lb-address.yml
-          yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' .github/workflows/sync-traefik-lb-address.yml
+          for f in .github/workflows/deploy-to-environment.yml .github/workflows/sync-traefik-lb-address.yml; do
+            yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' "${f}"
+            yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' "${f}"
+          done
           yq e -P -i 'select(.kind=="SecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterLocation|=env(GKE_CLUSTER_LOCATION)' platform/flux-webhook/webhook-secret.yaml
           yq e -P -i 'select(.kind=="SecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterName|=env(GKE_CLUSTER_NAME)' platform/flux-webhook/webhook-secret.yaml
           yq e -P -i 'select(.kind=="ComputeAddress").spec.location|=env(GKE_INGRESS_REGION)' platform/traefik/gcp-ingress.yaml
