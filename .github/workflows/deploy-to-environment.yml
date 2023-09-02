@@ -120,6 +120,10 @@ jobs:
       id-token: write
     environment: ${{ needs.slug.outputs.slug }}
     steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: arikkfir/delivery
+          token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
       - uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
