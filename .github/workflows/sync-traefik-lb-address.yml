@@ -1,6 +1,13 @@
 name: Sync Traefik LoadBalancer IP address
 on:
   workflow_dispatch:
+    inputs:
+      home_ip:
+        description: 'Home IP address'
+        required: false
+      office_ip:
+        description: 'Office IP address'
+        required: false
   schedule:
     - cron: 0 * * * *
   push:
@@ -12,6 +19,8 @@ defaults:
   run:
     shell: bash -exuo pipefail {0}
 env:
+  DEFAULT_HOME_IP: 81.199.22.225
+  DEFAULT_OFFICE_IP: 176.12.222.7
   GCP_CLI_VERSION: 443.0.0
   GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
@@ -46,19 +55,24 @@ jobs:
       - id: ip
         run: |
           echo "gke_ingress_ip=$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')" >> "$GITHUB_OUTPUT"
-          echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(STATIC_IP_WHITELIST)')" >> "$GITHUB_OUTPUT"
+          echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(.!="*::*") + env(HOME_IP) + env(OFFICE_IP)')" >> "$GITHUB_OUTPUT"
         env:
-          STATIC_IP_WHITELIST: '["176.12.195.190/32", "85.64.221.247/32", "81.199.22.225/32"]'
+          HOME_IP: ${{ format( '["{0}"]', inputs.home_ip || env.DEFAULT_HOME_IP ) }}
+          OFFICE_IP: ${{ format( '["{0}"]', inputs.office_ip || env.DEFAULT_OFFICE_IP ) }}
       - run: |-
+          yq e -P -i '.env.DEFAULT_HOME_IP=env(HOME_IP)' .github/workflows/sync-traefik-lb-address.yml
+          yq e -P -i '.env.DEFAULT_OFFICE_IP=env(OFFICE_IP)' .github/workflows/sync-traefik-lb-address.yml
           yq e -P -i '.spec.values.service.spec.loadBalancerIP=env(TRAEFIK_IP)' platform/traefik/helm-release.yaml
           yq e -P -i '.spec.values.extraObjects[0].spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/helm-release.yaml
           yq e -P -i '.spec.values.extraObjects[1].spec.ipWhiteList.sourceRange=env(WHITELIST)' platform/traefik/helm-release.yaml
         env:
+          HOME_IP: ${{ inputs.home_ip || env.DEFAULT_HOME_IP }}
+          OFFICE_IP: ${{ inputs.office_ip || env.DEFAULT_OFFICE_IP }}
           TRAEFIK_IP: ${{ steps.ip.outputs.gke_ingress_ip }}
           WHITELIST: ${{ steps.ip.outputs.github_whitelist }}
       - uses: EndBug/add-and-commit@v9
         with:
-          add: platform/traefik
+          add: .github/workflows/sync-traefik-lb-address.yml platform/traefik/helm-release.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: Sync GKE Ingress IP & Whitelists
