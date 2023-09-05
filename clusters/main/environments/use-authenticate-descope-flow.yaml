@@ -24,10 +24,10 @@ spec:
       flux_environment: use-authenticate-descope-flow
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+      newTag: b3c4ac221eda99d1f14b72e23038da7d6fc0271f
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+      newTag: b3c4ac221eda99d1f14b72e23038da7d6fc0271f
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+      newTag: b3c4ac221eda99d1f14b72e23038da7d6fc0271f
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+      newTag: b3c4ac221eda99d1f14b72e23038da7d6fc0271f
