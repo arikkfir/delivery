@@ -24,10 +24,10 @@ spec:
       flux_environment: main
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: 8c56873a9159db2f5cb6fd3af49837fbba2966e5
+      newTag: 482f6414371c49137d7fdf7e806a6c33b2998a4e
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: 8c56873a9159db2f5cb6fd3af49837fbba2966e5
+      newTag: 482f6414371c49137d7fdf7e806a6c33b2998a4e
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: 8c56873a9159db2f5cb6fd3af49837fbba2966e5
+      newTag: 482f6414371c49137d7fdf7e806a6c33b2998a4e
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: 8c56873a9159db2f5cb6fd3af49837fbba2966e5
+      newTag: 482f6414371c49137d7fdf7e806a6c33b2998a4e
