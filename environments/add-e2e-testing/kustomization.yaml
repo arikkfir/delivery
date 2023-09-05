@@ -5,3 +5,4 @@ resources:
   - ../_commons/namespace.yaml
   - ../_commons/echo-server.yaml
   - ../_commons/greenstar
+patches: []

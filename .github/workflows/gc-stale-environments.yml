@@ -1,0 +1,41 @@
+name: Environments Garbage Collection
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 * * * *
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/gc-stale-environments.yml
+defaults:
+  run:
+    shell: bash -exuo pipefail {0}
+concurrency:
+  group: production
+  cancel-in-progress: false
+jobs:
+  gc:
+    name: Garbage Collect
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - working-directory: environments
+        run: |
+          for env in $(ls|grep -vE '^default|_commons|main$'); do
+            f="${env}/kustomization.yaml"
+            if [[ "$(git log -1 --format=oneline --since="1 hours ago" "${f}" | wc -l | tr -d ' ')" == "0" ]]; then
+              if [[ "$(yq e '.patches | contains(load("_commons/stale-environment-patch.yaml"))' "${f}")" == "false" ]]; then
+                yq e -i '.patches += load("_commons/stale-environment-patch.yaml")' "${env}/kustomization.yaml"
+              fi 
+            fi
+          done
+      - id: commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: environments
+          author_name: GitHub Actions
+          author_email: <delivery@kfirs.com>
+          message: 'chore: garbage collect stale environments'

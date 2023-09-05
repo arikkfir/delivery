@@ -101,7 +101,10 @@ jobs:
             - ../_commons/namespace.yaml
             - ../_commons/echo-server.yaml
             - ../_commons/greenstar
+          patches: []
           EOF
+          else
+            yq e -i '.patches -= load("environments/_commons/stale-environment-patch.yaml")' "environments/${ENVIRONMENT}/kustomization.yaml"
           fi
           cat > new-images.yaml <<EOF
           ${{ inputs.images }}
