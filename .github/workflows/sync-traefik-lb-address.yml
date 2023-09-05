@@ -87,5 +87,5 @@ jobs:
         if: steps.commit.outputs.pushed == 'true'
         with:
           version: ${{ env.FLUXCD_VERSION }}
-      - run: flux reconcile -n default kustomization traefik --timeout 30m
+      - run: flux --timeout 30m0s reconcile -n default kustomization traefik
         if: steps.commit.outputs.pushed == 'true'
