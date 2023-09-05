@@ -49,7 +49,7 @@ spec:
           namespace: traefik
       priority: 100
       services:
-        - name: api
+        - name: api-backend
           port: http
           kind: Service
     - kind: Rule
