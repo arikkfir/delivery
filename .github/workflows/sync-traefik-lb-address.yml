@@ -57,7 +57,7 @@ jobs:
       - id: ip
         run: |
           echo "gke_ingress_ip=$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')" >> "$GITHUB_OUTPUT"
-          echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(.!="*::*") + env(HOME_IP) + env(OFFICE_IP)')" >> "$GITHUB_OUTPUT"
+          echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(HOME_IP) + env(OFFICE_IP)')" >> "$GITHUB_OUTPUT"
         env:
           HOME_IP: ${{ format( '["{0}"]', inputs.home_ip || env.DEFAULT_HOME_IP ) }}
           OFFICE_IP: ${{ format( '["{0}"]', inputs.office_ip || env.DEFAULT_OFFICE_IP ) }}
