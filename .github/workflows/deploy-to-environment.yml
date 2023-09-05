@@ -92,7 +92,7 @@ jobs:
           resources:
             - ../_commons/namespace.yaml
             - ../_commons/echo-server.yaml
-            - https://github.com/arikkfir/greenstar//deploy/cluster?ref=${BRANCH}
+            - ../_commons/greenstar
           EOF
           fi
           cat > new-images.yaml <<EOF
