@@ -1,0 +1,33 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env-workflow-display-names
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: default
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  path: environments/workflow-display-names
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  postBuild:
+    substitute:
+      flux_environment: workflow-display-names
+  images:
+    - name: ghcr.io/arikkfir/greenstar/backend
+      newTag: fd50be45b18ffd9e00134d12e8826688a285d00f
+    - name: ghcr.io/arikkfir/greenstar/frontend
+      newTag: fd50be45b18ffd9e00134d12e8826688a285d00f
+    - name: ghcr.io/arikkfir/greenstar/migrations
+      newTag: fd50be45b18ffd9e00134d12e8826688a285d00f
+    - name: ghcr.io/arikkfir/greenstar/neo4j
+      newTag: fd50be45b18ffd9e00134d12e8826688a285d00f
