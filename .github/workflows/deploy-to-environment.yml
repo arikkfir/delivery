@@ -37,6 +37,14 @@ jobs:
     outputs:
       slug: ${{ steps.slug.outputs.slug }}
     steps:
+      - id: validate
+        run: |
+          if [[ -z "${BRANCH}" ]]; then
+              echo "Missing branch input"
+              exit 1
+          fi
+        env:
+          BRANCH: ${{ inputs.branch }}
       - id: slug
         run: |
           SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
