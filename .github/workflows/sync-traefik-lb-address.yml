@@ -81,7 +81,7 @@ jobs:
           author_email: <delivery@kfirs.com>
           message: |
             chore: sync GKE ingress IP & whitelists
-            
+
             [skip ci]
       - uses: fluxcd/flux2/action@main
         if: steps.commit.outputs.pushed == 'true'
