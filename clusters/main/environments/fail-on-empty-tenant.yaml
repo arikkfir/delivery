@@ -1,0 +1,33 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env-fail-on-empty-tenant
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: default
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  path: environments/fail-on-empty-tenant
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  postBuild:
+    substitute:
+      flux_environment: fail-on-empty-tenant
+  images:
+    - name: ghcr.io/arikkfir/greenstar/backend
+      newTag: 3af52fbd1df76c1acad181634cd1b22a356225b7
+    - name: ghcr.io/arikkfir/greenstar/frontend
+      newTag: 3af52fbd1df76c1acad181634cd1b22a356225b7
+    - name: ghcr.io/arikkfir/greenstar/migrations
+      newTag: 3af52fbd1df76c1acad181634cd1b22a356225b7
+    - name: ghcr.io/arikkfir/greenstar/neo4j
+      newTag: 3af52fbd1df76c1acad181634cd1b22a356225b7
