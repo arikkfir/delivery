@@ -1,4 +1,4 @@
-name: Delete application environment
+name: Delete from Environment
 
 on:
   workflow_call:
