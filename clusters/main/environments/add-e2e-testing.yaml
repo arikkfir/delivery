@@ -24,10 +24,10 @@ spec:
       flux_environment: add-e2e-testing
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: f3e0c316349977d14c808aeced2258ddf982557d
+      newTag: b220573a2edc980bbd5d23a07e12a97ca40cdbcb
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: f3e0c316349977d14c808aeced2258ddf982557d
+      newTag: b220573a2edc980bbd5d23a07e12a97ca40cdbcb
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: f3e0c316349977d14c808aeced2258ddf982557d
+      newTag: b220573a2edc980bbd5d23a07e12a97ca40cdbcb
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: f3e0c316349977d14c808aeced2258ddf982557d
+      newTag: b220573a2edc980bbd5d23a07e12a97ca40cdbcb
