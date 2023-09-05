@@ -7,6 +7,6 @@ spec:
   secretName: webhook-flux-kfirs-com-tls
   issuerRef:
     kind: ClusterIssuer
-    name: google-clouddns
+    name: google-clouddns-prod
   dnsNames:
     - webhook.flux.kfirs.com
