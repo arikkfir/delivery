@@ -5,3 +5,12 @@ resources:
   - ../_commons/namespace.yaml
   - ../_commons/echo-server.yaml
   - ../_commons/greenstar
+patches:
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+    patch: |-
+      - op: replace
+        path: /spec/issuerRef/name
+        value: google-clouddns-prod
