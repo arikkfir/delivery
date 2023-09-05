@@ -4,4 +4,4 @@ namespace: add-e2e-testing
 resources:
   - ../_commons/namespace.yaml
   - ../_commons/echo-server.yaml
-  - https://github.com/arikkfir/greenstar//deploy/cluster?ref=add-e2e-testing
+  - ../_commons/greenstar

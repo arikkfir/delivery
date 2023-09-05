@@ -4,4 +4,4 @@ namespace: ${flux_environment}
 resources:
   - ../_commons/namespace.yaml
   - ../_commons/echo-server.yaml
-  - https://github.com/arikkfir/greenstar//deploy/cluster?ref=main
+  - ../_commons/greenstar
