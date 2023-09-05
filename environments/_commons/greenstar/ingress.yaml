@@ -1,0 +1,66 @@
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  name: wildcard-cname-record
+spec:
+  name: "*.${flux_environment}.greenstar.kfirs.com."
+  type: CNAME
+  ttl: 300
+  managedZoneRef:
+    name: kfirs-com
+    namespace: dns
+  # noinspection KubernetesDeprecatedKeys
+  rrdatas:
+    - traefik.kfirs.com.
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard
+spec:
+  dnsNames:
+    - "*.${flux_environment}.greenstar.kfirs.com"
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns
+  secretName: greenstar-wildcard-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tls
+spec:
+  entryPoints: [ websecure ]
+  routes:
+    - kind: Rule
+      match: Host(`neo4j.${flux_environment}.greenstar.kfirs.com`)
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
+      priority: 100
+      services:
+        - name: neo4j
+          port: http
+          kind: Service
+    - kind: Rule
+      match: Host(`api.${flux_environment}.greenstar.kfirs.com`)
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
+      priority: 100
+      services:
+        - name: api
+          port: http
+          kind: Service
+    - kind: Rule
+      match: HostRegexp(`{tenant:[a-zA-Z][a-zA-Z0-9_-]*}.${flux_environment}.greenstar.kfirs.com`)
+      middlewares:
+        - name: ip-whitelist
+          namespace: traefik
+      priority: 90
+      services:
+        - name: frontend
+          port: http
+          kind: Service
+  tls:
+    secretName: greenstar-wildcard-tls

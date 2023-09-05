@@ -4,4 +4,4 @@ namespace: enable-telepresence
 resources:
   - ../_commons/namespace.yaml
   - ../_commons/echo-server.yaml
-  - https://github.com/arikkfir/greenstar//deploy/cluster?ref=enable-telepresence
+  - ../_commons/greenstar
