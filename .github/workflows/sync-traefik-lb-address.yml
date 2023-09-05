@@ -39,6 +39,8 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }} # required since we're (potentially) modifying a workflow file
       - uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
