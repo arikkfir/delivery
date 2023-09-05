@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
     inputs:
       home_ip:
-        description: 'Home IP address'
+        description: Home IP address
         required: false
       office_ip:
-        description: 'Office IP address'
+        description: Office IP address
         required: false
   schedule:
     - cron: 0 * * * *
