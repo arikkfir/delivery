@@ -21,6 +21,7 @@ defaults:
 env:
   DEFAULT_HOME_IP: 81.199.22.225
   DEFAULT_OFFICE_IP: 176.12.222.6
+  FLUXCD_VERSION: 2.1.0
   GCP_CLI_VERSION: 443.0.0
   GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
@@ -72,9 +73,16 @@ jobs:
           OFFICE_IP: ${{ inputs.office_ip || env.DEFAULT_OFFICE_IP }}
           TRAEFIK_IP: ${{ steps.ip.outputs.gke_ingress_ip }}
           WHITELIST: ${{ steps.ip.outputs.github_whitelist }}
-      - uses: EndBug/add-and-commit@v9
+      - id: commit
+        uses: EndBug/add-and-commit@v9
         with:
           add: .github/workflows/sync-traefik-lb-address.yml platform/traefik/helm-release.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: 'chore: sync GKE ingress IP & whitelists'
+      - uses: fluxcd/flux2/action@main
+        if: steps.commit.outputs.pushed == 'true'
+        with:
+          version: ${{ env.FLUXCD_VERSION }}
+      - run: flux reconcile -n default kustomization traefik
+        if: steps.commit.outputs.pushed == 'true'
