@@ -24,10 +24,10 @@ spec:
       flux_environment: fix-pr-deploy-comment-workflow
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: 811e3cf355c53ba9b73b72e9dba0d5cbfe608300
+      newTag: 316fc40238ebc1718cb0cf7c49a7b3fbaf3e7c08
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: 811e3cf355c53ba9b73b72e9dba0d5cbfe608300
+      newTag: 316fc40238ebc1718cb0cf7c49a7b3fbaf3e7c08
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: 811e3cf355c53ba9b73b72e9dba0d5cbfe608300
+      newTag: 316fc40238ebc1718cb0cf7c49a7b3fbaf3e7c08
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: 811e3cf355c53ba9b73b72e9dba0d5cbfe608300
+      newTag: 316fc40238ebc1718cb0cf7c49a7b3fbaf3e7c08
