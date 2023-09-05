@@ -1,0 +1,33 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env-use-authenticate-descope-flow
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: default
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  path: environments/use-authenticate-descope-flow
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  postBuild:
+    substitute:
+      flux_environment: use-authenticate-descope-flow
+  images:
+    - name: ghcr.io/arikkfir/greenstar/backend
+      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+    - name: ghcr.io/arikkfir/greenstar/frontend
+      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+    - name: ghcr.io/arikkfir/greenstar/migrations
+      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
+    - name: ghcr.io/arikkfir/greenstar/neo4j
+      newTag: 1612c19a35410ae6b269b90416c1b5557081cfcd
