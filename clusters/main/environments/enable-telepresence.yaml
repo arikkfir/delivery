@@ -24,10 +24,10 @@ spec:
       flux_environment: enable-telepresence
   images:
     - name: ghcr.io/arikkfir/greenstar/backend
-      newTag: e4550396d34e74271daff9ab2b4557d95324fcfb
+      newTag: c29b83d90f6f5070ada877f5045a5f3d1a4b607a
     - name: ghcr.io/arikkfir/greenstar/frontend
-      newTag: e4550396d34e74271daff9ab2b4557d95324fcfb
+      newTag: c29b83d90f6f5070ada877f5045a5f3d1a4b607a
     - name: ghcr.io/arikkfir/greenstar/migrations
-      newTag: e4550396d34e74271daff9ab2b4557d95324fcfb
+      newTag: c29b83d90f6f5070ada877f5045a5f3d1a4b607a
     - name: ghcr.io/arikkfir/greenstar/neo4j
-      newTag: e4550396d34e74271daff9ab2b4557d95324fcfb
+      newTag: c29b83d90f6f5070ada877f5045a5f3d1a4b607a
