@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    iam.gke.io/gcp-service-account: gke-external-secrets@arikkfir.iam.gserviceaccount.com
+  name: gke-external-secrets
+  namespace: external-secrets
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: gke-external-secrets
+  namespace: external-secrets
+spec:
+  displayName: GKE Secrets Controller
+  description: Used by "external-secrets" to read secrets from GCP Secret Manager.
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: gke-external-secrets-ksa-link
+  namespace: external-secrets
+spec:
+  member: serviceAccount:arikkfir.svc.id.goog[external-secrets/gke-external-secrets]
+  role: roles/iam.workloadIdentityUser
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: gke-external-secrets
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: gke-external-secrets-secret-viewer
+  namespace: external-secrets
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: gke-external-secrets
+  role: roles/secretmanager.viewer
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/arikkfir
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: gke-external-secrets-secret-accessor
+  namespace: external-secrets
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: gke-external-secrets
+  role: roles/secretmanager.secretAccessor
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: projects/arikkfir
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterSecretStore
+metadata:
+  name: gcp-secret-manager
+spec:
+  provider:
+    gcpsm:
+      projectID: arikkfir
+      auth:
+        workloadIdentity:
+          clusterLocation: me-west1-a
+          clusterName: main
+          serviceAccountRef:
+            name: gke-external-secrets
+            namespace: external-secrets
