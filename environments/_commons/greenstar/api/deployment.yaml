@@ -46,7 +46,7 @@ spec:
               value: "https://*.${flux_environment}.greenstar.kfirs.com"
           envFrom:
             - secretRef:
-                name: descope
+                name: greenstar-descope
                 optional: false
           livenessProbe:
             httpGet:
