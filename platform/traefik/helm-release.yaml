@@ -130,7 +130,7 @@ spec:
               - 185.199.108.0/22
               - 140.82.112.0/20
               - 143.55.64.0/20
-              - 81.199.22.226
+              - 81.199.22.225
               - 176.12.222.6
       - apiVersion: traefik.io/v1alpha1
         kind: MiddlewareTCP
@@ -144,7 +144,7 @@ spec:
               - 185.199.108.0/22
               - 140.82.112.0/20
               - 143.55.64.0/20
-              - 81.199.22.226
+              - 81.199.22.225
               - 176.12.222.6
 # Prevent: "reconciliation failed: install retries exhausted" errors
 #  install:
