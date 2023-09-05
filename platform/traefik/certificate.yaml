@@ -7,6 +7,6 @@ spec:
   secretName: traefik-kfirs-com-tls
   issuerRef:
     kind: ClusterIssuer
-    name: google-clouddns
+    name: google-clouddns-prod
   dnsNames:
     - traefik.kfirs.com
