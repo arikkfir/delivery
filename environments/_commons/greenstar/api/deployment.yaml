@@ -44,10 +44,18 @@ spec:
               value: "6379"
             - name: HTTP_CORS_ALLOWED_ORIGINS
               value: "https://*.${flux_environment}.greenstar.kfirs.com"
-          envFrom:
-            - secretRef:
-                name: greenstar-descope
-                optional: false
+            - name: AUTH_DESCOPE_PROJECT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: greenstar-descope
+                  key: AUTH_DESCOPE_PROJECT_ID
+                  optional: false
+            - name: AUTH_DESCOPE_MANAGEMENT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: greenstar-descope
+                  key: AUTH_DESCOPE_MANAGEMENT_KEY
+                  optional: false
           livenessProbe:
             httpGet:
               port: health
