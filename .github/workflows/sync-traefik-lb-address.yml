@@ -77,4 +77,4 @@ jobs:
           add: .github/workflows/sync-traefik-lb-address.yml platform/traefik/helm-release.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
-          message: Sync GKE Ingress IP & Whitelists
+          message: 'chore: sync GKE ingress IP & whitelists'
