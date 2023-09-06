@@ -27,11 +27,13 @@ jobs:
         run: |
           for env in $(ls|grep -vE '^default|_commons|main$'); do
             f="${env}/kustomization.yaml"
-            if [[ "$(git log -1 --format=oneline --since="1 hours ago" "${f}" | wc -l | tr -d ' ')" == "0" ]]; then
+            git log -1 --format=oneline --since="1 hours ago" "${f}" | tee changes.txt
+            if [[ "$(cat changes.txt | wc -l | tr -d ' ')" == "0" ]]; then
               if [[ "$(yq e '.patches | contains(load("_commons/stale-environment-patch.yaml"))' "${f}")" == "false" ]]; then
                 yq e -i '.patches += load("_commons/stale-environment-patch.yaml")' "${env}/kustomization.yaml"
               fi 
             fi
+            rm -fv changes.txt
           done
       - id: commit
         uses: EndBug/add-and-commit@v9
