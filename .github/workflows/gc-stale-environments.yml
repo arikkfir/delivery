@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - .github/workflows/gc-stale-environments.yml
+      - environments/_commons/stale-environment-patch.yaml
 defaults:
   run:
     shell: bash -exuo pipefail {0}
