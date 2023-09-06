@@ -23,11 +23,13 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - working-directory: environments
         run: |
           for env in $(ls|grep -vE '^default|_commons|main$'); do
             f="${env}/kustomization.yaml"
-            git log -1 --format=oneline --since="1 hours ago" "${f}" | tee changes.txt
+            git log -1 --format=oneline --since="1 hours ago" -- "${f}" | tee changes.txt
             if [[ "$(cat changes.txt | wc -l | tr -d ' ')" == "0" ]]; then
               if [[ "$(yq e '.patches | contains(load("_commons/stale-environment-patch.yaml"))' "${f}")" == "false" ]]; then
                 yq e -i '.patches += load("_commons/stale-environment-patch.yaml")' "${env}/kustomization.yaml"
