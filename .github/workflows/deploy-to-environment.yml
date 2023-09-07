@@ -119,7 +119,7 @@ jobs:
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: GitHub Actions
-          author_email: <gha@kfirs.com>
+          author_email: <delivery@kfirs.com>
           message: "Deployment to \"${{ needs.slug.outputs.slug }}\" from \"${{ github.repository }}\" \n\nEnvironment:       ${{ needs.slug.outputs.slug }}\nSource repository: ${{ github.repository }}\nBranch:            ${{ inputs.branch }}"
   verify-env-is-up:
     name: Wait for environment to be up
