@@ -1,11 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ${ENV_NAME}
-images:
-  ghcr.io/arikkfir/greenstar/backend: 6eed1fdda68117d50ad57018bfccaf2ed3082351
-  ghcr.io/arikkfir/greenstar/frontend: 6eed1fdda68117d50ad57018bfccaf2ed3082351
-  ghcr.io/arikkfir/greenstar/migrations: 6eed1fdda68117d50ad57018bfccaf2ed3082351
-  ghcr.io/arikkfir/greenstar/neo4j: 6eed1fdda68117d50ad57018bfccaf2ed3082351
 patches: []
 resources:
   - ../main
