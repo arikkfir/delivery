@@ -14,3 +14,11 @@
     group: helm.toolkit.fluxcd.io
     version: v2beta1
     kind: HelmRelease
+- patch: |
+    - op: replace
+      path: /spec/replicas
+      value: 0
+  target:
+    group: apps
+    version: v1
+    kind: StatefulSet

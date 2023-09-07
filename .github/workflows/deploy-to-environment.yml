@@ -56,68 +56,37 @@ jobs:
     permissions:
       contents: write
     environment: ${{ needs.slug.outputs.slug }}
+    env:
+      ENV_NAME: ${{ needs.slug.outputs.slug }}
+      ENV_FLUX_K_NAME: env-${{ needs.slug.outputs.slug }}
+      ENV_FLUX_K_FILE: clusters/${GKE_CLUSTER_NAME}/environments/${{ needs.slug.outputs.slug }}.yaml
+      ENV_K_FILE: environments/${{ needs.slug.outputs.slug }}/kustomization.yaml
     steps:
       - uses: actions/checkout@v3
         with:
           repository: arikkfir/delivery
-          token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
-      - name: Create environment
+          token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }} # Required since this workflow is called by other repositories
+      - run: |
+          [[ -f "${ENV_FLUX_K_FILE}" ]] || cat etc/env-flux-kustomization-template.yaml | envsubst > "${ENV_FLUX_K_FILE}"
+          [[ -f "${ENV_K_FILE}" ]] || (mkdir -pv "$(dirname "${ENV_K_FILE}")" && cat etc/env-kustomization-template.yaml > "${ENV_K_FILE}")
+          [[ "$(yq e '.images == null' "${ENV_K_FILE}")" == "false" ]] || yq e -i '.images = []' "${ENV_K_FILE}"
+          [[ "$(yq e '.patches == null' "${ENV_K_FILE}")" == "false" ]] || yq e -i '.patches = []' "${ENV_K_FILE}"
+      - if: env.ENV_NAME != 'main'
         run: |
-          if [[ ! -f "clusters/main/environments/${ENVIRONMENT}.yaml" ]]; then
-            cat > clusters/main/environments/${ENVIRONMENT}.yaml <<EOF
-          apiVersion: kustomize.toolkit.fluxcd.io/v1
-          kind: Kustomization
-          metadata:
-            name: env-${ENVIRONMENT}
-            namespace: default
-          spec:
-            dependsOn:
-              - name: cert-manager-issuer
-              - name: config-connector-manager
-              - name: default
-              - name: dns
-              - name: external-secrets
-              - name: traefik
-            interval: 5m
-            path: environments/${ENVIRONMENT}
-            prune: true
-            sourceRef:
-              kind: GitRepository
-              name: flux-system
-              namespace: flux-system
-            wait: true
-            postBuild:
-              substitute:
-                flux_environment: ${ENVIRONMENT}
-          EOF
-          fi
-          if [[ ! -f "environments/${ENVIRONMENT}/kustomization.yaml" ]]; then
-            mkdir -p environments/${ENVIRONMENT}
-            cat > environments/${ENVIRONMENT}/kustomization.yaml <<EOF
-          apiVersion: kustomize.config.k8s.io/v1beta1
-          kind: Kustomization
-          namespace: ${ENVIRONMENT}
-          resources:
-            - ../_commons/namespace.yaml
-            - ../_commons/echo-server.yaml
-            - ../_commons/greenstar
-          patches: []
-          EOF
-          else
-            yq e -i '.patches -= load("environments/_commons/stale-environment-patch.yaml")' "environments/${ENVIRONMENT}/kustomization.yaml"
-          fi
+          [[ "$(yq e '.resources == null' "${ENV_K_FILE}"))" == "false" ]] || yq e -i '.resources = ["../main"]' "${ENV_K_FILE}"
+          yq e -i '.patches -= load("etc/stale-env-patches.yaml")' "${ENV_K_FILE}"
+      - run: |
           cat > new-images.yaml <<EOF
           ${{ inputs.images }}
           EOF
-          yq e '.spec.images[] | {.name: .newTag}' "clusters/main/environments/${ENVIRONMENT}.yaml" > current-images.yaml
-          yq e '. *= load("new-images.yaml") | to_entries | .[] | [{"name":.key,"newTag":.value}]' current-images.yaml > final-images.yaml
-          yq e -i '.spec.images=load("final-images.yaml")' "clusters/main/environments/${ENVIRONMENT}.yaml"
-          rm -vf current-images.yaml final-images.yaml new-images.yaml
-        env:
-          BRANCH: ${{ inputs.branch }}
-          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+          
+          # Merge the existing images in the environment kustomization with the newly given images map
+          # This requires first converting the existing images array into a map, performing the merge, and then store
+          # the result back into the kustomization "images" property
+          yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | $k.images = . | $k' kustomization.yaml
       - uses: EndBug/add-and-commit@v9
         with:
+          add: ${{ env.ENV_FLUX_K_FILE }} ${{ env.ENV_K_FILE }}
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: "Deployment to \"${{ needs.slug.outputs.slug }}\" from \"${{ github.repository }}\" \n\nEnvironment:       ${{ needs.slug.outputs.slug }}\nSource repository: ${{ github.repository }}\nBranch:            ${{ inputs.branch }}"

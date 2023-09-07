@@ -8,7 +8,7 @@ on:
       - main
     paths:
       - .github/workflows/gc-stale-environments.yml
-      - environments/_commons/stale-environment-patch.yaml
+      - environments/**
 defaults:
   run:
     shell: bash -exuo pipefail {0}
@@ -27,20 +27,29 @@ jobs:
           fetch-depth: 0
       - working-directory: environments
         run: |
-          for env in $(ls|grep -vE '^default|_commons|main$'); do
-            f="${env}/kustomization.yaml"
-            git log -1 --format=oneline --since="1 hours ago" -- "${f}" | tee changes.txt
-            if [[ "$(cat changes.txt | wc -l | tr -d ' ')" == "0" ]]; then
-              if [[ "$(yq e '.patches | contains(load("_commons/stale-environment-patch.yaml"))' "${f}")" == "false" ]]; then
-                yq e -i '.patches += load("_commons/stale-environment-patch.yaml")' "${env}/kustomization.yaml"
-              fi 
+          for env in $(ls|grep -vE '^main$'); do
+            K_FILE="${env}/kustomization.yaml"
+            if [[ -f "${K_FILE}" ]]; then
+          
+              # Ensure the "patches" property exists in the file
+              [[ "$(yq e '.patches == null' "${K_FILE}")" == "false" ]] || yq e -i '.patches = []' "${K_FILE}"
+          
+              # Check whether any updates to the environment file were made recently (if not it is considered stale)
+              git log -1 --format=oneline --since="1 hours ago" -- "${env}" | tee changes.txt
+              if [[ "$(cat changes.txt | wc -l | tr -d ' ')" == "0" ]]; then
+                # Remove known stale-environments patches & re-add them to the kustomization patches list
+                # This is meant to ensure that all known patches are there (for stale environments)
+                yq e -i 'load("../etc/stale-env-patches.yaml") ref $p | .patches -= $p | .patches += $p' "${K_FILE}"
+              fi
+          
+              # Cleanup so it doesn't get added to VCS
+              rm -f changes.txt
             fi
-            rm -fv changes.txt
           done
       - id: commit
         uses: EndBug/add-and-commit@v9
         with:
-          add: environments
+          add: environments/*/kustomization.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: 'chore: garbage collect stale environments'

@@ -1,30 +1,3 @@
-apiVersion: dns.cnrm.cloud.google.com/v1beta1
-kind: DNSRecordSet
-metadata:
-  name: echo-server-a-record
-spec:
-  name: "${flux_environment}.echo.kfirs.com."
-  type: CNAME
-  ttl: 300
-  managedZoneRef:
-    name: kfirs-com
-    namespace: dns
-  # noinspection KubernetesDeprecatedKeys
-  rrdatas:
-    - traefik.kfirs.com.
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: echo-server
-spec:
-  secretName: echoserver-tls
-  issuerRef:
-    kind: ClusterIssuer
-    name: google-clouddns
-  dnsNames:
-    - "${flux_environment}.echo.kfirs.com"
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:

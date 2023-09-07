@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: env-main
+  name: env-${ENV_NAME}
   namespace: default
 spec:
   dependsOn:
@@ -12,13 +12,20 @@ spec:
     - name: external-secrets
     - name: traefik
   interval: 5m
-  path: environments/main
+  path: environments/${ENV_NAME}
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
+  wait: true
   postBuild:
     substitute:
-      flux_environment: main
+      flux_environment: ${ENV_NAME}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: ${ENV_NAME}
