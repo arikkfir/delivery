@@ -80,10 +80,17 @@ jobs:
           K_FILE: environments/${{ steps.env.outputs.name }}/kustomization.yaml
       - uses: EndBug/add-and-commit@v9
         with:
-          add: ${{ env.FLUX_K_FILE }} ${{ env.K_FILE }}
+          add: >-
+            clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
+            environments/${{ steps.env.outputs.name }}/kustomization.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
-          message: "Deployment to \"${{ env.ENV_NAME }}\" from \"${{ github.repository }}\" \n\nEnvironment:       ${{ env.ENV_NAME }}\nSource repository: ${{ github.repository }}\nBranch:            ${{ inputs.branch }}"
+          message: |
+            Deployment to "${{ steps.env.outputs.name }}" from "${{ github.repository }}"
+            
+            Environment:       ${{ steps.env.outputs.name }}
+            Source repository: ${{ github.repository }}
+            Branch:            ${{ inputs.branch }}
 
   verify:
     name: Wait for environment readiness
