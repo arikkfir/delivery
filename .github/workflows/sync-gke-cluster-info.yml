@@ -41,25 +41,33 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
+    env:
+      GKE_CLUSTER_NAME: ${{ inputs.gke_cluster_name }}
+      GKE_CLUSTER_LOCATION: ${{ inputs.gke_cluster_location }}
+      GKE_INGRESS_REGION: ${{ inputs.gke_ingress_region }}
     steps:
       - uses: actions/checkout@v3
         with:
           repository: arikkfir/delivery
           token: ${{ secrets.ARIKKFIR_DELIVERY_SYNC }}
-      - run: |-
-          for f in .github/workflows/deploy-to-environment.yml .github/workflows/sync-traefik-lb-address.yml; do
+      - working-directory: .github/workflows
+        run: |-
+          for f in deploy-to-environment.yml sync-traefik-lb-address.yml undeploy-from-environment.yml; do
             yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' "${f}"
             yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' "${f}"
           done
-          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterLocation|=env(GKE_CLUSTER_LOCATION)' platform/external-secrets/gcp-iam.yaml
-          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterName|=env(GKE_CLUSTER_NAME)' platform/external-secrets/gcp-iam.yaml
-          yq e -P -i 'select(.kind=="ComputeAddress").spec.location|=env(GKE_INGRESS_REGION)' platform/traefik/gcp-ingress.yaml
-        env:
-          GKE_CLUSTER_NAME: ${{ inputs.gke_cluster_name }}
-          GKE_CLUSTER_LOCATION: ${{ inputs.gke_cluster_location }}
-          GKE_INGRESS_REGION: ${{ inputs.gke_ingress_region }}
+      - working-directory: platform
+        run: |-
+          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterLocation|=env(GKE_CLUSTER_LOCATION)' external-secrets/gcp-iam.yaml
+          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterName|=env(GKE_CLUSTER_NAME)' external-secrets/gcp-iam.yaml
+          yq e -P -i 'select(.kind=="ComputeAddress").spec.location|=env(GKE_INGRESS_REGION)' traefik/gcp-ingress.yaml
       - uses: EndBug/add-and-commit@v9
         with:
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
-          message: Sync GKE cluster info in workflows
+          message: |
+            Sync GKE cluster info in workflows
+            
+            Cluster name:     ${{ inputs.gke_cluster_name }}
+            Cluster location: ${{ inputs.gke_cluster_location }}
+            Ingress region:   ${{ inputs.gke_ingress_region }}
