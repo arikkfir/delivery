@@ -128,4 +128,4 @@ jobs:
           version: ${{ env.FLUXCD_VERSION }}
       - run: flux --timeout 30m0s reconcile -n default kustomization env-${ENVIRONMENT}
         env:
-          ENVIRONMENT: ${{ needs.deploy.outputs.env }}
+          ENVIRONMENT: ${{ needs.commit.outputs.env }}
