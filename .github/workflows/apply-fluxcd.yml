@@ -26,6 +26,12 @@ defaults:
   run:
     shell: bash -exuo pipefail {0}
 
+env:
+  FLUXCD_VERSION: 2.1.0
+  GCP_CLI_VERSION: 443.0.0
+  GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
+  GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
+
 jobs:
 
   bootstrap:
@@ -34,11 +40,6 @@ jobs:
     timeout-minutes: 30
     permissions:
       id-token: write
-    env:
-      FLUXCD_VERSION: 2.1.0
-      GCP_CLI_VERSION: 443.0.0
-      GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
-      GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
     steps:
       - uses: actions/checkout@v3
         with:
