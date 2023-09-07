@@ -40,6 +40,12 @@ jobs:
                 # Remove known stale-environments patches & re-add them to the kustomization patches list
                 # This is meant to ensure that all known patches are there (for stale environments)
                 yq e -i 'load("../etc/stale-env-patches.yaml") ref $p | .patches -= $p | .patches += $p' "${K_FILE}"
+              else
+                # Remove known stale-environments patches from the kustomization patches list
+                # This is meant to ensure that all known patches are not there (for non-stale environments) - this might
+                # be needed if the environment was stale in the past and the deployment failed somehow to take it out of
+                # the stale state.
+                yq e -i 'load("../etc/stale-env-patches.yaml") ref $p | .patches -= $p' "${K_FILE}"
               fi
           
               # Cleanup so it doesn't get added to VCS

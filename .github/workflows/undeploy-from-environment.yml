@@ -14,10 +14,13 @@ on:
       images:
         type: string
         description: |
-          Map of images to deploy, in YAML format of "image:tag" pairs, for example:
+          List of image repositories to remove.
+          
+          IMPORTANT: this list should only contain the "repository" part of the images - and NOT their tag. For example:
+          
           ```
-          my-image:newTag
-          my-2nd-image:new2ndTag
+          my-image
+          my-2nd-image
           ```
         required: true
 
@@ -25,47 +28,49 @@ defaults:
   run:
     shell: bash -exuo pipefail {0}
 
-jobs:
+env:
+  GKE_CLUSTER_NAME: main
 
-  slug:
-    name: "Slug"
-    runs-on: ubuntu-22.04
-    outputs:
-      slug: ${{ steps.slug.outputs.slug }}
-    steps:
-      - id: slug
-        run: |
-          SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
-          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+jobs:
 
   undeploy:
     name: Undeploy images from environment
-    needs: slug
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-    environment: ${{ needs.slug-environment.outputs.slug }}
     steps:
       - uses: actions/checkout@v3
         with:
           repository: arikkfir/delivery
           token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }}
-      - id: update-image-tags
-        run: |
+      - uses: arikkfir/delivery-env-name@v1
+        id: env
+        with:
+          branch: ${{ inputs.branch }}
+      - run: |
+          # Dump the list of image repositories to a file
           cat > images-to-remove.txt <<EOF
           ${{ inputs.images }}
           EOF
-          while read image; do
-            yq e -i "del(.spec.images[] | select(.name==\"${image}\"))" clusters/main/environments/${ENVIRONMENT}.yaml
-          done < images-to-remove.txt
-          if [[ "$(yq e '.spec.images|length' clusters/main/environments/${ENVIRONMENT}.yaml)" == "0" ]]; then
-            rm -rfv clusters/main/environments/${ENVIRONMENT}.yaml
-            rm -rfv environments/${ENVIRONMENT}
+          echo >> images-to-remove.txt # ensure new-line at the end of the file, required for "while read" below
+
+          # Remove the images from the kustomization file's list of images
+          if [[ -f "${K_FILE}" ]]; then
+            while read image; do
+              yq e -i "del(.spec.images[] | select(.name==\"${image}\"))" "${K_FILE}"
+            done < images-to-remove.txt
+          fi 
+          
+          # If no images left, remove the environment
+          if [[ "$(yq e '.spec.images|length' "${K_FILE}")" == "0" ]]; then
+            rm -rfv "${FLUX_K_FILE}" "$(dirname "${K_FILE}")"
           fi
         env:
-          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+          FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
+          K_FILE: environments/${{ steps.env.outputs.name }}/kustomization.yaml
       - uses: EndBug/add-and-commit@v9
         with:
+          add: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml environments/${{ steps.env.outputs.name }}
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: |

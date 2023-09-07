@@ -31,51 +31,46 @@ env:
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
 jobs:
-  slug:
-    name: Slug
-    runs-on: ubuntu-22.04
-    outputs:
-      slug: ${{ steps.slug.outputs.slug }}
-    steps:
-      - id: validate
-        run: |
-          if [[ -z "${BRANCH}" ]]; then
-              echo "Missing branch input"
-              exit 1
-          fi
-        env:
-          BRANCH: ${{ inputs.branch }}
-      - id: slug
-        run: |
-          SLUG=$(echo -n "${{ inputs.branch }}" | sed -E 's/[^a-zA-Z0-9_]+/-/g' | sed -E 's/^-|-$//g' | tr '[:upper:]' '[:lower:]')
-          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
-  deploy:
-    name: Deploy images to environment
-    needs: slug
+
+  commit:
+    name: Commit
+    needs: env
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-    environment: ${{ needs.slug.outputs.slug }}
+    outputs:
+      env: ${{ steps.env.outputs.name }}
     env:
-      ENV_NAME: ${{ needs.slug.outputs.slug }}
-      ENV_FLUX_K_NAME: env-${{ needs.slug.outputs.slug }}
-      ENV_FLUX_K_FILE: clusters/${GKE_CLUSTER_NAME}/environments/${{ needs.slug.outputs.slug }}.yaml
-      ENV_K_FILE: environments/${{ needs.slug.outputs.slug }}/kustomization.yaml
+      ENV_NAME: ${{ needs.env.outputs.name }}
+      FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ needs.env.outputs.name }}.yaml
+      K_FILE: environments/${{ needs.env.outputs.name }}/kustomization.yaml
     steps:
       - uses: actions/checkout@v3
         with:
           repository: arikkfir/delivery
           token: ${{ secrets.ARIKKFIR_GHA_AUTOMATION }} # Required since this workflow is called by other repositories
+      - uses: arikkfir/delivery-env-name@v1
+        id: env
+        with:
+          branch: ${{ inputs.branch }}
       - run: |
-          [[ -f "${ENV_FLUX_K_FILE}" ]] || cat etc/env-flux-kustomization-template.yaml | envsubst > "${ENV_FLUX_K_FILE}"
-          [[ -f "${ENV_K_FILE}" ]] || (mkdir -pv "$(dirname "${ENV_K_FILE}")" && cat etc/env-kustomization-template.yaml > "${ENV_K_FILE}")
-          [[ "$(yq e '.images == null' "${ENV_K_FILE}")" == "false" ]] || yq e -i '.images = []' "${ENV_K_FILE}"
-          [[ "$(yq e '.patches == null' "${ENV_K_FILE}")" == "false" ]] || yq e -i '.patches = []' "${ENV_K_FILE}"
-      - if: env.ENV_NAME != 'main'
-        run: |
-          [[ "$(yq e '.resources == null' "${ENV_K_FILE}"))" == "false" ]] || yq e -i '.resources = ["../main"]' "${ENV_K_FILE}"
-          yq e -i '.patches -= load("etc/stale-env-patches.yaml")' "${ENV_K_FILE}"
-      - run: |
+          # Ensure Flux kustomization file and Kustomize kustomization files exist
+          [[ -f "${FLUX_K_FILE}" ]] || cat etc/env-flux-kustomization-template.yaml | envsubst > "${FLUX_K_FILE}"
+          [[ -f "${K_FILE}" ]] || (mkdir -pv "$(dirname "${K_FILE}")" && cat etc/env-kustomization-template.yaml > "${K_FILE}")
+          
+          # Ensure they have the "images" and "patches" properties; create them if missing with empty values 
+          [[ "$(yq e '.images == null' "${K_FILE}")" == "false" ]] || yq e -i '.images = []' "${K_FILE}"
+          [[ "$(yq e '.patches == null' "${K_FILE}")" == "false" ]] || yq e -i '.patches = []' "${K_FILE}"
+          
+          # For non-main environments, ensure the "resources" property is set by default to extend the "main" variant,
+          # and also ensure it's missing the stale-environments patches (since we're deploying to it, it's not stale)
+          if [[ "${ENV_NAME}" != "main" ]]; then
+            [[ "$(yq e '.resources == null' "${K_FILE}"))" == "false" ]] || yq e -i '.resources = ["../main"]' "${K_FILE}"
+            yq e -i '.patches -= load("etc/stale-env-patches.yaml")' "${K_FILE}"
+          fi
+          
+          # Dump the given new images map into a YAML file
+          # TODO: make sure it's a valid object; common when source caller does not put a space after the ":" separator
           cat > new-images.yaml <<EOF
           ${{ inputs.images }}
           EOF
@@ -83,22 +78,24 @@ jobs:
           # Merge the existing images in the environment kustomization with the newly given images map
           # This requires first converting the existing images array into a map, performing the merge, and then store
           # the result back into the kustomization "images" property
-          yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | $k.images = . | $k' kustomization.yaml
+          yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | $k.images = . | $k' "${K_FILE}"
+        env:
+          ENV_NAME: ${{ steps.env.outputs.name }}
+          FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
+          K_FILE: environments/${{ steps.env.outputs.name }}/kustomization.yaml
       - uses: EndBug/add-and-commit@v9
         with:
-          add: ${{ env.ENV_FLUX_K_FILE }} ${{ env.ENV_K_FILE }}
+          add: ${{ env.FLUX_K_FILE }} ${{ env.K_FILE }}
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
-          message: "Deployment to \"${{ needs.slug.outputs.slug }}\" from \"${{ github.repository }}\" \n\nEnvironment:       ${{ needs.slug.outputs.slug }}\nSource repository: ${{ github.repository }}\nBranch:            ${{ inputs.branch }}"
-  verify-env-is-up:
-    name: Wait for environment to be up
-    needs:
-      - slug
-      - deploy
+          message: "Deployment to \"${{ env.ENV_NAME }}\" from \"${{ github.repository }}\" \n\nEnvironment:       ${{ env.ENV_NAME }}\nSource repository: ${{ github.repository }}\nBranch:            ${{ inputs.branch }}"
+
+  verify:
+    name: Wait for environment readiness
+    needs: deploy
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
-    environment: ${{ needs.slug.outputs.slug }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -121,4 +118,4 @@ jobs:
           version: ${{ env.FLUXCD_VERSION }}
       - run: flux --timeout 30m0s reconcile -n default kustomization env-${ENVIRONMENT}
         env:
-          ENVIRONMENT: ${{ needs.slug.outputs.slug }}
+          ENVIRONMENT: ${{ needs.deploy.outputs.env }}
