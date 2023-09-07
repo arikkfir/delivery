@@ -58,8 +58,8 @@ jobs:
           done
       - working-directory: platform
         run: |-
-          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterLocation|=env(GKE_CLUSTER_LOCATION)' external-secrets/gcp-iam.yaml
-          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterName|=env(GKE_CLUSTER_NAME)' external-secrets/gcp-iam.yaml
+          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterLocation|=env(GKE_CLUSTER_LOCATION)' external-secrets/gcp.yaml
+          yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterName|=env(GKE_CLUSTER_NAME)' external-secrets/gcp.yaml
           yq e -P -i 'select(.kind=="ComputeAddress").spec.location|=env(GKE_INGRESS_REGION)' traefik/gcp-ingress.yaml
       - uses: EndBug/add-and-commit@v9
         with:
