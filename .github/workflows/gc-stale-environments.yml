@@ -9,12 +9,15 @@ on:
     paths:
       - .github/workflows/gc-stale-environments.yml
       - environments/**
+
 defaults:
   run:
     shell: bash -exuo pipefail {0}
+
 concurrency:
   group: production
   cancel-in-progress: false
+
 jobs:
   gc:
     name: Garbage Collect
