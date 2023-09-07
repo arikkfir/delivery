@@ -73,7 +73,15 @@ jobs:
           # Merge the existing images in the environment kustomization with the newly given images map
           # This requires first converting the existing images array into a map, performing the merge, and then store
           # the result back into the kustomization "images" property
-          yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | $k.images = . | $k' "${K_FILE}"
+          # Detailed explanation:
+          #   . ref $k                                                  -> save current object (the kustomization) as variable "k" 
+          #   | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) -> reduce images array to an object; key is image name, value is image tag
+          #   | . * load("new-images.yaml")                             -> merge the new images map into the images object (new overriding old images) 
+          #   | to_entries                                              -> translate the final images object to an array
+          #   | map({"name":.key,"newTag":.value})                      -> shape the array to the expected kustomize images structure
+          #   | $k.images = .                                           -> store the current context (".") which is the final images array into the "images" property in "k"
+          #   | $k                                                      -> return "k"
+          yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | to_entries | map({"name":.key,"newTag":.value}) | $k.images = . | $k' "${K_FILE}"
         env:
           ENV_NAME: ${{ steps.env.outputs.name }}
           FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
