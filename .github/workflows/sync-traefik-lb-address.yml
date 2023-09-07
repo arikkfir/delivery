@@ -1,4 +1,5 @@
 name: Sync Traefik LoadBalancer IP address
+
 on:
   workflow_dispatch:
     inputs:
@@ -15,9 +16,11 @@ on:
       - main
     paths:
       - .github/workflows/sync-traefik-lb-address.yml
+
 defaults:
   run:
     shell: bash -exuo pipefail {0}
+
 env:
   DEFAULT_HOME_IP: 85.64.221.247
   DEFAULT_OFFICE_IP: 176.12.222.6
@@ -27,9 +30,11 @@ env:
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
+
 concurrency:
   group: production
   cancel-in-progress: false
+
 jobs:
   sync-traefik-lb:
     name: Sync Traefik LoadBalancer
