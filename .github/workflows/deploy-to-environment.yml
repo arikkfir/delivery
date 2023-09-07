@@ -87,7 +87,7 @@ jobs:
 
   verify:
     name: Wait for environment readiness
-    needs: deploy
+    needs: commit
     runs-on: ubuntu-22.04
     permissions:
       id-token: write
