@@ -4,3 +4,12 @@ namespace: ${ENV_NAME}
 patches: []
 resources:
   - ../main
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: b2fd38006bea8c8da84fa2970257e1f8e5e2c387
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: b2fd38006bea8c8da84fa2970257e1f8e5e2c387
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: b2fd38006bea8c8da84fa2970257e1f8e5e2c387
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: b2fd38006bea8c8da84fa2970257e1f8e5e2c387
