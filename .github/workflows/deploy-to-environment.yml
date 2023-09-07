@@ -31,7 +31,6 @@ env:
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
 jobs:
-
   commit:
     name: Commit
     runs-on: ubuntu-22.04
@@ -48,58 +47,22 @@ jobs:
         id: env
         with:
           branch: ${{ inputs.branch }}
-      - run: |
-          # Ensure Flux kustomization file and Kustomize kustomization files exist
-          [[ -f "${FLUX_K_FILE}" ]] || cat etc/env-flux-kustomization-template.yaml | envsubst > "${FLUX_K_FILE}"
-          [[ -f "${K_FILE}" ]] || (mkdir -pv "$(dirname "${K_FILE}")" && cat etc/env-kustomization-template.yaml | envsubst > "${K_FILE}")
-          
-          # Ensure they have the "images" and "patches" properties; create them if missing with empty values 
-          [[ "$(yq e '.images == null' "${K_FILE}")" == "false" ]] || yq e -i '.images = []' "${K_FILE}"
-          [[ "$(yq e '.patches == null' "${K_FILE}")" == "false" ]] || yq e -i '.patches = []' "${K_FILE}"
-          
-          # For non-main environments, ensure the "resources" property is set by default to extend the "main" variant,
-          # and also ensure it's missing the stale-environments patches (since we're deploying to it, it's not stale)
-          if [[ "${ENV_NAME}" != "main" ]]; then
-            [[ "$(yq e '.resources == null' "${K_FILE}"))" == "false" ]] || yq e -i '.resources = ["../main"]' "${K_FILE}"
-            yq e -i '.patches -= load("etc/stale-env-patches.yaml")' "${K_FILE}"
-          fi
-          
-          # Dump the given new images map into a YAML file
-          # TODO: make sure it's a valid object; common when source caller does not put a space after the ":" separator
-          cat > new-images.yaml <<EOF
-          ${{ inputs.images }}
-          EOF
-          
-          # Merge the existing images in the environment kustomization with the newly given images map
-          # This requires first converting the existing images array into a map, performing the merge, and then store
-          # the result back into the kustomization "images" property
-          # Detailed explanation:
-          #   . ref $k                                                  -> save current object (the kustomization) as variable "k" 
-          #   | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) -> reduce images array to an object; key is image name, value is image tag
-          #   | . * load("new-images.yaml")                             -> merge the new images map into the images object (new overriding old images) 
-          #   | to_entries                                              -> translate the final images object to an array
-          #   | map({"name":.key,"newTag":.value})                      -> shape the array to the expected kustomize images structure
-          #   | $k.images = .                                           -> store the current context (".") which is the final images array into the "images" property in "k"
-          #   | $k                                                      -> return "k"
-          yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | to_entries | map({"name":.key,"newTag":.value}) | $k.images = . | $k' "${K_FILE}"
+      - run: "# Ensure Flux kustomization file and Kustomize kustomization files exist\n[[ -f \"${FLUX_K_FILE}\" ]] || cat etc/env-flux-kustomization-template.yaml | envsubst > \"${FLUX_K_FILE}\"\n[[ -f \"${K_FILE}\" ]] || (mkdir -pv \"$(dirname \"${K_FILE}\")\" && cat etc/env-kustomization-template.yaml | envsubst > \"${K_FILE}\")\n\n# Ensure they have the \"images\" and \"patches\" properties; create them if missing with empty values \n[[ \"$(yq e '.images == null' \"${K_FILE}\")\" == \"false\" ]] || yq e -i '.images = []' \"${K_FILE}\"\n[[ \"$(yq e '.patches == null' \"${K_FILE}\")\" == \"false\" ]] || yq e -i '.patches = []' \"${K_FILE}\"\n\n# For non-main environments, ensure the \"resources\" property is set by default to extend the \"main\" variant,\n# and also ensure it's missing the stale-environments patches (since we're deploying to it, it's not stale)\nif [[ \"${ENV_NAME}\" != \"main\" ]]; then\n  [[ \"$(yq e '.resources == null' \"${K_FILE}\"))\" == \"false\" ]] || yq e -i '.resources = [\"../main\"]' \"${K_FILE}\"\n  yq e -i '.patches -= load(\"etc/stale-env-patches.yaml\")' \"${K_FILE}\"\nfi\n\n# Dump the given new images map into a YAML file\n# TODO: make sure it's a valid object; common when source caller does not put a space after the \":\" separator\ncat > new-images.yaml <<EOF\n${{ inputs.images }}\nEOF\n\n# Merge the existing images in the environment kustomization with the newly given images map\n# This requires first converting the existing images array into a map, performing the merge, and then store\n# the result back into the kustomization \"images\" property\n# Detailed explanation:\n#   . ref $k                                                  -> save current object (the kustomization) as variable \"k\" \n#   | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) -> reduce images array to an object; key is image name, value is image tag\n#   | . * load(\"new-images.yaml\")                             -> merge the new images map into the images object (new overriding old images) \n#   | to_entries                                              -> translate the final images object to an array\n#   | map({\"name\":.key,\"newTag\":.value})                      -> shape the array to the expected kustomize images structure\n#   | $k.images = .                                           -> store the current context (\".\") which is the final images array into the \"images\" property in \"k\"\n#   | $k                                                      -> return \"k\"\nyq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load(\"new-images.yaml\") | to_entries | map({\"name\":.key,\"newTag\":.value}) | $k.images = . | $k' \"${K_FILE}\"\n"
         env:
           ENV_NAME: ${{ steps.env.outputs.name }}
           FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
           K_FILE: environments/${{ steps.env.outputs.name }}/kustomization.yaml
       - uses: EndBug/add-and-commit@v9
         with:
-          add: >-
-            clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
-            environments/${{ steps.env.outputs.name }}/kustomization.yaml
+          add: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml environments/${{ steps.env.outputs.name }}/kustomization.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: |
             Deployment to "${{ steps.env.outputs.name }}" from "${{ github.repository }}"
-            
+
             Environment:       ${{ steps.env.outputs.name }}
             Source repository: ${{ github.repository }}
             Branch:            ${{ inputs.branch }}
-
   verify:
     name: Wait for environment readiness
     needs: commit
