@@ -34,16 +34,11 @@ jobs:
 
   commit:
     name: Commit
-    needs: env
     runs-on: ubuntu-22.04
     permissions:
       contents: write
     outputs:
       env: ${{ steps.env.outputs.name }}
-    env:
-      ENV_NAME: ${{ needs.env.outputs.name }}
-      FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ needs.env.outputs.name }}.yaml
-      K_FILE: environments/${{ needs.env.outputs.name }}/kustomization.yaml
     steps:
       - uses: actions/checkout@v3
         with:
