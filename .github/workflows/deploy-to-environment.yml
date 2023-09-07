@@ -51,7 +51,7 @@ jobs:
       - run: |
           # Ensure Flux kustomization file and Kustomize kustomization files exist
           [[ -f "${FLUX_K_FILE}" ]] || cat etc/env-flux-kustomization-template.yaml | envsubst > "${FLUX_K_FILE}"
-          [[ -f "${K_FILE}" ]] || (mkdir -pv "$(dirname "${K_FILE}")" && cat etc/env-kustomization-template.yaml > "${K_FILE}")
+          [[ -f "${K_FILE}" ]] || (mkdir -pv "$(dirname "${K_FILE}")" && cat etc/env-kustomization-template.yaml | envsubst > "${K_FILE}")
           
           # Ensure they have the "images" and "patches" properties; create them if missing with empty values 
           [[ "$(yq e '.images == null' "${K_FILE}")" == "false" ]] || yq e -i '.images = []' "${K_FILE}"
