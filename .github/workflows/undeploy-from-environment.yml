@@ -14,9 +14,9 @@ on:
         type: string
         description: |
           List of image repositories to remove.
-          
+
           IMPORTANT: this list should only contain the "repository" part of the images - and NOT their tag. For example:
-          
+
           ```
           my-image
           my-2nd-image
@@ -55,8 +55,8 @@ jobs:
             while read image; do
               yq e -i "del(.spec.images[] | select(.name==\"${image}\"))" "${K_FILE}"
             done < images-to-remove.txt
-          fi 
-          
+          fi
+
           # If no images left, remove the environment
           if [[ "$(yq e '.spec.images|length' "${K_FILE}")" == "0" ]]; then
             rm -rfv "${FLUX_K_FILE}" "$(dirname "${K_FILE}")"
@@ -71,6 +71,6 @@ jobs:
           author_email: <delivery@kfirs.com>
           message: |
             Deleting "${{ needs.slug.outputs.slug }}" (no longer needed)
-            
+
             Triggering repository:      ${{ github.repository }}
             Triggering branch (closed): ${{ inputs.branch }}
