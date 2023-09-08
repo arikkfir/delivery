@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playwright
+spec:
+  selector:
+    matchLabels: {}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        gke-gcsfuse/volumes: "true"
+      labels: {}
+    spec:
+      containers:
+        - image: nginx:1.23
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            limits:
+              cpu: 200m
+              memory: 64Gi
+            requests:
+              cpu: 200m
+              memory: 32Mi
+          volumeMounts:
+            - name: gcs-fuse-arikkfir-playwright-reports
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+      enableServiceLinks: false
+      serviceAccountName: playwright
+      volumes:
+        - name: gcs-fuse-arikkfir-playwright-reports
+          csi:
+            driver: gcsfuse.csi.storage.gke.io
+            readOnly: true
+            volumeAttributes:
+              bucketName: arikkfir-playwright-reports
+              mountOptions: "implicit-dirs"

@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app.kubernetes.io/name: playwright
+namespace: playwright
+resources:
+  - namespace.yaml
+  - rbac.yaml
+  - certificate.yaml
+  - dnsrecord.yaml
+  - gcp-iam.yaml
+  - ingressroute.yaml
+  - service.yaml
+  - deployment.yaml

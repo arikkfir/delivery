@@ -1,0 +1,32 @@
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: playwright
+spec:
+  displayName: Playwright Service Account
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: playwright-storage-objectViewer
+spec:
+  member: serviceAccount:arikkfir.svc.id.goog[playwright/playwright]
+  role: roles/iam.workloadIdentityUser
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: playwright
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: playwright-storage-object-viewer
+spec:
+  memberFrom:
+    serviceAccountRef:
+      name: playwright
+  role: roles/storage.objectViewer
+  resourceRef:
+    apiVersion: storage.cnrm.cloud.google.com/v1beta1
+    kind: StorageBucket
+    external: arikkfir-playwright-reports

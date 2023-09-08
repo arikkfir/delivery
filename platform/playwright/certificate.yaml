@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: playwright
+spec:
+  secretName: playwright-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: google-clouddns-prod
+  dnsNames:
+    - "playwright.kfirs.com"
