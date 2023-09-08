@@ -31,13 +31,25 @@ env:
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
 jobs:
+  env:
+    name: Environment
+    runs-on: ubuntu-22.04
+    outputs:
+      name: ${{ steps.env.outputs.name }}
+    steps:
+      - uses: arikkfir/delivery-env-name@v1
+        id: env
+        with:
+          branch: ${{ inputs.branch }}
   commit:
     name: Commit
+    needs: env
     runs-on: ubuntu-22.04
     permissions:
       contents: write
     outputs:
-      env: ${{ steps.env.outputs.name }}
+      env: ${{ needs.env.outputs.name }}
+    environment: ${{ needs.env.outputs.name }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -82,18 +94,18 @@ jobs:
           #   | $k                                                      -> return "k"
           yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | to_entries | map({"name":.key,"newTag":.value}) | $k.images = . | $k' "${K_FILE}"
         env:
-          ENV_NAME: ${{ steps.env.outputs.name }}
-          FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
-          K_FILE: environments/${{ steps.env.outputs.name }}/kustomization.yaml
+          ENV_NAME: ${{ needs.env.outputs.name }}
+          FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ needs.env.outputs.name }}.yaml
+          K_FILE: environments/${{ needs.env.outputs.name }}/kustomization.yaml
       - uses: EndBug/add-and-commit@v9
         with:
           add: clusters/*/environments/*.yaml environments/*/kustomization.yaml
           author_name: GitHub Actions
           author_email: <delivery@kfirs.com>
           message: |
-            Deployment to "${{ steps.env.outputs.name }}" from "${{ github.repository }}"
+            Deployment to "${{ needs.env.outputs.name }}" from "${{ github.repository }}"
 
-            Environment:       ${{ steps.env.outputs.name }}
+            Environment:       ${{ needs.env.outputs.name }}
             Source repository: ${{ github.repository }}
             Branch:            ${{ inputs.branch }}
   verify:
