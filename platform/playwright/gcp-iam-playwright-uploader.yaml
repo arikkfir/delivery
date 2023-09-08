@@ -10,7 +10,7 @@ kind: IAMPolicyMember
 metadata:
   name: playwright-uploader-oidc-link
 spec:
-  member: principalSet://iam.googleapis.com/github-actions/attribute.repository_owner/arikkfir
+  member: principalSet://iam.googleapis.com/projects/8909046976/locations/global/workloadIdentityPools/github-actions/attribute.repository_owner/arikkfir
   role: roles/iam.workloadIdentityUser
   resourceRef:
     apiVersion: iam.cnrm.cloud.google.com/v1beta1
