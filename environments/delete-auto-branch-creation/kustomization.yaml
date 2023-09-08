@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: delete-auto-branch-creation
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+patches: []
+resources:
+  - ../main
