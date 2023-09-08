@@ -1,30 +1,30 @@
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMServiceAccount
 metadata:
-  name: playwright
+  name: playwright-server
 spec:
-  displayName: Playwright Service Account
+  displayName: Playwright server Service Account
 ---
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
-  name: playwright-ksa-link
+  name: playwright-server-ksa-link
 spec:
-  member: serviceAccount:arikkfir.svc.id.goog[playwright/playwright]
+  member: serviceAccount:arikkfir.svc.id.goog[playwright/playwright-server]
   role: roles/iam.workloadIdentityUser
   resourceRef:
     apiVersion: iam.cnrm.cloud.google.com/v1beta1
     kind: IAMServiceAccount
-    name: playwright
+    name: playwright-server
 ---
 apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
-  name: playwright-storage-object-viewer
+  name: playwright-server-storage-object-viewer
 spec:
   memberFrom:
     serviceAccountRef:
-      name: playwright
+      name: playwright-server
   role: roles/storage.objectViewer
   resourceRef:
     apiVersion: storage.cnrm.cloud.google.com/v1beta1

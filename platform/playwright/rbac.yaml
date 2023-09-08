@@ -3,4 +3,4 @@ kind: ServiceAccount
 metadata:
   annotations:
     iam.gke.io/gcp-service-account: playwright@arikkfir.iam.gserviceaccount.com
-  name: playwright
+  name: playwright-server

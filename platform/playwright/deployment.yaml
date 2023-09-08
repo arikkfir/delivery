@@ -31,7 +31,7 @@ spec:
               mountPath: /usr/share/nginx/html
               readOnly: true
       enableServiceLinks: false
-      serviceAccountName: playwright
+      serviceAccountName: playwright-server
       volumes:
         - name: gcs-fuse-arikkfir-playwright-reports
           csi:
