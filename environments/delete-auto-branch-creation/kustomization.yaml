@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: delete-auto-branch-creation
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+    newTag: fed9428170cea0da309f1bd1f68e1b0bccd71773
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+    newTag: fed9428170cea0da309f1bd1f68e1b0bccd71773
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+    newTag: fed9428170cea0da309f1bd1f68e1b0bccd71773
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 534d55cd38d1271210b2fb511704ef6537292e76
+    newTag: fed9428170cea0da309f1bd1f68e1b0bccd71773
 patches: []
 resources:
   - ../main
