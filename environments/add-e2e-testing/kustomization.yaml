@@ -3,37 +3,13 @@ kind: Kustomization
 namespace: add-e2e-testing
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 716a623843027b1523a9de7513b89dc71dac1c29
+    newTag: ba840e92798825a1dcd600de2ca13e38b5d1d65d
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 716a623843027b1523a9de7513b89dc71dac1c29
+    newTag: ba840e92798825a1dcd600de2ca13e38b5d1d65d
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 716a623843027b1523a9de7513b89dc71dac1c29
+    newTag: ba840e92798825a1dcd600de2ca13e38b5d1d65d
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 716a623843027b1523a9de7513b89dc71dac1c29
-patches:
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: Deployment
-  - patch: |
-      - op: replace
-        path: /spec/values/replicaCount
-        value: 0
-    target:
-      group: helm.toolkit.fluxcd.io
-      version: v2beta1
-      kind: HelmRelease
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: StatefulSet
+    newTag: ba840e92798825a1dcd600de2ca13e38b5d1d65d
+patches: []
 resources:
   - ../main
