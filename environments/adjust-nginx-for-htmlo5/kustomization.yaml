@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: adjust-nginx-for-htmlo5
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+patches: []
+resources:
+  - ../main
