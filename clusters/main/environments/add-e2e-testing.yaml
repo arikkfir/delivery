@@ -18,7 +18,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
+  wait: false
   postBuild:
     substitute:
       flux_environment: add-e2e-testing
