@@ -44,9 +44,6 @@ spec:
           kind: Service
     - kind: Rule
       match: Host(`api.${flux_environment}.greenstar.kfirs.com`)
-      middlewares:
-        - name: ip-whitelist
-          namespace: traefik
       priority: 100
       services:
         - name: api-backend
@@ -54,9 +51,6 @@ spec:
           kind: Service
     - kind: Rule
       match: HostRegexp(`{tenant:[a-zA-Z][a-zA-Z0-9_-]*}.${flux_environment}.greenstar.kfirs.com`)
-      middlewares:
-        - name: ip-whitelist
-          namespace: traefik
       priority: 90
       services:
         - name: frontend
