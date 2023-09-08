@@ -81,9 +81,6 @@ jobs:
           #   | $k.images = .                                           -> store the current context (".") which is the final images array into the "images" property in "k"
           #   | $k                                                      -> return "k"
           yq e -i '. ref $k | .images[] as $i ireduce( {}; .[$i|.name]=($i|.newTag) ) | . * load("new-images.yaml") | to_entries | map({"name":.key,"newTag":.value}) | $k.images = . | $k' "${K_FILE}"
-
-          # Cleanup
-          rm -fv new-images.yaml
         env:
           ENV_NAME: ${{ steps.env.outputs.name }}
           FLUX_K_FILE: clusters/${{ env.GKE_CLUSTER_NAME }}/environments/${{ steps.env.outputs.name }}.yaml
