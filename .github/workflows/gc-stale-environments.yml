@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    shell: bash -exuo pipefail {0}
+    shell: bash -exu {0}
 
 concurrency:
   group: production
