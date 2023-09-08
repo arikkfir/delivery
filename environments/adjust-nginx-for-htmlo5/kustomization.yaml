@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: adjust-nginx-for-htmlo5
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+    newTag: 8e4316178afcfa708a4470d2f34e959b3fc37c1c
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+    newTag: 8e4316178afcfa708a4470d2f34e959b3fc37c1c
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+    newTag: 8e4316178afcfa708a4470d2f34e959b3fc37c1c
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 39ba591e974a0e1d5fb1e74fed47b454f0f23d5b
+    newTag: 8e4316178afcfa708a4470d2f34e959b3fc37c1c
 patches: []
 resources:
   - ../main
