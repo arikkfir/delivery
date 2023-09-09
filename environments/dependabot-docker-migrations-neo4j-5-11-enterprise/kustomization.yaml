@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-docker-migrations-neo4j-5-11-enterprise
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 03ff95cb54666641db6fcbf81dcd4f3d39991d6a
+    newTag: 4b134cbbd42ffac0ae7928b8a18fe0e0852e1aaa
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 03ff95cb54666641db6fcbf81dcd4f3d39991d6a
+    newTag: 4b134cbbd42ffac0ae7928b8a18fe0e0852e1aaa
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 03ff95cb54666641db6fcbf81dcd4f3d39991d6a
+    newTag: 4b134cbbd42ffac0ae7928b8a18fe0e0852e1aaa
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 03ff95cb54666641db6fcbf81dcd4f3d39991d6a
+    newTag: 4b134cbbd42ffac0ae7928b8a18fe0e0852e1aaa
 patches: []
 resources:
   - ../main
