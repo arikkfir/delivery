@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-go-modules-backend-github-com-99designs-gqlgen-0
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 216ef3dd9d60376cd18e0070a3e3d8fff91fa538
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 216ef3dd9d60376cd18e0070a3e3d8fff91fa538
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 216ef3dd9d60376cd18e0070a3e3d8fff91fa538
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 216ef3dd9d60376cd18e0070a3e3d8fff91fa538
+patches: []
+resources:
+  - ../main
