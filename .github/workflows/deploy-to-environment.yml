@@ -134,6 +134,9 @@ jobs:
       - uses: fluxcd/flux2/action@main
         with:
           version: ${{ env.FLUXCD_VERSION }}
+      - run: flux --timeout 30m0s reconcile -n default kustomization flux-system
+        env:
+          ENVIRONMENT: ${{ needs.commit.outputs.env }}
       - run: flux --timeout 30m0s reconcile -n default kustomization env-${ENVIRONMENT}
         env:
           ENVIRONMENT: ${{ needs.commit.outputs.env }}
