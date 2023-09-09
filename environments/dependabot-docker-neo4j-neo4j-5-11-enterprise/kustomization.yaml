@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-docker-neo4j-neo4j-5-11-enterprise
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: c23b7da33e4739b1ca7450677d52110199762c3f
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: c23b7da33e4739b1ca7450677d52110199762c3f
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: c23b7da33e4739b1ca7450677d52110199762c3f
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: c23b7da33e4739b1ca7450677d52110199762c3f
+patches: []
+resources:
+  - ../main
