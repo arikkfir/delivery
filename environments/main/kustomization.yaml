@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: main
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 4d9468d9f286b74806f8e84415d752f3c8c11719
+    newTag: 89b7eb0dfe04ae1e0835c18c42c7a40ff17812c5
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 4d9468d9f286b74806f8e84415d752f3c8c11719
+    newTag: 89b7eb0dfe04ae1e0835c18c42c7a40ff17812c5
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 4d9468d9f286b74806f8e84415d752f3c8c11719
+    newTag: 89b7eb0dfe04ae1e0835c18c42c7a40ff17812c5
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 4d9468d9f286b74806f8e84415d752f3c8c11719
+    newTag: 89b7eb0dfe04ae1e0835c18c42c7a40ff17812c5
 resources:
   - ../../apps/echo-server
   - ../../apps/greenstar
