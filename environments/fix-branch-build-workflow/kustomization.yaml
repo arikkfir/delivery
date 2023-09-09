@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: fix-branch-build-workflow
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 40862bfcfacd48f3371050d335e1684ad37f3a87
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 40862bfcfacd48f3371050d335e1684ad37f3a87
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 40862bfcfacd48f3371050d335e1684ad37f3a87
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 40862bfcfacd48f3371050d335e1684ad37f3a87
+patches: []
+resources:
+  - ../main
