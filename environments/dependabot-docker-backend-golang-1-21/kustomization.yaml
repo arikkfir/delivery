@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-docker-backend-golang-1-21
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: a3006a31d5e15ea95b051c69aa529a751e55945b
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: a3006a31d5e15ea95b051c69aa529a751e55945b
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: a3006a31d5e15ea95b051c69aa529a751e55945b
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: a3006a31d5e15ea95b051c69aa529a751e55945b
+patches: []
+resources:
+  - ../main
