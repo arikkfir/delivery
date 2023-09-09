@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-docker-backend-golang-1-21
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: a3e47f793af59d1304655e42a878c2079e10d42d
+    newTag: 7fa9e1ea2721df7e12976b2d953549892bb09cc4
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: a3e47f793af59d1304655e42a878c2079e10d42d
+    newTag: 7fa9e1ea2721df7e12976b2d953549892bb09cc4
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: a3e47f793af59d1304655e42a878c2079e10d42d
+    newTag: 7fa9e1ea2721df7e12976b2d953549892bb09cc4
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: a3e47f793af59d1304655e42a878c2079e10d42d
+    newTag: 7fa9e1ea2721df7e12976b2d953549892bb09cc4
 patches: []
 resources:
   - ../main
