@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: arikkfir-merge-branch-and-pr-workflows
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+patches: []
+resources:
+  - ../main
