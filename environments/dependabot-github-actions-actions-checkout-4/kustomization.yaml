@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-github-actions-actions-checkout-4
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 4105e77b39a4c923f5ef8be24a04a6f67fafe3c2
+    newTag: a8311afd3bbf8648996a135e675ce18867faf08c
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 4105e77b39a4c923f5ef8be24a04a6f67fafe3c2
+    newTag: a8311afd3bbf8648996a135e675ce18867faf08c
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 4105e77b39a4c923f5ef8be24a04a6f67fafe3c2
+    newTag: a8311afd3bbf8648996a135e675ce18867faf08c
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 4105e77b39a4c923f5ef8be24a04a6f67fafe3c2
+    newTag: a8311afd3bbf8648996a135e675ce18867faf08c
 patches: []
 resources:
   - ../main
