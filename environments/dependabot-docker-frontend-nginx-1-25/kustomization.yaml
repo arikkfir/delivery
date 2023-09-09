@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-docker-frontend-nginx-1-25
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 00df9aeed258e28576a79a1a20939408906f5450
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 00df9aeed258e28576a79a1a20939408906f5450
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 00df9aeed258e28576a79a1a20939408906f5450
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 00df9aeed258e28576a79a1a20939408906f5450
+patches: []
+resources:
+  - ../main
