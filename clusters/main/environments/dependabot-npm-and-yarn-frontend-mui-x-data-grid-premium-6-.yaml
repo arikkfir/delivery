@@ -1,0 +1,31 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env-dependabot-npm-and-yarn-frontend-mui-x-data-grid-premium-6-
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: default
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  interval: 5m
+  path: environments/dependabot-npm-and-yarn-frontend-mui-x-data-grid-premium-6-
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  postBuild:
+    substitute:
+      flux_environment: dependabot-npm-and-yarn-frontend-mui-x-data-grid-premium-6-
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: dependabot-npm-and-yarn-frontend-mui-x-data-grid-premium-6-
