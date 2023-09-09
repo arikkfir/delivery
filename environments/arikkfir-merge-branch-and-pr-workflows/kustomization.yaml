@@ -3,37 +3,13 @@ kind: Kustomization
 namespace: arikkfir-merge-branch-and-pr-workflows
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 6685c5f7afe134225a7b616a1d28c936c784771c
+    newTag: 70a5a6f42633f8abd3bec05ece1539e2abbeb4d5
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 6685c5f7afe134225a7b616a1d28c936c784771c
+    newTag: 70a5a6f42633f8abd3bec05ece1539e2abbeb4d5
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 6685c5f7afe134225a7b616a1d28c936c784771c
+    newTag: 70a5a6f42633f8abd3bec05ece1539e2abbeb4d5
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 6685c5f7afe134225a7b616a1d28c936c784771c
-patches:
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: Deployment
-  - patch: |
-      - op: replace
-        path: /spec/values/replicaCount
-        value: 0
-    target:
-      group: helm.toolkit.fluxcd.io
-      version: v2beta1
-      kind: HelmRelease
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: StatefulSet
+    newTag: 70a5a6f42633f8abd3bec05ece1539e2abbeb4d5
+patches: []
 resources:
   - ../main
