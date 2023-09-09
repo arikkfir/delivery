@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-github_actions-docker-build-push-action-4
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 60c21be3fbc396fc938ba18cb92f165e3fca9eec
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 60c21be3fbc396fc938ba18cb92f165e3fca9eec
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 60c21be3fbc396fc938ba18cb92f165e3fca9eec
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 60c21be3fbc396fc938ba18cb92f165e3fca9eec
+patches: []
+resources:
+  - ../main
