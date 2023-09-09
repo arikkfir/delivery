@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-docker-frontend-node-20-6-0
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 188cccac1451550b2a45a401935cdf7b51298ee5
+    newTag: a3acf5104bd96d089bb185a40eff1efeb73c04a2
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 188cccac1451550b2a45a401935cdf7b51298ee5
+    newTag: a3acf5104bd96d089bb185a40eff1efeb73c04a2
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 188cccac1451550b2a45a401935cdf7b51298ee5
+    newTag: a3acf5104bd96d089bb185a40eff1efeb73c04a2
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 188cccac1451550b2a45a401935cdf7b51298ee5
+    newTag: a3acf5104bd96d089bb185a40eff1efeb73c04a2
 patches: []
 resources:
   - ../main
