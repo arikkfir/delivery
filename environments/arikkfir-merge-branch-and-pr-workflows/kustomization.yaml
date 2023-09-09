@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: arikkfir-merge-branch-and-pr-workflows
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+    newTag: 55f0efa801b9da8e70d70b2a355d70c90ffbc067
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+    newTag: 55f0efa801b9da8e70d70b2a355d70c90ffbc067
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+    newTag: 55f0efa801b9da8e70d70b2a355d70c90ffbc067
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: f0d13cc6d842c061f1da81ed3ada8b43658124d0
+    newTag: 55f0efa801b9da8e70d70b2a355d70c90ffbc067
 patches: []
 resources:
   - ../main
