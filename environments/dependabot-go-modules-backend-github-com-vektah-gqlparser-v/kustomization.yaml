@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-go-modules-backend-github-com-vektah-gqlparser-v
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: ec07bbd52d98cb559135821c66e75c571d95c701
+    newTag: a285b8569fe94487b557913da0ecac5ce7a6207d
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: ec07bbd52d98cb559135821c66e75c571d95c701
+    newTag: a285b8569fe94487b557913da0ecac5ce7a6207d
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: ec07bbd52d98cb559135821c66e75c571d95c701
+    newTag: a285b8569fe94487b557913da0ecac5ce7a6207d
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: ec07bbd52d98cb559135821c66e75c571d95c701
+    newTag: a285b8569fe94487b557913da0ecac5ce7a6207d
 patches: []
 resources:
   - ../main
