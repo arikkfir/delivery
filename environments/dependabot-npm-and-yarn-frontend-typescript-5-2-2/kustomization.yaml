@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-npm-and-yarn-frontend-typescript-5-2-2
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: bc2aa180f7f4756f0bc17ab24fd92d6e7fab7425
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: bc2aa180f7f4756f0bc17ab24fd92d6e7fab7425
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: bc2aa180f7f4756f0bc17ab24fd92d6e7fab7425
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: bc2aa180f7f4756f0bc17ab24fd92d6e7fab7425
+patches: []
+resources:
+  - ../main
