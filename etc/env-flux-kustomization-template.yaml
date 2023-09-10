@@ -11,17 +11,77 @@ spec:
     - name: dns
     - name: external-secrets
     - name: traefik
+  force: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      namespace: ${ENV_NAME}
+      name: echo-server-echo-server
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: ${ENV_NAME}
+      name: echo-server-a-record
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: ${ENV_NAME}
+      name: echo-server-root
+    - apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      namespace: ${ENV_NAME}
+      name: greenstar-descope
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: ${ENV_NAME}
+      name: greenstar-wildcard-cname-record
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: ${ENV_NAME}
+      name: greenstar-wildcard
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: ${ENV_NAME}
+      name: greenstar-backend
+    - apiVersion: batch/v1
+      kind: Job
+      namespace: ${ENV_NAME}
+      name: greenstar-migrations
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: ${ENV_NAME}
+      name: greenstar-frontend
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: ${ENV_NAME}
+      name: greenstar-neo4j
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: ${ENV_NAME}
+      name: greenstar-neo4j-data
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: ${ENV_NAME}
+      name: greenstar-neo4j-logs
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: ${ENV_NAME}
+      name: greenstar-redis
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: ${ENV_NAME}
+      name: greenstar-redis
   interval: 5m
   path: environments/${ENV_NAME}
+  postBuild:
+    substitute:
+      flux_environment: ${ENV_NAME}
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  postBuild:
-    substitute:
-      flux_environment: ${ENV_NAME}
+  timeout: 15m
+  wait: true
 ---
 apiVersion: v1
 kind: Namespace

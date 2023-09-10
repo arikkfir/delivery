@@ -11,17 +11,77 @@ spec:
     - name: dns
     - name: external-secrets
     - name: traefik
+  force: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      namespace: main
+      name: echo-server-echo-server
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: main
+      name: echo-server-a-record
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: main
+      name: echo-server-root
+    - apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      namespace: main
+      name: greenstar-descope
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: main
+      name: greenstar-wildcard-cname-record
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: main
+      name: greenstar-wildcard
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: main
+      name: greenstar-backend
+    - apiVersion: batch/v1
+      kind: Job
+      namespace: main
+      name: greenstar-migrations
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: main
+      name: greenstar-frontend
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: main
+      name: greenstar-neo4j
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: main
+      name: greenstar-neo4j-data
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: main
+      name: greenstar-neo4j-logs
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: main
+      name: greenstar-redis
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: main
+      name: greenstar-redis
   interval: 5m
   path: environments/main
+  postBuild:
+    substitute:
+      flux_environment: main
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: false
-  postBuild:
-    substitute:
-      flux_environment: main
+  timeout: 15m
+  wait: true
 ---
 apiVersion: v1
 kind: Namespace
