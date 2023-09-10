@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-go-modules-backend-github-com-99designs-gqlgen-0
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 27bebbaf63523e96dbb6e70d4e47789823f0d846
+    newTag: 0046c013b60533f9fdc4071aa77347e1798ce758
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 27bebbaf63523e96dbb6e70d4e47789823f0d846
+    newTag: 0046c013b60533f9fdc4071aa77347e1798ce758
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 27bebbaf63523e96dbb6e70d4e47789823f0d846
+    newTag: 0046c013b60533f9fdc4071aa77347e1798ce758
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 27bebbaf63523e96dbb6e70d4e47789823f0d846
+    newTag: 0046c013b60533f9fdc4071aa77347e1798ce758
 patches: []
 resources:
   - ../main
