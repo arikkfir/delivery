@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: arikkfir-65-improve-workflows-performance
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: b6c2c9f53d9df2cfe21e55d20520197c76d64b5d
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: b6c2c9f53d9df2cfe21e55d20520197c76d64b5d
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: b6c2c9f53d9df2cfe21e55d20520197c76d64b5d
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: b6c2c9f53d9df2cfe21e55d20520197c76d64b5d
+patches: []
+resources:
+  - ../main
