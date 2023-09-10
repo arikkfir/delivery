@@ -9,10 +9,55 @@ spec:
     - name: config-connector-manager
     - name: dns
     - name: traefik
+  force: true
+  healthChecks:
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: playwright
+      name: playwright
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: playwright
+      name: playwright
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: playwright
+      name: playwright-a-record
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMServiceAccount
+      namespace: playwright
+      name: playwright-server-ksa-link
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: playwright
+      name: playwright-server-ksa-link
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: playwright
+      name: playwright-server-storage-object-viewer
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMServiceAccount
+      namespace: playwright
+      name: playwright-uploader
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: playwright
+      name: playwright-uploader-oidc-link
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: playwright
+      name: playwright-uploader-storage-object-creator
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: playwright
+      name: playwright-uploader-storage-object-viewer
   interval: 5m
   path: platform/playwright
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  timeout: 15m
+  wait: true
