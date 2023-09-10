@@ -14,7 +14,7 @@ patches:
   - patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --concurrent=5
+        value: --concurrent=10
       - op: add
         path: /spec/template/spec/nodeSelector
         value:
@@ -35,7 +35,7 @@ patches:
         value: --log-level=warn
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --requeue-dependency=5s
+        value: --requeue-dependency=3s
     target:
       kind: Deployment
       name: '(source-controller|helm-controller|kustomize-controller)'
