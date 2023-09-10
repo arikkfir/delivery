@@ -15,6 +15,17 @@ patches:
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --concurrent=5
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          node.kfirs.com/role: work
+      - op: add
+        path: /spec/template/spec/tolerations
+        value:
+          - effect: NoExecute
+            key: node.kfirs.com/role
+            operator: Equal
+            value: work
     target:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=flux
