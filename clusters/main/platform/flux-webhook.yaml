@@ -11,11 +11,47 @@ spec:
     - name: flux-system
       namespace: flux-system
     - name: traefik
+  force: true
+  healthChecks:
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: flux-system
+      name: webhook-flux-kfirs-com
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: flux-system
+      name: webhook-flux-kfirs-com-a
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMServiceAccount
+      namespace: flux-system
+      name: flux-notification-controller
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: flux-system
+      name: flux-notification-controller-ksa-link
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: flux-system
+      name: flux-notification-controller-secret-viewer
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      namespace: flux-system
+      name: flux-notification-controller-secret-accessor
+    - apiVersion: notification.toolkit.fluxcd.io/v1
+      kind: Receiver
+      namespace: flux-system
+      name: delivery
+    - apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      namespace: flux-system
+      name: fluxcd-github-webhook-secret
   interval: 5m
   path: platform/flux-webhook
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  timeout: 15m
   wait: true
