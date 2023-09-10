@@ -6,13 +6,29 @@ metadata:
 spec:
   dependsOn:
     - name: config-connector-manager
+  force: true
+  healthChecks:
+    - kind: Deployment
+      name: cert-manager-cainjector
+    - kind: Deployment
+      name: cert-manager
+    - kind: Deployment
+      name: cert-manager-webhook
+    - kind: IAMPolicyMember
+      name: cert-manager-dns-admin
+    - kind: IAMPolicyMember
+      name: cert-manager-ksa-link
+    - kind: IAMServiceAccount
+      name: cert-manager
   interval: 5m
   path: platform/cert-manager/operator
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  timeout: 15m
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -23,11 +39,14 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager-operator
+  force: true
   interval: 5m
   path: platform/cert-manager/issuer
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  timeout: 15m
   wait: true
