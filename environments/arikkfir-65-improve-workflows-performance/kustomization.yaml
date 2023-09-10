@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: arikkfir-65-improve-workflows-performance
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: e60cb5034eaf7ef36a6512fe21e58bc990e6424a
+    newTag: 40f55283433c90cf767a79f81731ea353716de55
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: e60cb5034eaf7ef36a6512fe21e58bc990e6424a
+    newTag: 40f55283433c90cf767a79f81731ea353716de55
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: e60cb5034eaf7ef36a6512fe21e58bc990e6424a
+    newTag: 40f55283433c90cf767a79f81731ea353716de55
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: e60cb5034eaf7ef36a6512fe21e58bc990e6424a
+    newTag: 40f55283433c90cf767a79f81731ea353716de55
 patches: []
 resources:
   - ../main
