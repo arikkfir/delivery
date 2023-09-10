@@ -25,7 +25,6 @@ defaults:
     shell: bash -exuo pipefail {0}
 env:
   FLUXCD_VERSION: 2.1.0
-  GCP_CLI_VERSION: 443.0.0
   GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
   GKE_CLUSTER_NAME: main
@@ -125,8 +124,7 @@ jobs:
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v1
         with:
-          install_components: gke-gcloud-auth-plugin
-          version: ${{ env.GCP_CLI_VERSION }}
+          skip_install: true
       - uses: google-github-actions/get-gke-credentials@v0
         with:
           cluster_name: ${{ env.GKE_CLUSTER_NAME }}
@@ -135,8 +133,6 @@ jobs:
         with:
           version: ${{ env.FLUXCD_VERSION }}
       - run: flux --timeout 30m0s reconcile -n flux-system kustomization flux-system
-        env:
-          ENVIRONMENT: ${{ needs.commit.outputs.env }}
       - run: flux --timeout 30m0s reconcile -n default kustomization env-${ENVIRONMENT}
         env:
           ENVIRONMENT: ${{ needs.commit.outputs.env }}
