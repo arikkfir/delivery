@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-npm-and-yarn-frontend-typescript-5-2-2
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 3ec7576219c52d6123395d464fd991d6b626ee7d
+    newTag: 5067f4199157d07bafc0ae16b7beff1f6209c8b4
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 3ec7576219c52d6123395d464fd991d6b626ee7d
+    newTag: 5067f4199157d07bafc0ae16b7beff1f6209c8b4
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 3ec7576219c52d6123395d464fd991d6b626ee7d
+    newTag: 5067f4199157d07bafc0ae16b7beff1f6209c8b4
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 3ec7576219c52d6123395d464fd991d6b626ee7d
+    newTag: 5067f4199157d07bafc0ae16b7beff1f6209c8b4
 patches: []
 resources:
   - ../main
