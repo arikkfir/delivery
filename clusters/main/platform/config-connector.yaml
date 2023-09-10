@@ -4,14 +4,16 @@ metadata:
   name: config-connector-operator
   namespace: default
 spec:
+  force: true
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: StatefulSet
+      namespace: configconnector-operator-system
+      name: configconnector-operator
   interval: 5m
   path: platform/config-connector/operator
   prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  wait: true
+  retryInterval: 1m
   patches:
     - patch: |
         - op: replace
@@ -24,6 +26,12 @@ spec:
         kind: StatefulSet
         namespace: configconnector-operator-system
         name: configconnector-operator
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 15m
+  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -33,11 +41,18 @@ metadata:
 spec:
   dependsOn:
     - name: config-connector-operator
+  force: true
+  healthChecks:
+    - apiVersion: core.cnrm.cloud.google.com/v1beta1
+      kind: ConfigConnector
+      name: configconnector.core.cnrm.cloud.google.com
   interval: 5m
   path: platform/config-connector/manager
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  timeout: 15m
   wait: true
