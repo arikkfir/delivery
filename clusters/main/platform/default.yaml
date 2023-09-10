@@ -4,11 +4,19 @@ metadata:
   name: default
   namespace: default
 spec:
+  force: true
+  healthChecks:
+    - apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRepository
+      namespace: default
+      name: echo-server
   interval: 5m
   path: platform/default
   prune: true
+  retryInterval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  timeout: 15m
   wait: true
