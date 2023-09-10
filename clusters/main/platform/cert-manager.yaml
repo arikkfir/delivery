@@ -8,18 +8,16 @@ spec:
     - name: config-connector-manager
   force: true
   healthChecks:
-    - kind: Deployment
-      name: cert-manager-cainjector
-    - kind: Deployment
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      namespace: cert-manager
       name: cert-manager
-    - kind: Deployment
-      name: cert-manager-webhook
+    - kind: IAMServiceAccount
+      name: cert-manager
     - kind: IAMPolicyMember
       name: cert-manager-dns-admin
     - kind: IAMPolicyMember
       name: cert-manager-ksa-link
-    - kind: IAMServiceAccount
-      name: cert-manager
   interval: 5m
   path: platform/cert-manager/operator
   prune: true
@@ -40,6 +38,13 @@ spec:
   dependsOn:
     - name: cert-manager-operator
   force: true
+  healthChecks:
+    - apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      name: google-clouddns
+    - apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      name: google-clouddns-prod
   interval: 5m
   path: platform/cert-manager/issuer
   prune: true
