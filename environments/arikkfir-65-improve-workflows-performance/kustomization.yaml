@@ -3,37 +3,13 @@ kind: Kustomization
 namespace: arikkfir-65-improve-workflows-performance
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 0d509e490ff695c1f3deb72dedbf59af800d0380
+    newTag: f8c94cabcb98df18287b619050fbdfcd4c30a380
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 0d509e490ff695c1f3deb72dedbf59af800d0380
+    newTag: f8c94cabcb98df18287b619050fbdfcd4c30a380
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 0d509e490ff695c1f3deb72dedbf59af800d0380
+    newTag: f8c94cabcb98df18287b619050fbdfcd4c30a380
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 0d509e490ff695c1f3deb72dedbf59af800d0380
-patches:
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: Deployment
-  - patch: |
-      - op: replace
-        path: /spec/values/replicaCount
-        value: 0
-    target:
-      group: helm.toolkit.fluxcd.io
-      version: v2beta1
-      kind: HelmRelease
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: StatefulSet
+    newTag: f8c94cabcb98df18287b619050fbdfcd4c30a380
+patches: []
 resources:
   - ../main
