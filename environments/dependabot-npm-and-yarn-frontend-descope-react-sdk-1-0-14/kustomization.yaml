@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-npm-and-yarn-frontend-descope-react-sdk-1-0-14
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+patches: []
+resources:
+  - ../main
