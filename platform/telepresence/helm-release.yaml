@@ -13,7 +13,9 @@ spec:
         kind: HelmRepository
         name: datawire
   values:
-#    agent:
+    ambassador-agent:
+      enabled: false
+    #    agent:
 #      initResources: { }
 #      resources: { }
 #    hooks:
