@@ -19,6 +19,7 @@ spec:
   backoffLimit: 10
   activeDeadlineSeconds: 600
   completions: 1
+  suspend: false
   template:
     metadata:
       labels:
