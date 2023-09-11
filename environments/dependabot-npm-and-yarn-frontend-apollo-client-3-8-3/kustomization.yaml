@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-npm-and-yarn-frontend-apollo-client-3-8-3
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: f26a6503726e661efad045ad8cb9a43ad1b26778
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: f26a6503726e661efad045ad8cb9a43ad1b26778
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: f26a6503726e661efad045ad8cb9a43ad1b26778
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: f26a6503726e661efad045ad8cb9a43ad1b26778
+patches: []
+resources:
+  - ../main
