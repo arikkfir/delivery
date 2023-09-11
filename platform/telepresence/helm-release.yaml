@@ -15,11 +15,29 @@ spec:
   values:
     ambassador-agent:
       enabled: false
-    #    agent:
-#      initResources: { }
-#      resources: { }
-#    hooks:
-#      resources: { }
+    agent:
+      initResources:
+        requests:
+          cpu: 150m
+          memory: 64Mi
+        limits:
+          cpu: 150m
+          memory: 64Mi
+      resources:
+        requests:
+          cpu: 150m
+          memory: 64Mi
+        limits:
+          cpu: 150m
+          memory: 64Mi
+    hooks:
+      resources:
+        requests:
+          cpu: 150m
+          memory: 64Mi
+        limits:
+          cpu: 150m
+          memory: 64Mi
     nodeSelector:
       node.kfirs.com/role: work
     tolerations:
@@ -27,4 +45,10 @@ spec:
         key: node.kfirs.com/role
         operator: Equal
         value: work
-#    resources: { }
+    resources:
+      requests:
+        cpu: 150m
+        memory: 64Mi
+      limits:
+        cpu: 500m
+        memory: 128Mi
