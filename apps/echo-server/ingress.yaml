@@ -22,5 +22,6 @@ spec:
   issuerRef:
     kind: ClusterIssuer
     name: google-clouddns
+  commonName: "${flux_environment:0:48}.echo.kfirs.com"
   dnsNames:
     - "${flux_environment}.echo.kfirs.com"
