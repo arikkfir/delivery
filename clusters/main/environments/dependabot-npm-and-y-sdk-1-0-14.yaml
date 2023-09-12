@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: env-dependabot-npm-and-yarn-frontend-types-react-18-2-21
+  name: env-dependabot-npm-and-y-sdk-1-0-14
   namespace: default
 spec:
   dependsOn:
@@ -15,65 +15,65 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: echo-server-echo-server
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: echo-server-a-record
     - apiVersion: cert-manager.io/v1
       kind: Certificate
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: echo-server-root
     - apiVersion: external-secrets.io/v1beta1
       kind: ExternalSecret
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-descope
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-wildcard-cname-record
     - apiVersion: cert-manager.io/v1
       kind: Certificate
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-wildcard
     - apiVersion: apps/v1
       kind: Deployment
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-backend
     - apiVersion: batch/v1
       kind: Job
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-migrations
     - apiVersion: apps/v1
       kind: Deployment
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-frontend
     - apiVersion: apps/v1
       kind: Deployment
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-neo4j
     - apiVersion: v1
       kind: PersistentVolumeClaim
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-neo4j-data
     - apiVersion: v1
       kind: PersistentVolumeClaim
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-neo4j-logs
     - apiVersion: apps/v1
       kind: Deployment
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-redis
     - apiVersion: v1
       kind: PersistentVolumeClaim
-      namespace: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      namespace: dependabot-npm-and-y-sdk-1-0-14
       name: greenstar-redis
   interval: 5m
-  path: environments/dependabot-npm-and-yarn-frontend-types-react-18-2-21
+  path: environments/dependabot-npm-and-y-sdk-1-0-14
   postBuild:
     substitute:
-      flux_environment: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+      flux_environment: dependabot-npm-and-y-sdk-1-0-14
   prune: true
   retryInterval: 1m
   sourceRef:
@@ -88,4 +88,4 @@ kind: Namespace
 metadata:
   annotations:
     cnrm.cloud.google.com/project-id: arikkfir
-  name: dependabot-npm-and-yarn-frontend-types-react-18-2-21
+  name: dependabot-npm-and-y-sdk-1-0-14

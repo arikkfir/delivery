@@ -1,15 +1,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: dependabot-npm-and-yarn-frontend-eslint-8-49-0
+namespace: dependabot-npm-and-y-t-parser-6
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: f603f73e660b098fe59f4772f154493c540ded9d
+    newTag: 108e2207bfde86ed0a1a934ab25c2eeb045f5b63
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: f603f73e660b098fe59f4772f154493c540ded9d
+    newTag: 108e2207bfde86ed0a1a934ab25c2eeb045f5b63
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: f603f73e660b098fe59f4772f154493c540ded9d
+    newTag: 108e2207bfde86ed0a1a934ab25c2eeb045f5b63
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: f603f73e660b098fe59f4772f154493c540ded9d
+    newTag: 108e2207bfde86ed0a1a934ab25c2eeb045f5b63
 patches:
   - patch: |
       - op: replace
