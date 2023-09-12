@@ -13,12 +13,4 @@ images:
 resources:
   - ../../apps/echo-server
   - ../../apps/greenstar
-patches:
-  - target:
-      group: cert-manager.io
-      version: v1
-      kind: Certificate
-    patch: |-
-      - op: replace
-        path: /spec/issuerRef/name
-        value: google-clouddns-prod
+patches: []

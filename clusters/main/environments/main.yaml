@@ -70,6 +70,16 @@ spec:
       namespace: main
       name: greenstar-redis
   interval: 5m
+  patches:
+    # This patch MUST be here, to avoid having other environments using the prod certificate issuer
+    - target:
+        group: cert-manager.io
+        version: v1
+        kind: Certificate
+      patch: |-
+        - op: replace
+          path: /spec/issuerRef/name
+          value: google-clouddns-prod
   path: environments/main
   postBuild:
     substitute:
