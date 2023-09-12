@@ -38,6 +38,8 @@ spec:
               value: "60s"
             - name: NEO4J_db_transaction_tracing_level
               value: "ALL"
+            - name: NEO4J_db_tx__log_rotation_retention__policy
+              value: "keep_none"
             - name: NEO4J_dbms_cypher_render__plan__description
               value: "true"
             - name: NEO4J_dbms_security_auth__enabled
