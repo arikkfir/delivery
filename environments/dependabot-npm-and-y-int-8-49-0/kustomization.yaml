@@ -10,38 +10,6 @@ images:
     newTag: f603f73e660b098fe59f4772f154493c540ded9d
   - name: ghcr.io/arikkfir/greenstar/neo4j
     newTag: f603f73e660b098fe59f4772f154493c540ded9d
-patches:
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: Deployment
-  - patch: |
-      - op: replace
-        path: /spec/values/replicaCount
-        value: 0
-    target:
-      group: helm.toolkit.fluxcd.io
-      version: v2beta1
-      kind: HelmRelease
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: StatefulSet
-  - patch: |
-      - op: replace
-        path: /spec/suspend
-        value: true
-    target:
-      group: batch
-      version: v1
-      kind: Job
+patches: []
 resources:
   - ../main
