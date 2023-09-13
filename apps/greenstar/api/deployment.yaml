@@ -25,6 +25,10 @@ spec:
       initContainers:
         - image: ghcr.io/arikkfir/greenstar/migrations
           env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: NEO4J_ADDRESS
               value: "neo4j://greenstar-neo4j.$(POD_NAMESPACE)"
           name: migrations
