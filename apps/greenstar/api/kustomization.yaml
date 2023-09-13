@@ -6,6 +6,5 @@ namePrefix: api-
 resources:
   - service.yaml
   - deployment.yaml
-  - migrations.yaml
 configurations:
   - kustomizeconfig.yaml

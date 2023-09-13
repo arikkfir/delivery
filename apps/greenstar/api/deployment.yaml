@@ -22,6 +22,19 @@ spec:
       labels:
         app.kubernetes.io/component: backend
     spec:
+      initContainers:
+        - image: ghcr.io/arikkfir/greenstar/migrations
+          env:
+            - name: NEO4J_ADDRESS
+              value: "neo4j://greenstar-neo4j.$(POD_NAMESPACE)"
+          name: migrations
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 500m
+              memory: 256Mi
       containers:
         - image: ghcr.io/arikkfir/greenstar/backend
           args:

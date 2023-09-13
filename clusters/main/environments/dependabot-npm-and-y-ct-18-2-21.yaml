@@ -41,10 +41,6 @@ spec:
       kind: Deployment
       namespace: dependabot-npm-and-y-ct-18-2-21
       name: greenstar-backend
-    - apiVersion: batch/v1
-      kind: Job
-      namespace: dependabot-npm-and-y-ct-18-2-21
-      name: greenstar-migrations
     - apiVersion: apps/v1
       kind: Deployment
       namespace: dependabot-npm-and-y-ct-18-2-21

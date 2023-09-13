@@ -29,19 +29,3 @@ patches:
             key: node.kfirs.com/role
             operator: Equal
             value: work
-  - target:
-      group: batch
-      version: v1
-      kind: Job
-    patch: |-
-      - op: add
-        path: /spec/template/spec/nodeSelector
-        value:
-          node.kfirs.com/role: work
-      - op: add
-        path: /spec/template/spec/tolerations
-        value:
-          - effect: NoExecute
-            key: node.kfirs.com/role
-            operator: Equal
-            value: work

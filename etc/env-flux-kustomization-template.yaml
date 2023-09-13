@@ -41,10 +41,6 @@ spec:
       kind: Deployment
       namespace: ${ENV_NAME}
       name: greenstar-backend
-    - apiVersion: batch/v1
-      kind: Job
-      namespace: ${ENV_NAME}
-      name: greenstar-migrations
     - apiVersion: apps/v1
       kind: Deployment
       namespace: ${ENV_NAME}
