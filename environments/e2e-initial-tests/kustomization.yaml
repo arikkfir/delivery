@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: e2e-initial-tests
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 64ae16a559d50fa0328deadcfcc6da124532b864
+    newTag: 4a706401aa9a004a206486f17a674c834cf91574
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 64ae16a559d50fa0328deadcfcc6da124532b864
+    newTag: 4a706401aa9a004a206486f17a674c834cf91574
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 64ae16a559d50fa0328deadcfcc6da124532b864
+    newTag: 4a706401aa9a004a206486f17a674c834cf91574
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 64ae16a559d50fa0328deadcfcc6da124532b864
+    newTag: 4a706401aa9a004a206486f17a674c834cf91574
 patches: []
 resources:
   - ../main
