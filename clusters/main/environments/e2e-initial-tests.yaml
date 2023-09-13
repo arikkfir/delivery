@@ -41,10 +41,6 @@ spec:
       kind: Deployment
       namespace: e2e-initial-tests
       name: greenstar-backend
-    - apiVersion: batch/v1
-      kind: Job
-      namespace: e2e-initial-tests
-      name: greenstar-migrations
     - apiVersion: apps/v1
       kind: Deployment
       namespace: e2e-initial-tests
