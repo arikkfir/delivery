@@ -31,7 +31,14 @@ spec:
               mountPath: /usr/share/nginx/html
               readOnly: true
       enableServiceLinks: false
+      nodeSelector:
+        node.kfirs.com/role: work
       serviceAccountName: playwright-server
+      tolerations:
+        - effect: NoExecute
+          key: node.kfirs.com/role
+          operator: Equal
+          value: work
       volumes:
         - name: gcs-fuse-arikkfir-playwright-reports
           csi:
