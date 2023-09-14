@@ -11,6 +11,7 @@ spec:
     metadata:
       annotations:
         gke-gcsfuse/volumes: "true"
+        gke-gcsfuse/cpu-limit: 100m
       labels: {}
     spec:
       containers:
@@ -21,10 +22,10 @@ spec:
               name: http
           resources:
             limits:
-              cpu: 200m
+              cpu: 50m
               memory: 64Gi
             requests:
-              cpu: 200m
+              cpu: 50m
               memory: 32Mi
           volumeMounts:
             - name: gcs-fuse-arikkfir-playwright-reports
