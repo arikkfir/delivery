@@ -40,7 +40,7 @@ spec:
     - apiVersion: apps/v1
       kind: Deployment
       namespace: dependabot-npm-and-y-ient-3-8-3
-      name: greenstar-backend
+      name: greenstar-api-backend
     - apiVersion: apps/v1
       kind: Deployment
       namespace: dependabot-npm-and-y-ient-3-8-3

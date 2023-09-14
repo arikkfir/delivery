@@ -40,7 +40,7 @@ spec:
     - apiVersion: apps/v1
       kind: Deployment
       namespace: e2e-initial-tests
-      name: greenstar-backend
+      name: greenstar-api-backend
     - apiVersion: apps/v1
       kind: Deployment
       namespace: e2e-initial-tests
