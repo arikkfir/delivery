@@ -3,37 +3,13 @@ kind: Kustomization
 namespace: dependabot-npm-and-y-sdk-1-0-14
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+    newTag: e260eefe9006ca01b8f73a8405f5443437b6765f
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+    newTag: e260eefe9006ca01b8f73a8405f5443437b6765f
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
+    newTag: e260eefe9006ca01b8f73a8405f5443437b6765f
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 93328ef2428fe1a83ed5e2d9d4ccd6ddf4e85030
-patches:
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: Deployment
-  - patch: |
-      - op: replace
-        path: /spec/values/replicaCount
-        value: 0
-    target:
-      group: helm.toolkit.fluxcd.io
-      version: v2beta1
-      kind: HelmRelease
-  - patch: |
-      - op: replace
-        path: /spec/replicas
-        value: 0
-    target:
-      group: apps
-      version: v1
-      kind: StatefulSet
+    newTag: e260eefe9006ca01b8f73a8405f5443437b6765f
+patches: []
 resources:
   - ../main
