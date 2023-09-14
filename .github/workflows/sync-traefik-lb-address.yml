@@ -52,7 +52,7 @@ jobs:
       - id: ip
         run: |
           echo "gke_ingress_ip=$(kubectl get -n traefik ComputeAddress/gke-ingress -ojsonpath='{.spec.address}')" >> "$GITHUB_OUTPUT"
-          echo "github_whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(HOME_IP)')" >> "$GITHUB_OUTPUT"
+          echo "whitelist=$(curl -sSL https://api.github.com/meta | jq '.hooks' | yq 'filter(. != "*::*") + env(HOME_IP)' --no-colors --prettyPrint=false)" >> "$GITHUB_OUTPUT"
         env:
           HOME_IP: ${{ format( '["{0}"]', inputs.home_ip || env.DEFAULT_HOME_IP ) }}
       - run: |-
@@ -63,7 +63,7 @@ jobs:
         env:
           HOME_IP: ${{ inputs.home_ip || env.DEFAULT_HOME_IP }}
           TRAEFIK_IP: ${{ steps.ip.outputs.gke_ingress_ip }}
-          WHITELIST: ${{ steps.ip.outputs.github_whitelist }}
+          WHITELIST: ${{ steps.ip.outputs.whitelist }}
       - id: commit
         uses: EndBug/add-and-commit@v9
         with:
