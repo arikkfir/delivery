@@ -16,7 +16,7 @@ defaults:
   run:
     shell: bash -exuo pipefail {0}
 env:
-  DEFAULT_HOME_IP: 85.64.221.247
+  DEFAULT_HOME_IP: 85.64.221.247/32
   FLUXCD_VERSION: 2.1.0
   GCP_SERVICE_ACCOUNT: delivery@arikkfir.iam.gserviceaccount.com
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
