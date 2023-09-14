@@ -34,10 +34,10 @@ spec:
           name: migrations
           resources:
             limits:
-              cpu: 500m
+              cpu: 200m
               memory: 256Mi
             requests:
-              cpu: 500m
+              cpu: 200m
               memory: 256Mi
       containers:
         - image: ghcr.io/arikkfir/greenstar/backend
