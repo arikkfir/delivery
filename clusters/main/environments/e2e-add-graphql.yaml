@@ -1,0 +1,87 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: env-e2e-add-graphql
+  namespace: default
+spec:
+  dependsOn:
+    - name: cert-manager-issuer
+    - name: config-connector-manager
+    - name: default
+    - name: dns
+    - name: external-secrets
+    - name: traefik
+  force: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      namespace: e2e-add-graphql
+      name: echo-server-echo-server
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: e2e-add-graphql
+      name: echo-server-a-record
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: e2e-add-graphql
+      name: echo-server-root
+    - apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      namespace: e2e-add-graphql
+      name: greenstar-descope
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      namespace: e2e-add-graphql
+      name: greenstar-wildcard-cname-record
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: e2e-add-graphql
+      name: greenstar-wildcard
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: e2e-add-graphql
+      name: greenstar-backend
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: e2e-add-graphql
+      name: greenstar-frontend
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: e2e-add-graphql
+      name: greenstar-neo4j
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: e2e-add-graphql
+      name: greenstar-neo4j-data
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: e2e-add-graphql
+      name: greenstar-neo4j-logs
+    - apiVersion: apps/v1
+      kind: Deployment
+      namespace: e2e-add-graphql
+      name: greenstar-redis
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      namespace: e2e-add-graphql
+      name: greenstar-redis
+  interval: 5m
+  path: environments/e2e-add-graphql
+  postBuild:
+    substitute:
+      flux_environment: e2e-add-graphql
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  timeout: 15m
+  wait: true
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: arikkfir
+  name: e2e-add-graphql
