@@ -3,13 +3,13 @@ kind: Kustomization
 namespace: dependabot-npm-and-y-int-8-49-0
 images:
   - name: ghcr.io/arikkfir/greenstar/backend
-    newTag: 1439dc946388e9364a907fec6636460418d7f08f
+    newTag: dda9f1495d9ab23befb52bebc05c3aadec3ce77a
   - name: ghcr.io/arikkfir/greenstar/frontend
-    newTag: 1439dc946388e9364a907fec6636460418d7f08f
+    newTag: dda9f1495d9ab23befb52bebc05c3aadec3ce77a
   - name: ghcr.io/arikkfir/greenstar/migrations
-    newTag: 1439dc946388e9364a907fec6636460418d7f08f
+    newTag: dda9f1495d9ab23befb52bebc05c3aadec3ce77a
   - name: ghcr.io/arikkfir/greenstar/neo4j
-    newTag: 1439dc946388e9364a907fec6636460418d7f08f
+    newTag: dda9f1495d9ab23befb52bebc05c3aadec3ce77a
 patches: []
 resources:
   - ../main
