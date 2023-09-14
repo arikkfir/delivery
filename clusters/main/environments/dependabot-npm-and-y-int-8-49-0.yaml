@@ -77,7 +77,6 @@ spec:
     name: flux-system
     namespace: flux-system
   timeout: 15m
-  wait: true
 ---
 apiVersion: v1
 kind: Namespace
