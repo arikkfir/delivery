@@ -78,7 +78,16 @@ jobs:
         if: steps.commit.outputs.pushed == 'true'
         with:
           version: ${{ env.FLUXCD_VERSION }}
-      - run: flux --timeout 30m0s reconcile -n flux-system kustomization flux-system
-        if: steps.commit.outputs.pushed == 'true'
-      - run: flux --timeout 30m0s reconcile -n default kustomization traefik
-        if: steps.commit.outputs.pushed == 'true'
+      - if: steps.commit.outputs.pushed == 'true'
+        run: |
+          # Reconcile the Git repository
+          kubectl annotate --field-manager=flux-client-side-apply -n flux-system --overwrite gitrepository/flux-system reconcile.fluxcd.io/requestedAt="$(date +%s)"
+          kubectl wait -n flux-system gitrepository/flux-system --for=condition=ready=True --timeout=10m
+          
+          # Reconcile the Flux CD kustomization
+          kubectl annotate --field-manager=flux-client-side-apply -n flux-system --overwrite kustomization/flux-system reconcile.fluxcd.io/requestedAt="$(date +%s)"
+          kubectl wait -n flux-system kustomization/flux-system --for=condition=ready=True --timeout=30m
+          
+          # Reconcile the environment kustomization
+          kubectl annotate --field-manager=flux-client-side-apply -n default --overwrite kustomization/traefik reconcile.fluxcd.io/requestedAt="$(date +%s)"
+          kubectl wait -n default kustomization/traefik --for=condition=ready=True --timeout=30m
