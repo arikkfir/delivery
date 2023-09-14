@@ -136,11 +136,11 @@ jobs:
           # Reconcile the Git repository
           kubectl annotate --field-manager=flux-client-side-apply -n flux-system --overwrite gitrepository/flux-system reconcile.fluxcd.io/requestedAt="$(date +%s)"
           kubectl wait -n flux-system gitrepository/flux-system --for=condition=ready=True --timeout=10m
-          
+
           # Reconcile the Flux CD kustomization
           kubectl annotate --field-manager=flux-client-side-apply -n flux-system --overwrite kustomization/flux-system reconcile.fluxcd.io/requestedAt="$(date +%s)"
           kubectl wait -n flux-system kustomization/flux-system --for=condition=ready=True --timeout=30m
-          
+
           # Reconcile the environment kustomization
           kubectl annotate --field-manager=flux-client-side-apply -n default --overwrite kustomization/env-${ENVIRONMENT} reconcile.fluxcd.io/requestedAt="$(date +%s)"
           kubectl wait -n default kustomization/env-${ENVIRONMENT} --for=condition=ready=True --timeout=30m
