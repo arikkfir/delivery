@@ -4,13 +4,6 @@ metadata:
   name: env-${ENV_NAME}
   namespace: default
 spec:
-  dependsOn:
-    - name: cert-manager-issuer
-    - name: config-connector-manager
-    - name: default
-    - name: dns
-    - name: external-secrets
-    - name: traefik
   force: true
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
