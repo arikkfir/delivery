@@ -72,6 +72,9 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/image
         value: ghcr.io/arikkfir/kustomize-controller:f483e5b04254ec1e7bd2a1766b64c29c4faf4d27
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --implicit-substitutions
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/cpu
         value: 100m
