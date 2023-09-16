@@ -82,6 +82,9 @@ patches:
       name: kustomize-controller
   - patch: |
       - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: ghcr.io/arikkfir/fluxcd/kustomize-controller:bdbd71a904538fb7ea03b521e5fd21bf587f83da
+      - op: replace
         path: /spec/template/spec/containers/0/resources/requests/cpu
         value: 50m
       - op: replace
