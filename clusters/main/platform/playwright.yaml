@@ -20,7 +20,7 @@ spec:
       namespace: playwright
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMServiceAccount
-      name: playwright-server-ksa-link
+      name: playwright-server
       namespace: playwright
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMPolicyMember
