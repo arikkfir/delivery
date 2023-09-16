@@ -13,4 +13,4 @@ images:
 patches: []
 resources:
   - ../../apps/echo-server
-  - https://github.com/arikkfir/greenstar.git//deploy?ref=75-move-deployment-manifests-back-to-this-repository
+  - https://github.com/arikkfir/greenstar.git//deploy?ref=f04174a3c072dde5eed16cc6ca0ed6c9a1466892
