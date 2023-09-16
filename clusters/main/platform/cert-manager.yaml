@@ -8,17 +8,20 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      namespace: cert-manager
       name: cert-manager
+      namespace: cert-manager
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMServiceAccount
       name: cert-manager
+      namespace: cert-manager
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMPolicyMember
       name: cert-manager-dns-admin
+      namespace: cert-manager
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMPolicyMember
       name: cert-manager-ksa-link
+      namespace: cert-manager
   interval: 5m
   path: platform/cert-manager/operator
   prune: true
