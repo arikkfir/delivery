@@ -4,9 +4,6 @@ metadata:
   name: flux-alerts
   namespace: default
 spec:
-  dependsOn:
-    - name: flux-system
-      namespace: flux-system
   force: true
   interval: 5m
   path: platform/flux-alerts
@@ -16,4 +13,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
+  timeout: 5m

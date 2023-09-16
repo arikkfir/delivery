@@ -4,66 +4,64 @@ metadata:
   name: dns
   namespace: default
 spec:
-  dependsOn:
-    - name: config-connector-manager
   force: true
   healthChecks:
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSManagedZone
-      namespace: dns
       name: kfirfamily-com
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSManagedZone
-      namespace: dns
       name: kfirs-com
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSManagedZone
-      namespace: dns
       name: yellow-mint-com
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: art-cbt-kfirs-com-cname
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: kfirfamily-com-mx
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: kfirs-com-apex
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: kfirs-com-mx
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: kfirs-com-txt
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: www-art-cbt-kfirs-com-cname
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: www-kfirs-com-cname
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: www-yellow-mint-com-cname
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: yellow-mint-com-apex
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: yellow-mint-com-mx
+      namespace: dns
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: dns
       name: yellow-mint-com-txt
+      namespace: dns
   interval: 5m
   path: platform/dns
   prune: true
@@ -72,5 +70,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
-  wait: true
+  timeout: 5m

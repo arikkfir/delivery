@@ -4,47 +4,40 @@ metadata:
   name: flux-webhook
   namespace: default
 spec:
-  dependsOn:
-    - name: cert-manager-issuer
-    - name: config-connector-manager
-    - name: dns
-    - name: flux-system
-      namespace: flux-system
-    - name: traefik
   force: true
   healthChecks:
     - apiVersion: cert-manager.io/v1
       kind: Certificate
-      namespace: flux-system
       name: webhook-flux-kfirs-com
+      namespace: flux-system
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: flux-system
       name: webhook-flux-kfirs-com-a
+      namespace: flux-system
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMServiceAccount
-      namespace: flux-system
       name: flux-notification-controller
+      namespace: flux-system
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMPolicyMember
-      namespace: flux-system
       name: flux-notification-controller-ksa-link
+      namespace: flux-system
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMPolicyMember
-      namespace: flux-system
       name: flux-notification-controller-secret-viewer
+      namespace: flux-system
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMPolicyMember
-      namespace: flux-system
       name: flux-notification-controller-secret-accessor
+      namespace: flux-system
     - apiVersion: notification.toolkit.fluxcd.io/v1
       kind: Receiver
-      namespace: flux-system
       name: delivery
+      namespace: flux-system
     - apiVersion: external-secrets.io/v1beta1
       kind: ExternalSecret
-      namespace: flux-system
       name: fluxcd-github-webhook-secret
+      namespace: flux-system
   interval: 5m
   path: platform/flux-webhook
   prune: true
@@ -53,5 +46,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
-  wait: true
+  timeout: 5m

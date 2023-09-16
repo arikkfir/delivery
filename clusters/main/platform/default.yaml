@@ -8,8 +8,8 @@ spec:
   healthChecks:
     - apiVersion: source.toolkit.fluxcd.io/v1beta2
       kind: HelmRepository
-      namespace: default
       name: echo-server
+      namespace: default
   interval: 5m
   path: platform/default
   prune: true
@@ -18,5 +18,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
-  wait: true
+  timeout: 5m

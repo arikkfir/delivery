@@ -8,8 +8,8 @@ spec:
   healthChecks:
     - apiVersion: apps/v1
       kind: StatefulSet
-      namespace: configconnector-operator-system
       name: configconnector-operator
+      namespace: configconnector-operator-system
   interval: 5m
   path: platform/config-connector/operator
   prune: true
@@ -30,7 +30,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -38,8 +38,6 @@ metadata:
   name: config-connector-manager
   namespace: default
 spec:
-  dependsOn:
-    - name: config-connector-operator
   force: true
   healthChecks:
     - apiVersion: core.cnrm.cloud.google.com/v1beta1
@@ -53,4 +51,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
+  timeout: 5m

@@ -4,28 +4,24 @@ metadata:
   name: traefik
   namespace: default
 spec:
-  dependsOn:
-    - name: cert-manager-issuer
-    - name: config-connector-manager
-    - name: dns
   force: true
   healthChecks:
     - apiVersion: cert-manager.io/v1
       kind: Certificate
-      namespace: traefik
       name: traefik-kfirs-com
+      namespace: traefik
     - apiVersion: compute.cnrm.cloud.google.com/v1beta1
       kind: ComputeAddress
-      namespace: traefik
       name: gke-ingress
+      namespace: traefik
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
-      namespace: traefik
       name: traefik-kfirs-com-a
+      namespace: traefik
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      namespace: traefik
       name: traefik
+      namespace: traefik
   interval: 5m
   path: platform/traefik
   prune: true
@@ -34,5 +30,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
-  wait: true
+  timeout: 5m

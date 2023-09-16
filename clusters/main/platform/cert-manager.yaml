@@ -30,7 +30,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -38,8 +38,6 @@ metadata:
   name: cert-manager-issuer
   namespace: default
 spec:
-  dependsOn:
-    - name: cert-manager-operator
   force: true
   healthChecks:
     - apiVersion: cert-manager.io/v1
@@ -56,5 +54,4 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 15m
-  wait: true
+  timeout: 5m

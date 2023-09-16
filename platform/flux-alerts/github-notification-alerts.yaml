@@ -1,19 +1,50 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Alert
 metadata:
-  name: environments
+  name: platform
   namespace: flux-system
 spec:
   providerRef:
     name: github
+  summary: Platform
   eventSeverity: info
   eventSources:
     - kind: Kustomization
       name: cert-manager-operator
       namespace: default
     - kind: Kustomization
-      name: '*'
+      name: cert-manager-issuer
       namespace: default
     - kind: Kustomization
-      name: '*'
+      name: config-connector-operator
+      namespace: default
+    - kind: Kustomization
+      name: config-connector-manager
+      namespace: default
+    - kind: Kustomization
+      name: default
+      namespace: default
+    - kind: Kustomization
+      name: dns
+      namespace: default
+    - kind: Kustomization
+      name: external-secrets
+      namespace: default
+    - kind: Kustomization
+      name: flux-alerts
+      namespace: default
+    - kind: Kustomization
+      name: flux-webhook
+      namespace: default
+    - kind: Kustomization
+      name: playwright
+      namespace: default
+    - kind: Kustomization
+      name: telepresence
+      namespace: default
+    - kind: Kustomization
+      name: traefik
+      namespace: default
+    - kind: Kustomization
+      name: flux-system
       namespace: flux-system
