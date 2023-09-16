@@ -4,19 +4,20 @@ metadata:
   name: cert-manager-operator
   namespace: default
 spec:
-  dependsOn:
-    - name: config-connector-manager
   force: true
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
       namespace: cert-manager
       name: cert-manager
-    - kind: IAMServiceAccount
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMServiceAccount
       name: cert-manager
-    - kind: IAMPolicyMember
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
       name: cert-manager-dns-admin
-    - kind: IAMPolicyMember
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
       name: cert-manager-ksa-link
   interval: 5m
   path: platform/cert-manager/operator
