@@ -9,6 +9,9 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: Kustomization
+      name: cert-manager-operator
+      namespace: default
+    - kind: Kustomization
       name: '*'
       namespace: default
     - kind: Kustomization
