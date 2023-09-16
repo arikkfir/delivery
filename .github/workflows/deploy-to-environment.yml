@@ -70,7 +70,7 @@ jobs:
           # For non-main environments, ensure the "resources" property is set by default to extend the "main" variant,
           # and also ensure it's missing the stale-environments patches (since we're deploying to it, it's not stale)
           if [[ "${ENV_NAME}" != "main" ]]; then
-            [[ "$(yq e '.resources == null' "${K_FILE}"))" == "false" ]] || yq e -i '.resources = ["../main"]' "${K_FILE}"
+            [[ "$(yq e '.resources == null' "${K_FILE}")" == "false" ]] || yq e -i '.resources = ["../main"]' "${K_FILE}"
             yq e -i '.patches -= load("etc/stale-env-patches.yaml")' "${K_FILE}"
           fi
 
