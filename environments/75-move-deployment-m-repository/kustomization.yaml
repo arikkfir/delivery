@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: 75-move-deployment-m-repository
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 71280cba7479db30e7e2af50b4ab7633f4e16d23
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 71280cba7479db30e7e2af50b4ab7633f4e16d23
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 71280cba7479db30e7e2af50b4ab7633f4e16d23
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 71280cba7479db30e7e2af50b4ab7633f4e16d23
+patches: []
+resources:
+  - ../main
