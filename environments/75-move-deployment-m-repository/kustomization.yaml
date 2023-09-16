@@ -12,4 +12,5 @@ images:
     newTag: 71280cba7479db30e7e2af50b4ab7633f4e16d23
 patches: []
 resources:
-  - ../main
+  - ../../apps/echo-server
+  - https://github.com/arikkfir/greenstar.git//deploy?ref=75-move-deployment-manifests-back-to-this-repository
