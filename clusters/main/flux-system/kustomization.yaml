@@ -71,7 +71,7 @@ patches:
   - patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/arikkfir/fluxcd/kustomize-controller:bdbd71a904538fb7ea03b521e5fd21bf587f83da
+        value: ghcr.io/arikkfir/kustomize-controller:f483e5b04254ec1e7bd2a1766b64c29c4faf4d27
       - op: replace
         path: /spec/template/spec/containers/0/resources/requests/cpu
         value: 100m
