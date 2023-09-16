@@ -18,38 +18,38 @@ spec:
       kind: Certificate
       namespace: 75-move-deployment-m-repository
       name: echo-server-root
-    - apiVersion: external-secrets.io/v1beta1
-      kind: ExternalSecret
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-descope
-    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
-      kind: DNSRecordSet
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-wildcard-cname-record
-    - apiVersion: cert-manager.io/v1
-      kind: Certificate
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-wildcard
-    - apiVersion: apps/v1
-      kind: Deployment
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-api-backend
-    - apiVersion: apps/v1
-      kind: Deployment
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-frontend
-    - apiVersion: apps/v1
-      kind: Deployment
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-neo4j
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-neo4j-data
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
-      namespace: 75-move-deployment-m-repository
-      name: greenstar-neo4j-logs
+#    - apiVersion: external-secrets.io/v1beta1
+#      kind: ExternalSecret
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-descope
+#    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+#      kind: DNSRecordSet
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-wildcard-cname-record
+#    - apiVersion: cert-manager.io/v1
+#      kind: Certificate
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-wildcard
+#    - apiVersion: apps/v1
+#      kind: Deployment
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-api-backend
+#    - apiVersion: apps/v1
+#      kind: Deployment
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-frontend
+#    - apiVersion: apps/v1
+#      kind: Deployment
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-neo4j
+#    - apiVersion: v1
+#      kind: PersistentVolumeClaim
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-neo4j-data
+#    - apiVersion: v1
+#      kind: PersistentVolumeClaim
+#      namespace: 75-move-deployment-m-repository
+#      name: greenstar-neo4j-logs
     - apiVersion: apps/v1
       kind: Deployment
       namespace: 75-move-deployment-m-repository
