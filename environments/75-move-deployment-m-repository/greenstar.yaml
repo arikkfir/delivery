@@ -9,7 +9,7 @@ spec:
     branch: 75-move-deployment-manifests-back-to-this-repository
   secretRef:
     name: flux-github-token
-  url: ssh://git@github.com/arikkfir/greenstar
+  url: https://github.com/arikkfir/greenstar
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

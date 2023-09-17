@@ -9,7 +9,7 @@ spec:
     branch: main
   secretRef:
     name: flux-github-token
-  url: ssh://git@github.com/arikkfir/delivery
+  url: https://github.com/arikkfir/delivery
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
