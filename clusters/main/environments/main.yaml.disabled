@@ -1,5 +1,5 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
+kind: KustomizationDisabled
 metadata:
   name: env-main
   namespace: default
@@ -81,10 +81,3 @@ spec:
     namespace: flux-system
   timeout: 15m
   wait: true
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    cnrm.cloud.google.com/project-id: arikkfir
-  name: main

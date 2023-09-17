@@ -1,0 +1,48 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: greenstar
+  namespace: 75-move-deployment-m-repository
+spec:
+  interval: 5m0s
+  ref:
+    branch: 75-move-deployment-manifests-back-to-this-repository
+  secretRef:
+    name: flux-github-token
+  url: ssh://git@github.com/arikkfir/greenstar
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: greenstar
+  namespace: 75-move-deployment-m-repository
+spec:
+  commonMetadata:
+    annotations:
+      kfirs.com/branch: 75-move-deployment-manifests-back-to-this-repository
+      kfirs.com/environment: 75-move-deployment-m-repository
+  force: true
+  healthChecks: []
+  images:
+    - name: ghcr.io/arikkfir/greenstar/backend
+      newTag: f04174a3c072dde5eed16cc6ca0ed6c9a1466892
+    - name: ghcr.io/arikkfir/greenstar/frontend
+      newTag: f04174a3c072dde5eed16cc6ca0ed6c9a1466892
+    - name: ghcr.io/arikkfir/greenstar/migrations
+      newTag: f04174a3c072dde5eed16cc6ca0ed6c9a1466892
+    - name: ghcr.io/arikkfir/greenstar/neo4j
+      newTag: f04174a3c072dde5eed16cc6ca0ed6c9a1466892
+  interval: 5m
+  patches: []
+  path: /
+  postBuild:
+    substitute:
+      flux_environment: 75-move-deployment-m-repository # TODO: rename to "ENVIRONMENT" or "ENV_NAME"
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: greenstar
+    namespace: 75-move-deployment-m-repository
+  targetNamespace: 75-move-deployment-m-repository
+  timeout: 5m
