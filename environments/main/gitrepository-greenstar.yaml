@@ -1,0 +1,35 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: greenstar
+spec:
+  interval: 5m0s
+  ref:
+    branch: main
+  secretRef:
+    name: flux-github-token
+  url: https://github.com/arikkfir/greenstar
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Provider
+metadata:
+  name: github-greenstar
+spec:
+  type: github
+  address: https://github.com/arikkfir/greenstar
+  secretRef:
+    name: flux-github-token
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Alert
+metadata:
+  name: greenstar
+spec:
+  providerRef:
+    name: github-greenstar
+  summary: Alert
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: greenstar
+      namespace: main

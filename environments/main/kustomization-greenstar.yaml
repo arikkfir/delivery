@@ -1,0 +1,27 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: greenstar
+spec:
+  commonMetadata:
+    annotations:
+      kfirs.com/branch: main
+      kfirs.com/environment: main
+  force: true
+  healthChecks: []
+  images: []
+  interval: 5m
+  patches: []
+  path: /
+  postBuild:
+    substitute:
+      deploy_branch: main
+      deploy_environment: main
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: greenstar
+    namespace: main
+  targetNamespace: main
+  timeout: 5m

@@ -1,0 +1,38 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: echo-server
+spec:
+  commonMetadata:
+    annotations:
+      kfirs.com/branch: main
+      kfirs.com/environment: main
+  force: true
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: echo-server-echo-server
+      namespace: main
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      name: echo-server-a-record
+      namespace: main
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: echo-server-root
+      namespace: main
+  interval: 5m
+  patches: []
+  path: /apps/echo-server
+  postBuild:
+    substitute:
+      deploy_branch: main
+      deploy_environment: main
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: echo-server
+    namespace: main
+  targetNamespace: main
+  timeout: 5m

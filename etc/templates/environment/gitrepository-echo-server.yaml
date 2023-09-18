@@ -1,0 +1,35 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: echo-server
+spec:
+  interval: 5m0s
+  ref:
+    branch: "${BRANCH}"
+  secretRef:
+    name: flux-github-token
+  url: https://github.com/arikkfir/delivery
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Provider
+metadata:
+  name: github-delivery
+spec:
+  type: github
+  address: https://github.com/arikkfir/delivery
+  secretRef:
+    name: flux-github-token
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Alert
+metadata:
+  name: echo-server
+spec:
+  providerRef:
+    name: github-delivery
+  summary: Alert
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: echo-server
+      namespace: "${ENVIRONMENT}"
