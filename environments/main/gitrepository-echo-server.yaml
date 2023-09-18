@@ -32,4 +32,3 @@ spec:
   eventSources:
     - kind: Kustomization
       name: echo-server
-      namespace: main
