@@ -37,4 +37,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: greenstar
+  targetNamespace: main
   timeout: 5m
