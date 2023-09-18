@@ -57,13 +57,13 @@ patches:
   - patch: |
       - op: replace
         path: /spec/healthChecks/0/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/1/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/2/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
     target:
       group: kustomize.toolkit.fluxcd.io
       version: v1
@@ -74,25 +74,25 @@ patches:
   - patch: |
       - op: replace
         path: /spec/healthChecks/0/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/1/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/2/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/3/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/4/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/5/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
       - op: replace
         path: /spec/healthChecks/6/namespace
-        value: 75-move-deployment-manifests-back-to-this-repository
+        value: 75-move-deployment-m-repository
     target:
       group: kustomize.toolkit.fluxcd.io
       version: v1
