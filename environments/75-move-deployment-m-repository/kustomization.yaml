@@ -1,0 +1,100 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: 75-move-deployment-m-repository
+commonAnnotations:
+  kfirs.com/branch: 75-move-deployment-manifests-back-to-this-repository
+  kfirs.com/environment: 75-move-deployment-m-repository
+resources:
+  - ../main
+patches:
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: 75-move-deployment-m-repository
+    target:
+      group: ""
+      version: v1
+      kind: Namespace
+
+  # Point the Git repositories to the correct branch
+  - patch: |
+      - op: replace
+        path: /spec/ref/branch
+        value: 75-move-deployment-manifests-back-to-this-repository
+    target:
+      group: source.toolkit.fluxcd.io
+      version: v1
+      kind: GitRepository
+
+  # Fix the branch & environment substitutions of all kustomizations
+  - patch: |
+      - op: replace
+        path: /spec/targetNamespace
+        value: 75-move-deployment-m-repository
+      - op: replace
+        path: /spec/postBuild/substitute/deploy_branch
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/postBuild/substitute/deploy_environment
+        value: 75-move-deployment-m-repository
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: cert-manager.io
+            version: v1
+            kind: Certificate
+          patch: |-
+            - op: replace
+              path: /spec/issuerRef/name
+              value: google-clouddns
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+
+  # Fix health-check namespaces in the "echo-server" kustomization
+  - patch: |
+      - op: replace
+        path: /spec/healthChecks/0/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/1/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/2/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+      name: echo-server
+
+  # Fix health-check namespaces in the "greenstar" kustomization
+  - patch: |
+      - op: replace
+        path: /spec/healthChecks/0/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/1/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/2/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/3/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/4/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/5/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+      - op: replace
+        path: /spec/healthChecks/6/namespace
+        value: 75-move-deployment-manifests-back-to-this-repository
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+      name: greenstar
