@@ -8,15 +8,12 @@ spec:
     - apiVersion: cert-manager.io/v1
       kind: Certificate
       name: echo-server-root
-      namespace: main
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
       name: echo-server-a-record
-      namespace: main
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
       name: echo-server-echo-server
-      namespace: main
   interval: 5m
   path: /apps/echo-server
   patches:
