@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dependabot-github-ac-h-action-5
+images:
+  - name: ghcr.io/arikkfir/greenstar/backend
+    newTag: 253fb74cc764c2679abbd529fe1c937c892fb0af
+  - name: ghcr.io/arikkfir/greenstar/frontend
+    newTag: 253fb74cc764c2679abbd529fe1c937c892fb0af
+  - name: ghcr.io/arikkfir/greenstar/migrations
+    newTag: 253fb74cc764c2679abbd529fe1c937c892fb0af
+  - name: ghcr.io/arikkfir/greenstar/neo4j
+    newTag: 253fb74cc764c2679abbd529fe1c937c892fb0af
+patches: []
+resources:
+  - ../main
