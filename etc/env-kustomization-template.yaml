@@ -1,3 +1,41 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: ${ENV_NAME}
+namespace: "${ENVIRONMENT}"
+commonAnnotations:
+  kfirs.com/branch: "${BRANCH}"
+  kfirs.com/environment: "${ENVIRONMENT}"
+resources:
+  - ../main
+patches:
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: "${ENVIRONMENT}"
+    target:
+      group: ""
+      version: v1
+      kind: Namespace
+
+  # Fix the branch & environment substitutions of all kustomizations
+  - patch: |
+      - op: replace
+        path: /spec/targetNamespace
+        value: "${ENVIRONMENT}"
+      - op: replace
+        path: /spec/postBuild/substitute/deploy_environment
+        value: "${ENVIRONMENT}"
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: cert-manager.io
+            version: v1
+            kind: Certificate
+          patch: |-
+            - op: replace
+              path: /spec/issuerRef/name
+              value: google-clouddns
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
