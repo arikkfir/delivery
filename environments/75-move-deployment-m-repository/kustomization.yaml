@@ -15,7 +15,6 @@ patches:
       group: ""
       version: v1
       kind: Namespace
-
   # Fix the branch & environment substitutions of all kustomizations
   - patch: |
       - op: replace
@@ -39,3 +38,12 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
+  - patch: |
+      - op: replace
+        path: /spec/ref/branch
+        value: "75-move-deployment-manifests-back-to-this-repository"
+    target:
+      group: source.toolkit.fluxcd.io
+      version: v1
+      kind: GitRepository
+      name: "greenstar"
