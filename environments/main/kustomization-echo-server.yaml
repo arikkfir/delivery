@@ -19,6 +19,16 @@ spec:
       namespace: main
   interval: 5m
   path: /apps/echo-server
+  patches:
+    # Main environment should use the ACME PRODUCTION server for browsers to trust this environment
+    - target:
+        group: cert-manager.io
+        version: v1
+        kind: Certificate
+      patch: |-
+        - op: replace
+          path: /spec/issuerRef/name
+          value: google-clouddns-prod
   postBuild:
     substitute:
       deploy_branch: main
