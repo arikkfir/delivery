@@ -11,7 +11,16 @@ spec:
   healthChecks: []
   images: []
   interval: 5m
-  patches: []
+  patches:
+    # Main environment should use the ACME production server for browsers to trust this environment
+    - target:
+        group: cert-manager.io
+        version: v1
+        kind: Certificate
+      patch: |-
+        - op: replace
+          path: /spec/issuerRef/name
+          value: google-clouddns-prod
   path: /
   postBuild:
     substitute:
