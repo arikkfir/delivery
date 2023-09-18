@@ -42,6 +42,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: echo-server
-    namespace: main
   targetNamespace: main
   timeout: 5m
