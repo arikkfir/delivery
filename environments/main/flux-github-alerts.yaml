@@ -2,7 +2,6 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Alert
 metadata:
   name: echo-server
-  namespace: default
 spec:
   providerRef:
     name: github-delivery
@@ -11,13 +10,11 @@ spec:
   eventSources:
     - kind: Kustomization
       name: echo-server
-      namespace: '*'
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Alert
 metadata:
   name: greenstar
-  namespace: default
 spec:
   providerRef:
     name: github-greenstar
@@ -26,4 +23,3 @@ spec:
   eventSources:
     - kind: Kustomization
       name: greenstar
-      namespace: '*'
