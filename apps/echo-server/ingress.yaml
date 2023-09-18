@@ -3,7 +3,7 @@ kind: DNSRecordSet
 metadata:
   name: a-record
 spec:
-  name: "${flux_environment}.echo.kfirs.com."
+  name: "${deploy_environment}.echo.kfirs.com."
   type: CNAME
   ttl: 300
   managedZoneRef:
@@ -23,4 +23,4 @@ spec:
     kind: ClusterIssuer
     name: google-clouddns
   dnsNames:
-    - "${flux_environment}.echo.kfirs.com"
+    - "${deploy_environment}.echo.kfirs.com"

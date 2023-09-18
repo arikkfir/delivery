@@ -28,12 +28,12 @@ spec:
       annotations:
         traefik.ingress.kubernetes.io/router.priority: "200" # TODO: do we need this?
       hosts:
-        - host: "${flux_environment}.echo.kfirs.com"
+        - host: "${deploy_environment}.echo.kfirs.com"
           paths:
             - /
       tls:
         - hosts:
-            - "${flux_environment}.echo.kfirs.com"
+            - "${deploy_environment}.echo.kfirs.com"
           secretName: echoserver-tls
     nodeSelector:
       node.kfirs.com/role: work
