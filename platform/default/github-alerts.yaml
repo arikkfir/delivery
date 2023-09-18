@@ -1,0 +1,29 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Alert
+metadata:
+  name: echo-server
+  namespace: default
+spec:
+  providerRef:
+    name: github-delivery
+  summary: Alert
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: echo-server
+      namespace: '*'
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Alert
+metadata:
+  name: greenstar
+  namespace: default
+spec:
+  providerRef:
+    name: github-greenstar
+  summary: Alert
+  eventSeverity: info
+  eventSources:
+    - kind: Kustomization
+      name: greenstar
+      namespace: '*'

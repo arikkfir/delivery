@@ -6,7 +6,6 @@ commonAnnotations:
   kfirs.com/environment: main
 resources:
   - namespace.yaml
-  - secret-github-token.yaml
   - gitrepository-echo-server.yaml
   - kustomization-echo-server.yaml
   - gitrepository-greenstar.yaml
