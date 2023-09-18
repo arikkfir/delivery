@@ -34,7 +34,7 @@ spec:
       name: greenstar-redis
       namespace: main
   interval: 5m
-  path: /
+  path: /deploy
   patches:
     # Main environment should use the ACME PRODUCTION server for browsers to trust this environment
     - target:
