@@ -3,35 +3,21 @@ kind: Kustomization
 metadata:
   name: echo-server
 spec:
-  commonMetadata:
-    annotations:
-      kfirs.com/branch: main
-      kfirs.com/environment: main
   force: true
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: echo-server-echo-server
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: echo-server-root
       namespace: main
     - apiVersion: dns.cnrm.cloud.google.com/v1beta1
       kind: DNSRecordSet
       name: echo-server-a-record
       namespace: main
-    - apiVersion: cert-manager.io/v1
-      kind: Certificate
-      name: echo-server-root
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: echo-server-echo-server
       namespace: main
   interval: 5m
-  patches:
-    # Main environment should use the ACME production server for browsers to trust this environment
-    - target:
-        group: cert-manager.io
-        version: v1
-        kind: Certificate
-      patch: |-
-        - op: replace
-          path: /spec/issuerRef/name
-          value: google-clouddns-prod
   path: /apps/echo-server
   postBuild:
     substitute:
@@ -42,5 +28,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: echo-server
-  targetNamespace: main
   timeout: 5m

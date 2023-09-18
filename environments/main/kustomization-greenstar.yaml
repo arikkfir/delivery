@@ -3,24 +3,12 @@ kind: Kustomization
 metadata:
   name: greenstar
 spec:
-  commonMetadata:
-    annotations:
-      kfirs.com/branch: main
-      kfirs.com/environment: main
   force: true
-  healthChecks: []
-  images: []
+  healthChecks:
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMServiceAccount
+      name: greenstar-secrets
   interval: 5m
-  patches:
-    # Main environment should use the ACME production server for browsers to trust this environment
-    - target:
-        group: cert-manager.io
-        version: v1
-        kind: Certificate
-      patch: |-
-        - op: replace
-          path: /spec/issuerRef/name
-          value: google-clouddns-prod
   path: /
   postBuild:
     substitute:
@@ -31,6 +19,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: greenstar
-    namespace: main
-  targetNamespace: main
   timeout: 5m
