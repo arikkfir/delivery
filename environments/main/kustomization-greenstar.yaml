@@ -8,6 +8,24 @@ spec:
     - apiVersion: iam.cnrm.cloud.google.com/v1beta1
       kind: IAMServiceAccount
       name: greenstar-secrets
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      name: greenstar-secrets-ksa-link
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      name: greenstar-secrets-secret-viewer
+    - apiVersion: iam.cnrm.cloud.google.com/v1beta1
+      kind: IAMPolicyMember
+      name: greenstar-secrets-secret-accessor
+    - apiVersion: external-secrets.io/v1beta1
+      kind: SecretStore
+      name: greenstar-gcp
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: greenstar-redis
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: greenstar-redis
   interval: 5m
   path: /
   postBuild:
