@@ -15,7 +15,6 @@ patches:
       group: ""
       version: v1
       kind: Namespace
-  # Fix the branch & environment substitutions of all kustomizations
   - patch: |
       - op: replace
         path: /spec/targetNamespace
