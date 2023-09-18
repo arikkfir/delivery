@@ -71,7 +71,7 @@ patches:
   - patch: |
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: ghcr.io/arikkfir/kustomize-controller:f483e5b04254ec1e7bd2a1766b64c29c4faf4d27
+        value: ghcr.io/arikkfir/fluxcd/kustomize-controller:bce1821b42e261baa5747ec4701b04b9831a9434
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --implicit-substitutions
