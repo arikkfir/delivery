@@ -29,7 +29,7 @@ spec:
       kind: Certificate
       name: greenstar-wildcard
       namespace: main
-  interval: 1m
+  interval: 10m
   path: /deploy
   patches:
     # Main environment should use the ACME PRODUCTION server for browsers to trust this environment
