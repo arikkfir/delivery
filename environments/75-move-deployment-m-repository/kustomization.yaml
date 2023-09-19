@@ -15,7 +15,6 @@ patches:
       group: ""
       version: v1
       kind: Namespace
-
   # Fix the environment name & use ACME staging in all kustomizations
   - patch: |
       - op: replace
@@ -39,7 +38,6 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
-
   # Fix health checks of the greenstar kustomization
   - patch: |
       - op: replace
@@ -65,7 +63,6 @@ patches:
       version: v1
       kind: Kustomization
       name: greenstar
-
   - patch: |
       - op: replace
         path: /spec/ref/branch
