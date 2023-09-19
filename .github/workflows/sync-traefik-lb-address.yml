@@ -26,6 +26,7 @@ env:
   GCP_WORKLOAD_IDENTITY_PROVIDER: projects/8909046976/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
   GKE_CLUSTER_NAME: main
   GKE_CLUSTER_LOCATION: me-west1-a
+  DEFAULT_OFFICE_IP_IP: 81.199.22.225/32
 concurrency:
   group: production
   cancel-in-progress: false
