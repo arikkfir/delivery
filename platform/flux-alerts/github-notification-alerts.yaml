@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: github
+    name: github-delivery
   summary: Platform
   eventSeverity: info
   eventSources:
