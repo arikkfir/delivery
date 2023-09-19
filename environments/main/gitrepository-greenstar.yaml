@@ -3,7 +3,7 @@ kind: GitRepository
 metadata:
   name: greenstar
 spec:
-  interval: 5m0s
+  interval: 1m0s
   ref:
     branch: main
   secretRef:

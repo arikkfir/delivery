@@ -4,7 +4,7 @@ metadata:
   name: echo-server
 spec:
   force: true
-  interval: 5m
+  interval: 1m
   path: /apps/echo-server
   patches:
     # Main environment should use the ACME PRODUCTION server for browsers to trust this environment
