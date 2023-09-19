@@ -26,3 +26,4 @@ spec:
     name: greenstar
   targetNamespace: main
   timeout: 5m
+  wait: true
