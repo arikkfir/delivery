@@ -4,6 +4,31 @@ metadata:
   name: greenstar
 spec:
   force: true
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: greenstar-redis
+      namespace: main
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: greenstar-neo4j
+      namespace: main
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: greenstar-api-backend
+      namespace: main
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: greenstar-frontend
+      namespace: main
+    - apiVersion: dns.cnrm.cloud.google.com/v1beta1
+      kind: DNSRecordSet
+      name: greenstar-wildcard-cname-record
+      namespace: main
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: greenstar-wildcard
+      namespace: main
   interval: 1m
   path: /deploy
   patches:
@@ -26,4 +51,3 @@ spec:
     name: greenstar
   targetNamespace: main
   timeout: 5m
-  wait: true

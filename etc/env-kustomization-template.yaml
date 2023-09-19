@@ -16,7 +16,7 @@ patches:
       version: v1
       kind: Namespace
 
-  # Fix the branch & environment substitutions of all kustomizations
+  # Fix the environment name & use ACME staging in all kustomizations
   - patch: |
       - op: replace
         path: /spec/targetNamespace
@@ -39,3 +39,29 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
+
+  # Fix health checks of the greenstar kustomization
+  - patch: |
+      - op: replace
+        path: /spec/healthChecks/0/namespace
+        value: "${ENVIRONMENT}"
+      - op: replace
+        path: /spec/healthChecks/1/namespace
+        value: "${ENVIRONMENT}"
+      - op: replace
+        path: /spec/healthChecks/2/namespace
+        value: "${ENVIRONMENT}"
+      - op: replace
+        path: /spec/healthChecks/3/namespace
+        value: "${ENVIRONMENT}"
+      - op: replace
+        path: /spec/healthChecks/4/namespace
+        value: "${ENVIRONMENT}"
+      - op: replace
+        path: /spec/healthChecks/5/namespace
+        value: "${ENVIRONMENT}"
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+      name: greenstar
