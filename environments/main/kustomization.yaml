@@ -9,8 +9,6 @@ resources:
   - secret-github-token.yaml
   - flux-github-providers.yaml
   - flux-github-alerts.yaml
-  - flux-webhook-secret.yaml
-  - flux-webhook-receiver.yaml
   - gitrepository-echo-server.yaml
   - kustomization-echo-server.yaml
   - gitrepository-greenstar.yaml
