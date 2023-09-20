@@ -52,10 +52,8 @@ jobs:
           token: ${{ secrets.ARIKKFIR_DELIVERY_SYNC }}
       - working-directory: .github/workflows
         run: |-
-          for f in deploy-to-environment.yml sync-traefik-lb-address.yml undeploy-from-environment.yml; do
-            yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' "${f}"
-            yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' "${f}"
-          done
+          yq e -P -i '.env.GKE_CLUSTER_NAME=env(GKE_CLUSTER_NAME)' sync-traefik-lb-address.yml
+          yq e -P -i '.env.GKE_CLUSTER_LOCATION=env(GKE_CLUSTER_LOCATION)' sync-traefik-lb-address.yml
       - working-directory: platform
         run: |-
           yq e -P -i 'select(.kind=="ClusterSecretStore").spec.provider.gcpsm.auth.workloadIdentity.clusterLocation|=env(GKE_CLUSTER_LOCATION)' external-secrets/gcp.yaml
