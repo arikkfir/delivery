@@ -1,16 +1,16 @@
-apiVersion: notification.toolkit.fluxcd.io/v1beta2
-kind: Alert
-metadata:
-  name: echo-server
-spec:
-  providerRef:
-    name: github-delivery
-  summary: Alert
-  eventSeverity: info
-  eventSources:
-    - kind: Kustomization
-      name: echo-server
----
+#apiVersion: notification.toolkit.fluxcd.io/v1beta2
+#kind: Alert
+#metadata:
+#  name: echo-server
+#spec:
+#  providerRef:
+#    name: github-delivery
+#  summary: Alert
+#  eventSeverity: info
+#  eventSources:
+#    - kind: Kustomization
+#      name: echo-server
+#---
 apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Alert
 metadata:

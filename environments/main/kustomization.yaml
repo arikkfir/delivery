@@ -9,7 +9,7 @@ resources:
   - secret-github-token.yaml
   - flux-github-providers.yaml
   - flux-github-alerts.yaml
-  - gitrepository-echo-server.yaml
-  - kustomization-echo-server.yaml
+#  - gitrepository-echo-server.yaml
+#  - kustomization-echo-server.yaml
   - gitrepository-greenstar.yaml
   - kustomization-greenstar.yaml
