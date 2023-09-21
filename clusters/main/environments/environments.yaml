@@ -6,7 +6,7 @@ metadata:
 spec:
   force: true
   healthChecks: []
-  interval: 5m
+  interval: 10m
   path: /environments
   prune: true
   retryInterval: 1m
