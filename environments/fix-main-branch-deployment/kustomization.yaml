@@ -1,0 +1,67 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: "fix-main-branch-deployment"
+commonAnnotations:
+  kfirs.com/branch: "fix-main-branch-deployment"
+  kfirs.com/environment: "fix-main-branch-deployment"
+resources:
+  - ../main
+patches:
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: "fix-main-branch-deployment"
+    target:
+      group: ""
+      version: v1
+      kind: Namespace
+
+  # Fix the environment name & use ACME staging in all kustomizations
+  - patch: |
+      - op: replace
+        path: /spec/targetNamespace
+        value: "fix-main-branch-deployment"
+      - op: replace
+        path: /spec/postBuild/substitute/deploy_environment
+        value: "fix-main-branch-deployment"
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: cert-manager.io
+            version: v1
+            kind: Certificate
+          patch: |-
+            - op: replace
+              path: /spec/issuerRef/name
+              value: google-clouddns
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+
+  # Fix health checks of the greenstar kustomization
+  - patch: |
+      - op: replace
+        path: /spec/healthChecks/0/namespace
+        value: "fix-main-branch-deployment"
+      - op: replace
+        path: /spec/healthChecks/1/namespace
+        value: "fix-main-branch-deployment"
+      - op: replace
+        path: /spec/healthChecks/2/namespace
+        value: "fix-main-branch-deployment"
+      - op: replace
+        path: /spec/healthChecks/3/namespace
+        value: "fix-main-branch-deployment"
+      - op: replace
+        path: /spec/healthChecks/4/namespace
+        value: "fix-main-branch-deployment"
+      - op: replace
+        path: /spec/healthChecks/5/namespace
+        value: "fix-main-branch-deployment"
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      version: v1
+      kind: Kustomization
+      name: greenstar
