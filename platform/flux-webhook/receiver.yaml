@@ -16,7 +16,4 @@ spec:
       namespace: flux-system
     - kind: GitRepository
       name: greenstar
-      namespace: 75-move-deployment-m-repository
-    - kind: GitRepository
-      name: greenstar
       namespace: fix-main-branch-deployment
