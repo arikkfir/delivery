@@ -17,3 +17,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: fix-main-branch-deployment
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-go-module-ors-1-10-1
