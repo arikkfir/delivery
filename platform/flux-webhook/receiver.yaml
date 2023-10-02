@@ -29,3 +29,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-npm-and-y-em-5-14-11
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-docker-fr-ode-20-8-0
