@@ -17,18 +17,3 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: fix-main-branch-deployment
-    - kind: GitRepository
-      name: greenstar
-      namespace: dependabot-go-module-ors-1-10-1
-    - kind: GitRepository
-      name: greenstar
-      namespace: dependabot-go-module-dis-1-0-19
-    - kind: GitRepository
-      name: greenstar
-      namespace: dependabot-npm-and-y-rser-6-7-3
-    - kind: GitRepository
-      name: greenstar
-      namespace: dependabot-npm-and-y-em-5-14-11
-    - kind: GitRepository
-      name: greenstar
-      namespace: dependabot-docker-fr-ode-20-8-0
