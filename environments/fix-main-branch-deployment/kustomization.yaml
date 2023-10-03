@@ -7,7 +7,6 @@ commonAnnotations:
 resources:
   - ../main
 patches:
-
   # Patch the "namespace" object's name to this environment's name
   - patch: |-
       - op: replace
@@ -17,7 +16,6 @@ patches:
       group: ""
       version: v1
       kind: Namespace
-
   # Patch all FluxCD "Kustomization" objects' target namespace property to this environment's name
   - patch: |
       - op: replace
@@ -27,7 +25,6 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
-
   # Patch all FluxCD "Kustomization" objects' substitution map to reflect this environment's name
   - patch: |
       - op: replace
@@ -37,7 +34,6 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
-
   # Patch all FluxCD "Kustomization" objects to use the ACME Staging server for certificates
   - patch: |
       - op: add
@@ -55,7 +51,6 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       version: v1
       kind: Kustomization
-
   # Patch the GreenSTAR alert to use the correct namespace based on this environment's name
   - patch: |
       - op: replace
@@ -66,7 +61,6 @@ patches:
       version: v1beta2
       kind: Alert
       name: greenstar
-
   # Fix health checks of the greenstar kustomization
   - patch: |
       - op: replace
@@ -92,3 +86,12 @@ patches:
       version: v1
       kind: Kustomization
       name: greenstar
+  - patch: |
+      - op: replace
+        path: /spec/ref/branch
+        value: "fix-main-branch-deployment"
+    target:
+      group: source.toolkit.fluxcd.io
+      version: v1
+      kind: GitRepository
+      name: "greenstar"
