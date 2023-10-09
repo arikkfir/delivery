@@ -26,3 +26,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-npm-and-y-int-8-51-0
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-npm-and-y-em-5-14-12
