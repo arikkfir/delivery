@@ -20,3 +20,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-npm-and-y-css-8-4-31
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-go-module-en-0-17-39
