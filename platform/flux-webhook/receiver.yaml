@@ -77,3 +77,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-go-module-en-0-17-40
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-npm-and-y-em-5-14-15
