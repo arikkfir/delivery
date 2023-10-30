@@ -68,3 +68,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-docker-ne-enterprise
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-github-ac-tup-node-4
