@@ -74,3 +74,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-docker-fr-ode-21-1-0
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-go-module-en-0-17-40
