@@ -98,3 +98,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-go-module-dis-1-0-21
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-npm-and-y-em-5-14-17
