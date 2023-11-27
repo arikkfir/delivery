@@ -119,3 +119,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-go-module-dis-1-0-22
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-npm-and-y-ser-6-12-0
