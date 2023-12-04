@@ -125,3 +125,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-github-ac-ons-auth-2
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-go-module-en-0-17-41
