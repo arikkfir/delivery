@@ -122,3 +122,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-npm-and-y-ser-6-12-0
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-github-ac-ons-auth-2
