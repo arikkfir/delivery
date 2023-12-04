@@ -95,3 +95,12 @@ patches:
       version: v1
       kind: GitRepository
       name: "greenstar"
+  - patch: |
+      - op: replace
+        path: /spec/ref/branch
+        value: "dependabot/docker/neo4j/neo4j-5.14.0-enterprise"
+    target:
+      group: source.toolkit.fluxcd.io
+      version: v1
+      kind: GitRepository
+      name: "greenstar"
