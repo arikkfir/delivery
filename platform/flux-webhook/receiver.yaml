@@ -140,3 +140,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-npm-and-y-em-5-14-19
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-npm-and-y-ient-3-8-8
