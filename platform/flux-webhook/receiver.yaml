@@ -155,3 +155,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-docker-fr-ode-21-4-0
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-github-ac-p-gcloud-2
