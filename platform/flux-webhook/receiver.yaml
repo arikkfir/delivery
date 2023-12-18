@@ -158,3 +158,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-github-ac-p-gcloud-2
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-github-ac-artifact-4
