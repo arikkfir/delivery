@@ -161,3 +161,6 @@ spec:
     - kind: GitRepository
       name: greenstar
       namespace: dependabot-github-ac-artifact-4
+    - kind: GitRepository
+      name: greenstar
+      namespace: dependabot-go-module-dis-1-0-25
